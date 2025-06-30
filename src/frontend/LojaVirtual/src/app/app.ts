@@ -17,7 +17,7 @@ import { Favoritos } from './layout/favoritos/favoritos';
     Pesquisa,
     Autenticacao,
     Header,
-    Favoritos
+    Favoritos,
   ],
   templateUrl: './app.html',
   styleUrl: './app.scss'

@@ -3,8 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'app-favoritos',
   imports: [],
-  templateUrl: './favoritos.html',
-  styleUrl: './favoritos.scss'
+  templateUrl: './favoritos.html'
 })
 export class Favoritos {
 

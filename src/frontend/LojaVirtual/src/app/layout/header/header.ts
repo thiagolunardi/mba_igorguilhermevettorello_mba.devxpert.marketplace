@@ -14,8 +14,7 @@ import { Menu } from '../menu/menu';
     Favoritos,
     Menu
   ],
-  templateUrl: './header.html',
-  styleUrl: './header.scss'
+  templateUrl: './header.html'
 })
 export class Header {
 

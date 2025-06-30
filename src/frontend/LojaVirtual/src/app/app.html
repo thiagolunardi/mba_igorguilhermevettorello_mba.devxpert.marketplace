@@ -1,36 +1,5 @@
-<header>
-  <app-header></app-header>
-
-  <div class="px-3 py-2 border-bottom mb-3">
-    <div class="row col-8" style="margin: 0 auto;">
-
-      <!-- Pesquisa -->
-      <div class="col-6">
-        <app-pesquisa></app-pesquisa>
-      </div>
-
-      <!-- favoritos -->
-      <div class="col-2">
-        <app-favoritos></app-favoritos>
-      </div>
-
-      <!-- autenticaco -->
-      <div class="col-4">
-        <app-autenticacao></app-autenticacao>
-      </div>
-
-    </div>
-  </div>
-</header>
-
+<app-header></app-header>
 
 <div class="container py-4">
-  <h1>
-    Bem vindo à Loja Virtual!
-  </h1>
-
-  <ngb-alert [dismissible]="true" type="primary">
-    <strong>Warning!</strong> Better check yourself, you're not looking too good.
-  </ngb-alert>
-
+  <router-outlet></router-outlet>
 </div>

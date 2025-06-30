@@ -1,44 +1,26 @@
-<div class="px-3 py-2 text-bg-success border-bottom">
-  <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+<header>
 
-      <!-- logotipo -->
-      <a href="/" class="fs-3 d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-        <strong>
-          <i class="bi bi-shop"></i>
-          Loja Virtual MBA DevExpert
-        </strong>
-      </a>
+  <!-- menu -->
+  <app-menu></app-menu>
 
+  <div class="px-3 py-2 border-bottom mb-3">
+    <div class="row col-8" style="margin: 0 auto;">
 
-      <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
-        <li>
-          <a href="#" class="nav-link text-white">
-            Celulares
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Móveis
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Eletrodomésticos
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Informática
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Esportes
-          </a>
-        </li>
+      <!-- pesquisa -->
+      <div class="col-6">
+        <app-pesquisa></app-pesquisa>
+      </div>
 
-      </ul>
+      <!-- favoritos -->
+      <div class="col-2">
+        <app-favoritos></app-favoritos>
+      </div>
+
+      <!-- autenticaco -->
+      <div class="col-4">
+        <app-autenticacao></app-autenticacao>
+      </div>
+
     </div>
   </div>
-</div>
+</header>

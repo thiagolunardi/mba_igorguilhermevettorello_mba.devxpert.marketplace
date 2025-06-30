@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 
 import { Header } from "./layout/header/header";
 import { Footer } from "./layout/footer/footer";
+import { Breadcrumb } from './layout/breadcrumb/breadcrumb';
 
 
 @Component({
@@ -10,6 +11,7 @@ import { Footer } from "./layout/footer/footer";
   imports: [
     RouterOutlet,
     Header,
+    Breadcrumb,
     Footer
   ],
   templateUrl: './app.html',

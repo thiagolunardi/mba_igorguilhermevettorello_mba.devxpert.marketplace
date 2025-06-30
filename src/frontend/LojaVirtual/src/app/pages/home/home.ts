@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
+import { Carrossel } from "./carrossel/carrossel";
 
 @Component({
   selector: 'app-home',
-  imports: [],
-  templateUrl: './home.html',
-  styleUrl: './home.scss'
+  imports: [Carrossel],
+  templateUrl: './home.html'
 })
 export class Home {
 

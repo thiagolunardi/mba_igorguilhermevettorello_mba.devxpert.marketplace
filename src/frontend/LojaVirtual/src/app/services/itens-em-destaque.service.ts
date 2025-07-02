@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { ItemEmDestaqueViewModel } from '../pages/home/item-destaque/item-em-destaque.viewmodel';
+import { ItemEmDestaqueViewModel } from '../pages/public/home/item-destaque/item-em-destaque.viewmodel';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ItensEmDestaqueService } from '../../../services/itens-em-destaque.service';
+import { ItensEmDestaqueService } from '../../../../services/itens-em-destaque.service';
 import { ItemDestaque } from "../item-destaque/item-destaque";
 import { ItemEmDestaqueViewModel } from '../item-destaque/item-em-destaque.viewmodel';
 

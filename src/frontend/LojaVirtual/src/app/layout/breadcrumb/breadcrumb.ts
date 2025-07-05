@@ -28,8 +28,9 @@ export class Breadcrumb {
   ): BreadcrumbViewModel[] {
     const rotasFilhas = route.children;
 
-    if (rotasFilhas.length === 0)
-      return breadcrumbs;
+    if (rotasFilhas.length === 0) {
+      return [{ titulo: 'Home', url: '/' }, ...breadcrumbs];
+    }
 
     for (const rotaFilha of rotasFilhas) {
       const routeURL = rotaFilha.snapshot.url.map(segment => segment.path).join('/');

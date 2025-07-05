@@ -1,0 +1,35 @@
+<div class="row">
+
+  <!-- Lista de produtos -->
+  <div class="col-12">
+    <div class="list-group">
+
+      @for(produto of produtos; track produtos) {
+      <div class="list-group-item list-group-item-action flex-column align-items-start">
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{produto.nome}}</h5>
+          <small>3 dias atrás</small>
+        </div>
+        <p class="mb-1">{{produto.descricao}}</p>
+        <small>Preço: {{produto.preco}}</small>
+
+      </div>
+      }
+
+    </div>
+
+    <!-- Paginacao -->
+    <nav class="mt-3">
+      <ul class="pagination justify-content-center">
+        <li class="page-item disabled">
+          <a class="page-link">Anterior</a>
+        </li>
+        <li class="page-item"><a class="page-link" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link" href="#">Próxima</a>
+        </li>
+      </ul>
+    </nav>
+  </div>

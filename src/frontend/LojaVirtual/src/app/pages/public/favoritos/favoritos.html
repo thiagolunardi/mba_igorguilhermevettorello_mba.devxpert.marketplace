@@ -1,0 +1,8 @@
+<h2>Meus Favoritos</h2>
+<ul>
+  <li *ngFor="let item of favoritos">
+    {{ item.nome }}
+    <button (click)="adicionarFavorito(item)">Adicionar aos Favoritos</button>
+    <button (click)="removerFavorito(item)">Remover dos Favoritos</button>
+  </li>
+</ul>

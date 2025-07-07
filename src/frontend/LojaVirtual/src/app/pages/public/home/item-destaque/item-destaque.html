@@ -1,9 +1,78 @@
-<div class="card" style="width: 18rem;">
+<!-- <div class="card" style="width: 18rem;">
   <img
     src="https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg"
     class="card-img-top" alt="...">
 
   <div class="card-body">
+    <p class="card-text">{{ itemEmDestaque.nome }}</p>
     <p class="card-text">{{itemEmDestaque.descricao}}</p>
+    <p class="card-text">{{itemEmDestaque.descricao}}</p>
+    <p>{{ itemEmDestaque.preco | currency:'BRL' }}</p>
+    <a [routerLink]="['/produto', itemEmDestaque.id]" class="btn-detalhes">
+      Ver Detalhes
+    </a>
   </div>
-</div>
+</div> -->
+
+<!-- <h4 class="my-4">Lista todos os produtos cadastrados</h4> -->
+
+  <!-- <form (ngSubmit)="filtrarProdutos()">
+    <div class="input-group mb-4 w-50">
+      <select class="form-select" name="categoriaId" [(ngModel)]="categoriaSelecionadaId">
+        <option value="">Todas as categorias</option>
+        <option *ngFor="let categoria of categorias" [value]="categoria.value">
+          {{ categoria.text }}
+        </option>
+      </select>
+      <button class="btn btn-outline-primary" type="submit">Filtrar</button>
+      <button type="button" (click)="limparFiltro()" class="btn btn-outline-secondary ms-2">Limpar</button>
+    </div>
+  </form> -->
+
+  <div *ngIf="itemEmDestaque; else nenhumProduto">
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+      <div class="card shadow-sm col-sm-6 col-lg-4">
+        <div class="product mb-0">
+          <div class="product-thumb-info border-0 mb-3">
+            <div class="product-thumb-info-badges-wrapper">
+              <span class="badge badge-ecommerce badge-success">NOVO</span>
+            </div>
+            <div class="addtocart-btn-wrapper">
+              <a [routerLink]="['/produto', itemEmDestaque.id]" class="text-decoration-none addtocart-btn" title="Adicionar carrinho">
+                <i class="icons icon-bag"></i>
+              </a>
+            </div>
+            <a [routerLink]="['/produto', itemEmDestaque.id]">
+              <div class="product-thumb-info-image">
+                 <img src="https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg" class="img-flui" alt="itemEmDestaque.nome" style="height: 200px; object-fit: cover;">
+                <!-- <img [src]="itemEmDestaque.imagem ? itemEmDestaque.imagem : 'assets/images/noProduct.png'" class="img-fluid" [alt]="itemEmDestaque.nome" style="height: 200px; object-fit: cover;" /> -->
+              </div>
+            </a>
+          </div>
+          <div class="d-flex justify-content-between">
+            <div>
+              <a [routerLink]="['/produto', itemEmDestaque.id]" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">
+                {{ itemEmDestaque.categoria }}
+              </a>
+              <h3 class="fontForce text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
+                <a [routerLink]="['/produto', itemEmDestaque.id]" class="text-color-dark text-color-hover-primary">{{ itemEmDestaque.nome }}</a>
+              </h3>
+            </div>
+            <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4">
+              <i class="far fa-heart"></i>
+            </a>
+          </div>
+          <div title="Rated 5 out of 5">
+            <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+          </div>
+          <p class="price text-5 mb-3">
+            <span class="amount">{{ itemEmDestaque.preco | currency:'BRL' }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<ng-template #nenhumProduto>
+  <p>Nenhum produto cadastrado no momento.</p>
+</ng-template>

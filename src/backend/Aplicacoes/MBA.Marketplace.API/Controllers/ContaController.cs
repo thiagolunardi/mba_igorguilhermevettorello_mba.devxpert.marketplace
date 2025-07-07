@@ -58,9 +58,9 @@ namespace MBA.Marketplace.API.Controllers
 
             await _vendedorRepository.CriarAsync(new Vendedor
             {
+                Id = Guid.Parse(user.Id),
                 Nome = dto.Nome,
                 Email = dto.Email,
-                UsuarioId = user.Id,
                 CreatedAt = DateTime.Now
             });
 

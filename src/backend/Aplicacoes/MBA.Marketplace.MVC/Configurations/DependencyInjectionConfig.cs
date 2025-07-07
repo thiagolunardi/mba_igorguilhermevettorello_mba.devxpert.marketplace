@@ -32,7 +32,7 @@ namespace MBA.Marketplace.MVC.Configurations
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
-            service.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
+            //service.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
         }
 
         private static void RegisterServices(IServiceCollection service)

@@ -12,7 +12,7 @@ namespace MBA.Marketplace.API.Configurations
         {
             services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
                 options.Password.RequiredLength = 6;

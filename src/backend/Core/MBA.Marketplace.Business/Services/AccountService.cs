@@ -15,9 +15,9 @@ namespace MBA.Marketplace.Business.Services
     public class AccountService : IAccountService
     {
         private readonly IConfiguration _configuration;
-        private readonly IUserRepository<ApplicationUser> _userRepository;
+        private readonly IUserRepository<IdentityUser> _userRepository;
 
-        public AccountService(UserManager<ApplicationUser> userManager, IConfiguration configuration, IUserRepository<ApplicationUser> userRepository)
+        public AccountService(UserManager<IdentityUser> userManager, IConfiguration configuration, IUserRepository<IdentityUser> userRepository)
         {
             _configuration = configuration;
             _userRepository = userRepository;

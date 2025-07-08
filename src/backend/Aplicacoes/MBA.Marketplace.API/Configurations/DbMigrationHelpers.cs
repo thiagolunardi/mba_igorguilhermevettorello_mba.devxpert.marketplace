@@ -28,16 +28,18 @@ public class DbMigrationHelpers
         var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
 
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var contextId = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
 
         if (env.IsDevelopment() || env.IsEnvironment("Docker") || env.IsStaging())
         {
             await context.Database.MigrateAsync();
+            await contextId.Database.MigrateAsync();
 
-            await EnsureSeedProducts(context);
+            await EnsureSeedProducts(context, contextId);
         }
     }
 
-    private static async Task EnsureSeedProducts(ApplicationDbContext context)
+    private static async Task EnsureSeedProducts(ApplicationDbContext context, IdentityDbContext contextId)
     {
         if (context.Produtos.Any())
             return;
@@ -51,32 +53,34 @@ public class DbMigrationHelpers
 
         //await context.SaveChangesAsync();
 
-        //var vendedorId = Guid.NewGuid().ToString();
+        var vendedorId = Guid.NewGuid();
 
-        //await context.Users.AddAsync(new IdentityUser
-        //{
-        //    Id = vendedorId,
-        //    UserName = "teste@crm.com",
-        //    NormalizedUserName = "TESTE@CRM.COM",
-        //    Email = "teste@crm.com",
-        //    NormalizedEmail = "TESTE@CRM.COM",
-        //    EmailConfirmed = true,
-        //    PasswordHash = "AQAAAAIAAYagAAAAEI8VDADrqtpXkqh0aUjERlWI1OPHO77GbMmNYMheOGW4PpoSB3HdROpkrVTk9wyefw==",
-        //    SecurityStamp = Guid.NewGuid().ToString(),
-        //    ConcurrencyStamp = Guid.NewGuid().ToString(),
-        //    PhoneNumberConfirmed = false,
-        //    TwoFactorEnabled = false,
-        //    LockoutEnabled = true,
-        //    AccessFailedCount = 0
-        //});
+        await contextId.Users.AddAsync(new IdentityUser
+        {
+            Id = vendedorId.ToString(),
+            UserName = "teste@crm.com",
+            NormalizedUserName = "TESTE@CRM.COM",
+            Email = "teste@crm.com",
+            NormalizedEmail = "TESTE@CRM.COM",
+            EmailConfirmed = true,
+            PasswordHash = "AQAAAAIAAYagAAAAEI8VDADrqtpXkqh0aUjERlWI1OPHO77GbMmNYMheOGW4PpoSB3HdROpkrVTk9wyefw==",
+            SecurityStamp = Guid.NewGuid().ToString(),
+            ConcurrencyStamp = Guid.NewGuid().ToString(),
+            PhoneNumberConfirmed = false,
+            TwoFactorEnabled = false,
+            LockoutEnabled = true,
+            AccessFailedCount = 0
+        });
 
-        //await context.Vendedores.AddAsync(new Vendedor
-        //{
-        //    Id = vendedorId,
-        //    Nome = "Cleber Movio",
-        //    Email = "teste@crm.com",
-        //    Ativo = true
-        //});
+        await contextId.SaveChangesAsync();
+
+        await context.Vendedores.AddAsync(new Vendedor
+        {
+            Id = vendedorId,
+            Nome = "Cleber Movio",
+            Email = "teste@crm.com",
+            CreatedAt = DateTime.UtcNow
+        });
 
         ////var roleId = Guid.NewGuid().ToString();
         ////await context.Roles.AddAsync(new IdentityRole()
@@ -181,7 +185,7 @@ public class DbMigrationHelpers
         //    },
         //});
 
-        //await context.SaveChangesAsync();
+        await context.SaveChangesAsync();
     }
 }
 

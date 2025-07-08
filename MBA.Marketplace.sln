@@ -5,11 +5,11 @@ VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.Marketplace.API", "src\backend\Aplicacoes\MBA.Marketplace.API\MBA.Marketplace.API.csproj", "{8EDBFF6F-7FA2-4249-B6B5-825C99C2E094}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.Marketplace.MVC", "src\backend\Aplicacoes\MBA.Marketplace.MVC\MBA.Marketplace.MVC.csproj", "{3CA3C938-6F12-4F10-873B-7F13C4EFE85F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.Marketplace.Business", "src\backend\Core\MBA.Marketplace.Business\MBA.Marketplace.Business.csproj", "{27926C13-07CE-4684-8D46-0156A94E4A7E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.Marketplace.Data", "src\backend\Core\MBA.Marketplace.Data\MBA.Marketplace.Data.csproj", "{043BBDF9-EF9F-4033-B291-4D3191FD30C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MBA.Marketplace.MVC", "src\backend\Aplicacoes\MBA.Marketplace.MVC\MBA.Marketplace.MVC.csproj", "{77CBCD3A-7874-4409-8975-DCF81CA35A85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{8EDBFF6F-7FA2-4249-B6B5-825C99C2E094}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EDBFF6F-7FA2-4249-B6B5-825C99C2E094}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EDBFF6F-7FA2-4249-B6B5-825C99C2E094}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3CA3C938-6F12-4F10-873B-7F13C4EFE85F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3CA3C938-6F12-4F10-873B-7F13C4EFE85F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3CA3C938-6F12-4F10-873B-7F13C4EFE85F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3CA3C938-6F12-4F10-873B-7F13C4EFE85F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{27926C13-07CE-4684-8D46-0156A94E4A7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{27926C13-07CE-4684-8D46-0156A94E4A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27926C13-07CE-4684-8D46-0156A94E4A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,8 +29,15 @@ Global
 		{043BBDF9-EF9F-4033-B291-4D3191FD30C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{043BBDF9-EF9F-4033-B291-4D3191FD30C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{043BBDF9-EF9F-4033-B291-4D3191FD30C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{77CBCD3A-7874-4409-8975-DCF81CA35A85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{77CBCD3A-7874-4409-8975-DCF81CA35A85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{77CBCD3A-7874-4409-8975-DCF81CA35A85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{77CBCD3A-7874-4409-8975-DCF81CA35A85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {628E9893-0ABF-4085-8743-FFE99F19FD3B}
 	EndGlobalSection
 EndGlobal

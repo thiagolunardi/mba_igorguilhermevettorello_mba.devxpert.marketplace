@@ -1,19 +1,29 @@
-import { inject, Injectable } from '@angular/core';
-import { ItemEmDestaqueViewModel } from '../pages/public/home/item-destaque/item-em-destaque.viewmodel';
+// src/app/services/product.service.ts
+import { Injectable } from '@angular/core';
+
+export interface Produto {
+  id: number;
+  nome: string;
+  categoria: string;
+  preco: number;
+  descricao: string;
+  imagemUrl: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
-export class ItensEmDestaqueService {
-  public obterItensEmDestaque(): ItemEmDestaqueViewModel[] {
-    return [
-    { 
+export class ProductService {
+
+  //FIX: Provisorio
+  private produtos: Produto[] = [
+    {
       id: 1,
       nome: 'Smartphone Modelo X',
       categoria: 'Eletrônicos',
       preco: 1999.90,
       descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-      imagem: 'https://via.placeholder.com/300'
+      imagemUrl: 'https://via.placeholder.com/300'
     },
     {
       id: 2,
@@ -21,7 +31,7 @@ export class ItensEmDestaqueService {
       categoria: 'Computadores',
       preco: 4599.00,
       descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-      imagem: 'https://via.placeholder.com/300'
+      imagemUrl: 'https://via.placeholder.com/300'
     },
     {
       id: 3,
@@ -29,8 +39,17 @@ export class ItensEmDestaqueService {
       categoria: 'Acessórios',
       preco: 299.50,
       descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-      imagem: 'https://via.placeholder.com/300'
+      imagemUrl: 'https://via.placeholder.com/300'
     }
-    ];
+  ];
+
+  constructor() { }
+
+  getProdutos(): Produto[] {
+    return this.produtos;
+  }
+
+  getProdutoById(id: number): Produto | undefined {
+    return this.produtos.find(p => p.id === id);
   }
 }

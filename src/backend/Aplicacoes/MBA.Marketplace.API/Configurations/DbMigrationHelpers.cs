@@ -41,7 +41,7 @@ public class DbMigrationHelpers
 
     private static async Task EnsureSeedProducts(ApplicationDbContext context, IdentityDbContext contextId)
     {
-        if (context.Produtos.Any())
+        if (context.Vendedores.Any())
             return;
 
         //await context.Categorias.AddRangeAsync(new List<Categoria>()

@@ -33,7 +33,34 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/assets/css/custom.scss",
+              "src/assets/css/theme.css",
+              "src/assets/css/theme-elements.css",
+              "src/assets/css/theme-blog.css",
+              "src/assets/css/theme-shop.css",
+              "src/assets/vendor/bootstrap/css/bootstrap.min.css",
+              "src/assets/vendor/fontawesome-free/css/all.min.css",
+              "src/assets/vendor/magnific-popup/magnific-popup.min.css",
+              "src/assets/vendor/animate/animate.compat.css",
+              "src/assets/vendor/simple-line-icons/css/simple-line-icons.min.css",
+              "src/assets/vendor/owl.carousel/assets/owl.carousel.min.css",
+              "src/assets/vendor/owl.carousel/assets/owl.theme.default.min.css",
+              "src/assets/vendor/magnific-popup/magnific-popup.min.css",
+              "src/assets/vendor/bootstrap-star-rating/css/star-rating.min.css",
+              "src/assets/vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.css"
+            ],
+             "scripts": [
+              "src/assets/vendor/modernizr/modernizr.min.js",
+              "src/assets/vendor/plugins/js/plugins.min.js",
+              "src/assets/vendor/bootstrap-star-rating/js/star-rating.min.js",
+              "src/assets/vendor/bootstrap-star-rating/themes/krajee-fas/theme.min.js",
+              "src/assets/vendor/jquery.countdown/jquery.countdown.min.js",
+              "src/assets/vendor/elevatezoom/jquery.elevatezoom.min.js",
+              "src/assets/js/custom.js",
+              "src/assets/js/theme.js",
+              "src/assets/js/view.shop.js",
+              "src/assets/js/theme.init.js"       
             ]
           },
           "configurations": {
@@ -91,12 +118,19 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.scss"
+            "styles": [              
+              "src/styles.scss",
+              "src/assets/css/custom.scss",
+              "src/assets/css/theme.css",
+              "src/assets/css/theme-elements.css",
+              "src/assets/css/theme-shop.css"
             ]
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

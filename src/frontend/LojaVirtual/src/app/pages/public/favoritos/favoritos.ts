@@ -9,6 +9,7 @@ import { FavoritosService } from '../../../services/favoritos.service';
 })
 
 export class Favoritos implements OnInit {
+
   produtos = [
     { id: 1, nome: 'Produto 1' },
     { id: 2, nome: 'Produto 2' },
@@ -19,6 +20,8 @@ export class Favoritos implements OnInit {
 
 
   ngOnInit(){
+
+
   }
 
     adicionarFavorito(produto: any) {

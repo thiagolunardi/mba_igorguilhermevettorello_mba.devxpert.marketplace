@@ -4,15 +4,17 @@ using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Data.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System;
+using Microsoft.Extensions.DependencyInjection;
+using MBA.Marketplace.Business.Interfaces.Identity;
 
-namespace MBA.Marketplace.API.Configurations;
-
-public static class DbMigrationHelperExtension
+namespace MBA.Marketplace.MVC.Configurations
 {
-    public static void UseDbMigrationHelper(this WebApplication app)
+    public static class DbMigrationHelperExtension
     {
-        DbMigrationHelpers.EnsureSeedData(app).Wait();
+        public static void UseDbMigrationHelper(this WebApplication app)
+        {
+            DbMigrationHelpers.EnsureSeedData(app).Wait();
+        }
     }
 
     public class DbMigrationHelpers
@@ -70,7 +72,7 @@ public static class DbMigrationHelperExtension
             await contextIdentity.SaveChangesAsync();
         }
 
-        private static async Task EnsureSeedApplication(UserManager<IdentityUser> userManager, ApplicationDbContext context, IdentityDbContext contextIdentity)
+        private static async Task EnsureSeedApplication(UserManager<IdentityUser> userManager,  ApplicationDbContext context, IdentityDbContext contextIdentity)
         {
             var emailAdmin = "administrador@marketplace.com.br";
             if (await userManager.FindByEmailAsync(emailAdmin) == null)
@@ -102,7 +104,7 @@ public static class DbMigrationHelperExtension
             var vendedorNome = "Vendedor";
             var vendedorEmail = "vendedor@marketplace.com.br";
             var vendedorId = Guid.NewGuid();
-            if (await userManager.FindByEmailAsync(vendedorEmail) == null)
+            if (await userManager.FindByEmailAsync(vendedorEmail) == null) 
             {
                 var vendedorSistema = new IdentityUser
                 {
@@ -200,5 +202,3 @@ public static class DbMigrationHelperExtension
         }
     }
 }
-
-

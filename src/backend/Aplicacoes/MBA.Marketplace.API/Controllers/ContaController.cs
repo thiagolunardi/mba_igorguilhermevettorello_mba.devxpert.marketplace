@@ -11,13 +11,13 @@ namespace MBA.Marketplace.API.Controllers
     [Route("api/conta")]
     public class ContaController : ControllerBase
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IVendedorRepository _vendedorRepository;
         private readonly IAccountService _accountService;
 
         private string[] ErrorPassowrd = { "PasswordTooShort", "PasswordRequiresNonAlphanumeric", "PasswordRequiresLower", "PasswordRequiresUpper", "PasswordRequiresDigit" };
         private string[] ErrorEmail = { "DuplicateUserName" };
-        public ContaController(UserManager<ApplicationUser> userManager, IVendedorRepository vendedorRepository, IAccountService accountService)
+        public ContaController(UserManager<IdentityUser> userManager, IVendedorRepository vendedorRepository, IAccountService accountService)
         {
             _userManager = userManager;
             _vendedorRepository = vendedorRepository;
@@ -32,7 +32,7 @@ namespace MBA.Marketplace.API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var user = new ApplicationUser
+            var user = new IdentityUser
             {
                 UserName = dto.Email,
                 Email = dto.Email

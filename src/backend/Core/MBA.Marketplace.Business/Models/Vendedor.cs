@@ -12,7 +12,7 @@ namespace MBA.Marketplace.Business.Models
         public string Nome { get; set; }
         [Required]
         public string Email { get; set; }
-        
+        public IEnumerable<Produto> Produtos { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
     }

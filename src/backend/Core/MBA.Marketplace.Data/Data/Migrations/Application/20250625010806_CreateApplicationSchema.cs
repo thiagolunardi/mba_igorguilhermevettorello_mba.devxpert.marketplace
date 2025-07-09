@@ -33,7 +33,6 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", maxLength: 255, nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: false),
-                    UsuarioId = table.Column<string>(type: "TEXT", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
                 },

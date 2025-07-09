@@ -9,6 +9,7 @@ namespace MBA.Marketplace.Business.Interfaces.Services
         Task<IEnumerable<Produto>> ListarAllAsync();
         Task<IEnumerable<Produto>> ListarProdutosPorCategoriaAsync(Guid categoriaId);
         Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string? descricao);
+        Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosPaginacao parametros);
         Task<IEnumerable<Produto>> ListarAsync(Vendedor vendedor);
         Task<Produto> CriarAsync(ProdutoDto dto, Vendedor vendedor);
         Task<Produto> ObterPorIdAsync(Guid id, Vendedor vendedor);

@@ -1,4 +1,5 @@
-﻿using MBA.Marketplace.Business.Interfaces.Repositories;
+﻿using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Data.Context;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +47,11 @@ namespace MBA.Marketplace.Data.Repositories
             }
 
             return await query.ToListAsync();
+        }
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosPaginacao parametros)
+        {
+            var query = _context.Produtos.AsQueryable();
+            return await ListaPaginada<Produto>.CriarAsync(query, parametros.NumeroDaPagina, parametros.TamanhoDaPagina);
         }
         public async Task<IEnumerable<Produto>> ListarPorVendedorIdAsync(Vendedor vendedor)
         {

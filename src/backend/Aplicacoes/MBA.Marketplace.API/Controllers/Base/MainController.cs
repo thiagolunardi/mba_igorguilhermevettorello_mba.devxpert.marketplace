@@ -1,4 +1,4 @@
-﻿using MBA.Marketplace.Business.DTOs;
+﻿using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Identity;
 using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Notifications;

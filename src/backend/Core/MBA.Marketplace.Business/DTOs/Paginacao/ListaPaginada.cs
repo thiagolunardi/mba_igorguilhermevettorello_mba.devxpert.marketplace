@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace MBA.Marketplace.Business.DTOs
+namespace MBA.Marketplace.Business.DTOs.Paginacao
 {
     public class ListaPaginada<T> : List<T>
     {
@@ -21,7 +21,7 @@ namespace MBA.Marketplace.Business.DTOs
             AddRange(itens);
         }
 
-        public static async Task<ListaPaginada<T>> CriarAsync(IQueryable<T> query, int numeroDaPagina, int tamanhoDaPagina)
+        public static async Task<ListaPaginada<T>> ListarAsync(IQueryable<T> query, int numeroDaPagina, int tamanhoDaPagina)
         {
             var totalDeItens = await query.CountAsync();
             var itens = await query

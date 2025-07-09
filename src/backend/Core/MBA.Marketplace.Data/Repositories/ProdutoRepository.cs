@@ -1,8 +1,9 @@
-﻿using MBA.Marketplace.Business.DTOs;
+﻿using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace MBA.Marketplace.Data.Repositories
 {
@@ -48,10 +49,29 @@ namespace MBA.Marketplace.Data.Repositories
 
             return await query.ToListAsync();
         }
-        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosPaginacao parametros)
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosDePesquisaPaginada parametros)
         {
             var query = _context.Produtos.AsQueryable();
-            return await ListaPaginada<Produto>.CriarAsync(query, parametros.NumeroDaPagina, parametros.TamanhoDaPagina);
+
+            //Pesquisa dinâmica
+            if (!string.IsNullOrWhiteSpace(parametros.TermoPesquisado))
+            {
+                query = query.Where(p => p.Descricao.Contains(parametros.TermoPesquisado.Trim(), StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            //Ordenação dinâmica
+            if (!string.IsNullOrWhiteSpace(parametros.OrderBy))
+            {
+                var ehOrdemDecrescente = parametros.OrderBy.StartsWith("-");
+                var propriedade = ehOrdemDecrescente ? parametros.OrderBy.Substring(1) : parametros.OrderBy;
+                query = query.OrderBy($"{propriedade} {(ehOrdemDecrescente ? "descending" : "ascending")}");
+            }
+            else
+            {
+                query = query.OrderBy(p => p.Id); // Ordenação padrão
+            }
+
+            return await ListaPaginada<Produto>.ListarAsync(query, parametros.NumeroDaPagina, parametros.TamanhoDaPagina);
         }
         public async Task<IEnumerable<Produto>> ListarPorVendedorIdAsync(Vendedor vendedor)
         {

@@ -1,4 +1,5 @@
 ﻿using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
@@ -28,7 +29,7 @@ namespace MBA.Marketplace.Business.Services
         {
             return await _produtoRepository.ListarProdutosPorCategoriaOuNomeDescricaoAsync(categoriaId, descricao);
         }
-        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosPaginacao parametros)
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosDePesquisaPaginada parametros)
         {
             return await _produtoRepository.PesquisarAsync(parametros);
         }

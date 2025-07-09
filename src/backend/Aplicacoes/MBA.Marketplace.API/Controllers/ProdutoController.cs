@@ -1,6 +1,7 @@
 ﻿using MBA.Marketplace.API.Controllers.Base;
 using MBA.Marketplace.API.Extensions;
 using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
@@ -90,7 +91,7 @@ namespace MBA.Marketplace.API.Controllers
         [HttpGet("pesquisar")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Pesquisar([FromQuery] ParametrosPaginacao parametros)
+        public async Task<IActionResult> Pesquisar([FromQuery] ParametrosDePesquisaPaginada parametros)
         {
             var pesquisaPaginada = await _produtoService.PesquisarAsync(parametros);
             AdicionarMetadadosDaPaginacaoNoResponseHeader<Produto>(pesquisaPaginada);

@@ -56,7 +56,7 @@ namespace MBA.Marketplace.Data.Repositories
             //Pesquisa dinâmica
             if (!string.IsNullOrWhiteSpace(parametros.TermoPesquisado))
             {
-                query = query.Where(p => p.Descricao.Contains(parametros.TermoPesquisado.Trim(), StringComparison.CurrentCultureIgnoreCase));
+                query = query.Where(p => p.Descricao.ToLower().Contains(parametros.TermoPesquisado.Trim().ToLower()));
             }
 
             if (parametros.CategoriaId != null)
@@ -69,7 +69,18 @@ namespace MBA.Marketplace.Data.Repositories
             {
                 var ehOrdemDecrescente = parametros.OrderBy.StartsWith("-");
                 var propriedade = ehOrdemDecrescente ? parametros.OrderBy.Substring(1) : parametros.OrderBy;
-                query = query.OrderBy($"{propriedade} {(ehOrdemDecrescente ? "descending" : "ascending")}");
+
+                //Verificação se o campo é decimal pois SQLite não suporta linq dinâmico neste tipo de dado.
+                if (parametros.OrderBy.Contains(nameof(Produto.Preco), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    query = ehOrdemDecrescente ?
+                        query.OrderByDescending(p => (double)p.Preco) :
+                        query.OrderBy(p => (double)p.Preco);
+                }
+                else
+                {
+                    query = query.OrderBy($"{propriedade} {(ehOrdemDecrescente ? "descending" : "ascending")}");
+                }
             }
             else
             {

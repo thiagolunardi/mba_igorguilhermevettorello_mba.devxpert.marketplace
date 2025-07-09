@@ -7,15 +7,30 @@ import { ItemEmDestaqueViewModel } from '../pages/public/home/item-destaque/item
 export class ItensEmDestaqueService {
   public obterItensEmDestaque(): ItemEmDestaqueViewModel[] {
     return [
-      { id: 0, nome: 'Produto 1', descricao: 'Descrição do item 1', imagem: '' },
-      { id: 0, nome: 'Produto 2', descricao: 'Descrição do item 2', imagem: '' },
-      { id: 0, nome: 'Produto 3', descricao: 'Descrição do item 3', imagem: '' },
-      { id: 0, nome: 'Produto 4', descricao: 'Descrição do item 4', imagem: '' },
-      { id: 0, nome: 'Produto 5', descricao: 'Descrição do item 5', imagem: '' },
-      { id: 0, nome: 'Produto 6', descricao: 'Descrição do item 6', imagem: '' },
-      { id: 0, nome: 'Produto 7', descricao: 'Descrição do item 7', imagem: '' },
-      { id: 0, nome: 'Produto 8', descricao: 'Descrição do item 8', imagem: '' },
-
+    { 
+      id: 1,
+      nome: 'Smartphone Modelo X',
+      categoria: 'Eletrônicos',
+      preco: 1999.90,
+      descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
+      imagem: 'https://via.placeholder.com/300'
+    },
+    {
+      id: 2,
+      nome: 'Notebook Pro',
+      categoria: 'Computadores',
+      preco: 4599.00,
+      descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
+      imagem: 'https://via.placeholder.com/300'
+    },
+    {
+      id: 3,
+      nome: 'Fone de Ouvido Sem Fio',
+      categoria: 'Acessórios',
+      preco: 299.50,
+      descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
+      imagem: 'https://via.placeholder.com/300'
+    }
     ];
   }
 }

@@ -2,9 +2,6 @@
 {
     public class ParametrosDePesquisaPaginada
     {
-        public string? TermoPesquisado { get; set; }
-        public string? OrderBy { get; set; }
-
         private const int TamanhoMaximoDaPagina = 50;
         public int NumeroDaPagina { get; set; } = 1;
 
@@ -15,5 +12,7 @@
             get => tamanhoDaPagina;
             set => tamanhoDaPagina = value > TamanhoMaximoDaPagina ? TamanhoMaximoDaPagina : value;
         }
+
+        public string? OrderBy { get; set; }
     }
 }

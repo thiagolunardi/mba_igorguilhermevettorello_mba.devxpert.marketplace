@@ -29,7 +29,7 @@ namespace MBA.Marketplace.Business.Services
         {
             return await _produtoRepository.ListarProdutosPorCategoriaOuNomeDescricaoAsync(categoriaId, descricao);
         }
-        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosDePesquisaPaginada parametros)
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
         {
             return await _produtoRepository.PesquisarAsync(parametros);
         }

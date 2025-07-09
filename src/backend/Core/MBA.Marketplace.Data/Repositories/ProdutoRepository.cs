@@ -49,7 +49,7 @@ namespace MBA.Marketplace.Data.Repositories
 
             return await query.ToListAsync();
         }
-        public async Task<ListaPaginada<Produto>> PesquisarAsync(ParametrosDePesquisaPaginada parametros)
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
         {
             var query = _context.Produtos.AsQueryable();
 
@@ -57,6 +57,11 @@ namespace MBA.Marketplace.Data.Repositories
             if (!string.IsNullOrWhiteSpace(parametros.TermoPesquisado))
             {
                 query = query.Where(p => p.Descricao.Contains(parametros.TermoPesquisado.Trim(), StringComparison.CurrentCultureIgnoreCase));
+            }
+
+            if (parametros.CategoriaId != null)
+            {
+                query = query.Where(p => p.CategoriaId == parametros.CategoriaId);
             }
 
             //Ordenação dinâmica

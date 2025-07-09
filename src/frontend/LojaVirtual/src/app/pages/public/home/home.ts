@@ -5,7 +5,8 @@ import { Destaque } from "./destaque/destaque";
 @Component({
   selector: 'app-home',
   imports: [Carrossel, Destaque],
-  templateUrl: './home.html'
+  templateUrl: './home.html',
+  styleUrls: ['./home.scss']
 })
 export class Home {
 

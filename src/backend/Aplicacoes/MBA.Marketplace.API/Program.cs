@@ -1,6 +1,4 @@
 using MBA.Marketplace.API.Configurations;
-using MBA.Marketplace.Data.Context;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

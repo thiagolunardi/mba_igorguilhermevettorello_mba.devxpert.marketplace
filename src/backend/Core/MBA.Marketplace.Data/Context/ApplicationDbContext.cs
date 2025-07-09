@@ -26,12 +26,6 @@ namespace MBA.Marketplace.Data.Context
         {
             base.OnModelCreating(modelBuilder);
 
-            //modelBuilder.Entity<IdentityUser>()
-            //    .HasOne(u => u.Vendedor)
-            //    .WithOne(v => v.Usuario)
-            //    .HasForeignKey<Vendedor>(v => v.UsuarioId)
-            //    .IsRequired();
-
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }
     }

@@ -1,6 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProdutosService } from '../../../services/produtos.service';
 import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
+import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
 
 @Component({
   selector: 'app-pesquisa-produtos',
@@ -10,19 +11,23 @@ import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produ
 })
 export class PesquisaProdutos implements OnInit {
   private produtoService = inject(ProdutosService);
-  produtos: ProdutoViewModel[] = [];
+
+  listaPaginada: ListaPaginada<ProdutoViewModel> | null = null;
+
+  get produtos(): ProdutoViewModel[] {
+    return this.listaPaginada ? this.listaPaginada.itens : [];
+  }
 
   ngOnInit(): void {
-    this.produtoService.obterProdutos(null, null).subscribe({
-      // next: (response) => {
-      //   this.produtos = response.produtos;
-      //   console.log('Produtos obtidos:', this.produtos); // Log para verificar os produtos
-      // },
-      // error: (error) => {
-      //   console.error('Erro ao obter produtos:', error);
-      // }
-    });
-
+    this.produtoService.obterProdutos()
+      .subscribe({
+        next: (response) => {
+          this.listaPaginada = response;
+        },
+        error: (error: any) => {
+          console.error('Erro ao obter produtos:', error);
+        }
+      });
   }
 
 }

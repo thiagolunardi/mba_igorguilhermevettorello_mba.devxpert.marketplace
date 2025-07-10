@@ -1,33 +1,17 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ProdutosService } from '../../../services/produtos.service';
-import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
-import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
+import { AsyncPipe } from '@angular/common';
+import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-pesquisa-produtos',
-  imports: [],
+  imports: [AsyncPipe, NgbProgressbar],
   templateUrl: './pesquisa-produtos.html',
   styles: ``
 })
 export class PesquisaProdutos implements OnInit {
   private produtoService = inject(ProdutosService);
+  produtos$ = this.produtoService.obterProdutos();
 
-  listaPaginada: ListaPaginada<ProdutoViewModel> | null = null;
-
-  get produtos(): ProdutoViewModel[] {
-    return this.listaPaginada ? this.listaPaginada.itens : [];
-  }
-
-  ngOnInit(): void {
-    this.produtoService.obterProdutos()
-      .subscribe({
-        next: (response) => {
-          this.listaPaginada = response;
-        },
-        error: (error: any) => {
-          console.error('Erro ao obter produtos:', error);
-        }
-      });
-  }
-
+  ngOnInit(): void { }
 }

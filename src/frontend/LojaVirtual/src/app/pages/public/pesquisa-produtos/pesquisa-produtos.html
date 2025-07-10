@@ -1,10 +1,12 @@
 <div class="row">
-
-  <!-- Lista de produtos -->
   <div class="col-12">
+
+    @if(produtos$ | async; as listaDeProdutosPaginada){
+
+    <!-- lista de produtos -->
     <div class="list-group">
 
-      @for(produto of produtos; track produtos) {
+      @for(produto of listaDeProdutosPaginada?.itens; track produto) {
       <div class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
           <h5 class="mb-1">{{produto.nome}}</h5>
@@ -12,7 +14,6 @@
         </div>
         <p class="mb-1">{{produto.descricao}}</p>
         <small>Preço: {{produto.preco}}</small>
-
       </div>
       }
 
@@ -32,4 +33,14 @@
         </li>
       </ul>
     </nav>
+    }
+    @else {
+    <div class="alert alert-info" role="alert">
+      <div class="mb-3">
+        Carregando produtos...
+      </div>
+      <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
+    </div>
+    }
+
   </div>

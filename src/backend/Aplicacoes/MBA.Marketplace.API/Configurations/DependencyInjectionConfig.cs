@@ -2,13 +2,14 @@
 using MBA.Marketplace.Business.Interfaces.Identity;
 using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Interfaces.Repositories;
-using MBA.Marketplace.Business.Interfaces.Repositories.Base;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Business.Notifications;
 using MBA.Marketplace.Business.Services;
 using MBA.Marketplace.Data.Context;
 using MBA.Marketplace.Data.Repositories;
+using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace MBA.Marketplace.API.Configurations
 {
@@ -36,7 +37,8 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
-            service.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
+            service.AddScoped<IUserRepository<IdentityUser>, UserRepository>();
+            service.AddScoped<IFavoritoRepository, FavoritoRepository>();
         }
 
         private static void RegisterServices(IServiceCollection service)

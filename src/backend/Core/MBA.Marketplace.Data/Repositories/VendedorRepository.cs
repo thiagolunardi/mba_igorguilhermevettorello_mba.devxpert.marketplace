@@ -23,7 +23,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context
                 .Vendedores
-                .Where(v => v.UsuarioId == usuario)
+                .Where(v => v.Id == Guid.Parse(usuario))
                 .FirstOrDefaultAsync();
         }
     }

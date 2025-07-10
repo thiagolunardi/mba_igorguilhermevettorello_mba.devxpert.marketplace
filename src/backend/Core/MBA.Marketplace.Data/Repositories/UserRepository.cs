@@ -4,21 +4,21 @@ using Microsoft.AspNetCore.Identity;
 
 namespace MBA.Marketplace.Data.Repositories
 {
-    public class UserRepository : IUserRepository<ApplicationUser>
+    public class UserRepository : IUserRepository<IdentityUser>
     {
-        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public UserRepository(UserManager<ApplicationUser> userManager)
+        public UserRepository(UserManager<IdentityUser> userManager)
         {
             _userManager = userManager;
         }
 
-        public async Task<bool> CheckPasswordAsync(ApplicationUser usuario, string senha)
+        public async Task<bool> CheckPasswordAsync(IdentityUser usuario, string senha)
         {
             return await _userManager.CheckPasswordAsync(usuario, senha);
         }
 
-        public async Task<ApplicationUser?> FindByEmailAsync(string email)
+        public async Task<IdentityUser?> FindByEmailAsync(string email)
         {
             return await _userManager.FindByEmailAsync(email);
         }

@@ -9,7 +9,6 @@ using MBA.Marketplace.Business.Notifications;
 using MBA.Marketplace.Business.Services;
 using MBA.Marketplace.Data.Context;
 using MBA.Marketplace.Data.Repositories;
-using MBA.Marketplace.Data.Repositories.Base;
 
 namespace MBA.Marketplace.API.Configurations
 {
@@ -29,7 +28,7 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<INotificador, Notificador>();
             service.Configure<JwtSettings>(configuration.GetSection("Jwt"));
             service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //service.AddScoped<IUser, AspNetUser>();
+            service.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
         }
 
         private static void RegisterRepositories(IServiceCollection service)
@@ -38,8 +37,6 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
             service.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
-            service.AddScoped<IFavoritoRepository, FavoritoRepository>();
-
         }
 
         private static void RegisterServices(IServiceCollection service)

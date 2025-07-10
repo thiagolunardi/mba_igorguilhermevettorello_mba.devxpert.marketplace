@@ -1,12 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace MBA.Marketplace.Business.Enums
 {
-    internal class TipoUsuario
+    public enum TipoUsuario
     {
+        [Description("Administrador")]
+        Administrador,
+        [Description("Vendedor")]
+        Vendedor,
+        [Description("Cliente")]
+        Cliente
     }
 }

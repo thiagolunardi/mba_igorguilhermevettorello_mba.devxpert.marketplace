@@ -65,3 +65,6 @@ _ReSharper*/
 
 # pasta imagens 
 Imagens
+/src/backend/Core/MBA.Marketplace.Data/dev.db
+/src/backend/Core/MBA.Marketplace.Data/dev.db-shm
+/src/backend/Core/MBA.Marketplace.Data/dev.db-wal

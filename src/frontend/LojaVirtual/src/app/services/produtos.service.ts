@@ -1,15 +1,38 @@
-import { Injectable } from "@angular/core";
+import { inject, Injectable } from "@angular/core";
 import { ProdutoViewModel } from "../viewmodels/pesquisa-de-produtos/produto.viewmodel";
-import { Router } from "@angular/router";
+import { map } from "rxjs";
+import { HttpClient, HttpParams, HttpResponse } from "@angular/common/http";
+import { ListaPaginada } from "../viewmodels/shared/lista-paginada.viewmodel";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutosService {
-  constructor(private router: Router) { }
+  private http = inject(HttpClient);
 
-  public obterProdutos(textoPesquisa: string): ProdutoViewModel[] {
-    return this.mockarProdutos();
+  public obterProdutos(textoPesquisa: string | null, categoriaId: string | null): any {
+    let url = 'https://localhost:7179/api/produtos/pesquisar';
+    let params = new HttpParams();
+
+    if (textoPesquisa)
+      params = params.set('textoPesquisa', textoPesquisa);
+
+    if (categoriaId)
+      params = params.set('categoriaId', categoriaId);
+
+    //TODO: passar demais parametros p/ o request
+
+    return this.http.get<ListaPaginada<ProdutoViewModel>>(url, { params, observe: 'response' })
+      .pipe(
+        map(response => {
+          if (response.status === 200) {
+            response.body;
+          }
+          else {
+            throw new Error(`Erro ao buscar produtos. Status: ${response.status}`);
+          }
+        })
+      );
   }
 
   //método TEMPORÁRIO para simular a obtenção de produtos

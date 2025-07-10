@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 
@@ -9,14 +9,15 @@ import { Router } from '@angular/router';
   standalone: true
 })
 export class Pesquisa {
-  textoPesquisado: string | null | undefined = '';
-
-  constructor(private router: Router) { }
+  private router = inject(Router);
+  termo: string | null | undefined = ''; //termo é o texto digitado pelo usuário
 
   public pesquisar() {
-    if (!this.textoPesquisado)
+    if (!this.termo)
       return;
 
-    this.router.navigate(['/Pesquisa', this.textoPesquisado]);
+    this.router.navigate(['/pesquisa'], {
+      queryParams: { termo: this.termo }
+    });
   }
 }

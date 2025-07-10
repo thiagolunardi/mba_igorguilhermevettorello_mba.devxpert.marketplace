@@ -4,19 +4,10 @@
     @if(produtos$ | async; as listaDeProdutosPaginada){
 
     <!-- lista de produtos -->
-    <div class="list-group">
-
+    <div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
       @for(produto of listaDeProdutosPaginada?.itens; track produto) {
-      <div class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">{{produto.nome}}</h5>
-          <small>3 dias atrás</small>
-        </div>
-        <p class="mb-1">{{produto.descricao}}</p>
-        <small>Preço: {{produto.preco}}</small>
-      </div>
+      <app-resumo-produto [produto]="produto"></app-resumo-produto>
       }
-
     </div>
 
     <!-- Paginacao -->

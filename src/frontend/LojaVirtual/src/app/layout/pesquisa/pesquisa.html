@@ -1,6 +1,6 @@
 <div class="input-group mb-3">
-  <input type="text" class="form-control" placeholder="Pesquisar..." (keyup.enter)="pesquisar()"
-    [(ngModel)]="textoPesquisado" [ngModelOptions]="{standalone: true}">
+  <input type="text" class="form-control" placeholder="Pesquisar..." (keyup.enter)="pesquisar()" [(ngModel)]="termo"
+    [ngModelOptions]="{standalone: true}">
   <button class="btn btn-outline-secondary" type="button" (click)="pesquisar()">
     <i class="bi bi-search"></i>
   </button>

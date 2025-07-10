@@ -8,16 +8,16 @@ import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-prod
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/Home',
+    redirectTo: '/home',
     pathMatch: 'full'
   },
   {
-    path: 'Home',
+    path: 'home',
     component: Home,
     data: { breadcrumb: 'Início' }
   },
   {
-    path: 'Pesquisa/:textoPesquisa',
+    path: 'pesquisa',
     component: PesquisaProdutos,
     data: { breadcrumb: 'Pesquisa de Produtos' }
   },

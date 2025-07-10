@@ -1,8 +1,9 @@
 import { inject, Injectable } from "@angular/core";
 import { ProdutoViewModel } from "../viewmodels/pesquisa-de-produtos/produto.viewmodel";
-import { map, Observable } from "rxjs";
+import { map } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ListaPaginada } from "../viewmodels/shared/lista-paginada.viewmodel";
+import { adicionarParametrosSePossuirValor } from "../util/common-functions";
 
 @Injectable({
   providedIn: 'root'
@@ -20,20 +21,16 @@ export class ProdutosService {
     let url = 'https://localhost:7179/api/produtos/pesquisar';
     let params = new HttpParams();
 
-    if (termoPesquisado)
-      params = params.set('termoPesquisado', termoPesquisado);
-
-    if (categoriaId)
-      params = params.set('categoriaId', categoriaId);
-
-    if (numeroDaPagina)
-      params = params.set('numeroDaPagina', numeroDaPagina);
-
-    if (tamanhoDaPagina)
-      params = params.set('tamanhoDaPagina', tamanhoDaPagina);
-
-    if (orderBy)
-      params = params.set('orderBy', orderBy);
+    //adicionar parâmetros ao request somente se eles tiverem valor
+    params = adicionarParametrosSePossuirValor(
+      params,
+      [
+        { nome: 'termoPesquisado', valor: termoPesquisado },
+        { nome: 'categoriaId', valor: categoriaId },
+        { nome: 'numeroDaPagina', valor: numeroDaPagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
+        { nome: 'orderBy', valor: orderBy }
+      ])
 
     return this.http.get<ListaPaginada<ProdutoViewModel>>(url, { params, observe: 'response' })
       .pipe(

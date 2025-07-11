@@ -1,7 +1,9 @@
-﻿using MBA.Marketplace.Business.Interfaces.Repositories;
+﻿using MBA.Marketplace.Business.DTOs.Paginacao;
+using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
 
 namespace MBA.Marketplace.Data.Repositories
 {
@@ -46,6 +48,52 @@ namespace MBA.Marketplace.Data.Repositories
             }
 
             return await query.ToListAsync();
+        }
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
+        {
+            var query = _context.Produtos
+                .Include(p => p.Categoria)
+                .AsNoTracking()
+                .AsQueryable();
+
+            //Pesquisa dinâmica
+            if (!string.IsNullOrWhiteSpace(parametros.TermoPesquisado))
+            {
+                query = query.Where(p =>
+                    (p.Descricao.ToLower().Contains(parametros.TermoPesquisado.Trim().ToLower()))
+                    || (p.Nome.ToLower().Contains(parametros.TermoPesquisado.Trim().ToLower()))
+                );
+            }
+
+            if (parametros.CategoriaId != null)
+            {
+                query = query.Where(p => p.CategoriaId == parametros.CategoriaId);
+            }
+
+            //Ordenação dinâmica
+            if (!string.IsNullOrWhiteSpace(parametros.OrderBy))
+            {
+                var ehOrdemDecrescente = parametros.OrderBy.StartsWith("-");
+                var propriedade = ehOrdemDecrescente ? parametros.OrderBy.Substring(1) : parametros.OrderBy;
+
+                //Verificação se o campo é decimal pois SQLite não suporta linq dinâmico neste tipo de dado.
+                if (parametros.OrderBy.Contains(nameof(Produto.Preco), StringComparison.CurrentCultureIgnoreCase))
+                {
+                    query = ehOrdemDecrescente ?
+                        query.OrderByDescending(p => (double)p.Preco) :
+                        query.OrderBy(p => (double)p.Preco);
+                }
+                else
+                {
+                    query = query.OrderBy($"{propriedade} {(ehOrdemDecrescente ? "descending" : "ascending")}");
+                }
+            }
+            else
+            {
+                query = query.OrderBy(p => p.Id); // Ordenação padrão
+            }
+
+            return await ListaPaginada<Produto>.ListarAsync(query, parametros.NumeroDaPagina, parametros.TamanhoDaPagina);
         }
         public async Task<IEnumerable<Produto>> ListarPorVendedorIdAsync(Vendedor vendedor)
         {

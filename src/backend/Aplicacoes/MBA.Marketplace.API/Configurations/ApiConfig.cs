@@ -18,8 +18,8 @@ namespace MBA.Marketplace.API.Configurations
                     policy
                         .WithOrigins("*")
                         .AllowAnyHeader()
-                        .AllowAnyMethod()
-                        .AllowCredentials();
+                        .AllowAnyMethod();
+                    //.AllowCredentials();
                 });
             });
 

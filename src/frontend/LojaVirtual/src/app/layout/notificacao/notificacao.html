@@ -1,0 +1,9 @@
+<div class="toast-container position-fixed top-0 start-50 translate-middle-x p-3" style="z-index: 1200">
+  @for(notificacao of notificacaoService.notificacoes; track notificacao) {
+  <ngb-toast [autohide]="true" [delay]="notificacao.delay" [class.bg-success]="notificacao.tipo === 'success'"
+    [class.bg-danger]="notificacao.tipo === 'danger'" [class.bg-warning]="notificacao.tipo === 'warning'"
+    [class.bg-info]="notificacao.tipo === 'info'" class="text-white" (hidden)="notificacaoService.remover(notificacao)">
+    {{ notificacao.texto }}
+  </ngb-toast>
+  }
+</div>

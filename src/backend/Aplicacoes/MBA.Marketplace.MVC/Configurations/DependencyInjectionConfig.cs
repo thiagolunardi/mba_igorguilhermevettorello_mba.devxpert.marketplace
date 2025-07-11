@@ -24,7 +24,6 @@ namespace MBA.Marketplace.MVC.Configurations
             service.AddScoped<ApplicationDbContext>();
             service.AddScoped<INotificador, Notificador>();
             service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            //service.AddScoped<IUser, AspNetUser>();
         }
 
         private static void RegisterRepositories(IServiceCollection service)
@@ -32,7 +31,6 @@ namespace MBA.Marketplace.MVC.Configurations
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
-            //service.AddScoped<IUserRepository<ApplicationUser>, UserRepository>();
         }
 
         private static void RegisterServices(IServiceCollection service)

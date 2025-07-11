@@ -1,8 +1,13 @@
-﻿@model MBA.Marketplace.Business.DTOs.AreaUsuarioDto;
+﻿@using MBA.Marketplace.Data.Context
+@using Microsoft.AspNetCore.Identity
+@model MBA.Marketplace.Business.DTOs.AreaUsuarioDto;
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject ApplicationDbContext context
 
-@if (Model.Logado)
+@if (SignInManager.IsSignedIn(User))
 {
-    <div class="dropdown">
+    @*  <div class="dropdown">
         <a href="" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
             Menu &nbsp; <i class="bi bi-person-circle fs-4 me-1"></i>
         </a>
@@ -10,13 +15,37 @@
             <li><a class="dropdown-item" asp-action="index" asp-controller="admin">Área administrativa</a></li>
             <li><a class="dropdown-item" href="@Url.Action("logout", "login")">Sair</a></li>
         </ul>
+    </div> *@
+    var userData = await UserManager.GetUserAsync(User);
+    var vendedor = await context.Vendedores.FindAsync(userData.Id);
+
+    <div class="dropdown">
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
+            <li class="nav-item">
+                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Ola! @vendedor!.Nome</a>
+            </li>
+            <li class="nav-item">
+                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
+                </form>
+            </li>
+        </ul>
     </div>
 }
 else
 {
-    <div>
+     @* <div>
         <a asp-action="index" asp-controller="login" class="d-flex align-items-center text-white text-decoration-none">
             Login &nbsp; <i class="bi bi-person-circle fs-4 me-1"></i>
         </a>
+    </div> *@
+
+    <div>
+        <li class="nav-item">
+            <a class="d-flex align-items-center text-white text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Registrar-se</a>
+        </li>
+        <li class="nav-item">
+            <a class="d-flex align-items-center text-white text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Logar-se</a>
+        </li>
     </div>
 }

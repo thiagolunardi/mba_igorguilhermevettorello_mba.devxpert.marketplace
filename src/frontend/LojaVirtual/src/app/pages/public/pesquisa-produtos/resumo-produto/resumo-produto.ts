@@ -7,9 +7,12 @@ import { CurrencyPipe } from '@angular/common';
   selector: 'app-resumo-produto',
   imports: [RouterLink, CurrencyPipe],
   templateUrl: './resumo-produto.html',
-  styles: ``,
-  // styleUrls: ['./resumo-produto.scss'],
+  styles: ``
 })
 export class ResumoProduto {
   @Input() produto!: ProdutoViewModel;
+
+  favoritarProduto() {
+    alert(`Produto ${this.produto.nome} adicionado aos favoritos!`);
+  }
 }

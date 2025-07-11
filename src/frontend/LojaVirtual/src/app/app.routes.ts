@@ -7,6 +7,7 @@ import { Register } from './pages/public/autenticacao/register/register';
 import { ProdutoComponent } from './pages/public/produto/produto';
 import { VendedorComponent } from './pages/public/vendedor/vendedor';
 import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-produtos';
+import { Erro } from './pages/public/erro/erro';
 
 export const routes: Routes = [
   {
@@ -46,6 +47,11 @@ export const routes: Routes = [
   {
     path: 'register',
     component: Register
+  },
+  {
+    path: 'erro',
+    component: Erro,
+    data: { breadcrumb: 'Erro' }
   },
   {
     path: '**',

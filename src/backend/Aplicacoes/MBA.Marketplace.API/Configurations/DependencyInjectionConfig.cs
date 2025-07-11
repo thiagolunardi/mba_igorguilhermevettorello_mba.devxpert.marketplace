@@ -38,7 +38,6 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
             service.AddScoped<IUserRepository<IdentityUser>, UserRepository>();
-            service.AddScoped<IFavoritoRepository, FavoritoRepository>();
         }
 
         private static void RegisterServices(IServiceCollection service)
@@ -47,7 +46,6 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
             service.AddScoped<IAccountService, AccountService>();
-            service.AddScoped<IFavoritoService, FavoritoService>();
 
         }
     }

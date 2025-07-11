@@ -1,44 +1,52 @@
-<div class="row">
-  <div class="col-12">
+<div class="container mt-3">
+  <div class="row">
 
-    @if(carregando) {
-    <div class="alert alert-info" role="alert">
-      <div class="mb-3"> Carregando produtos... </div>
-      <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
+    <div class="col-3">
+      <app-filtro-por-categoria (filtrarPorCategoria)="filtrarPorCategoria($event)"></app-filtro-por-categoria>
     </div>
-    }
-    @else if (erro) {
-    <div class="alert alert-danger w-100 text-center"> Ocorreu um erro ao buscar os produtos. </div>
-    }
-    @else {
 
-    <!-- lista de produtos -->
-    <div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
+    <div class="col-9">
 
-      @if(listaDeProdutosPaginada?.itens?.length === 0) {
-      <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>
+      @if(carregando) {
+      <div class="alert alert-info" role="alert">
+        <div class="mb-3"> Carregando produtos... </div>
+        <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
+      </div>
+      }
+      @else if (erro) {
+      <div class="alert alert-danger w-100 text-center"> Ocorreu um erro ao buscar os produtos. </div>
       }
       @else {
-      @for(produto of listaDeProdutosPaginada?.itens; track produto) {
-      <app-resumo-produto [produto]="produto"></app-resumo-produto>
-      }
-      }
 
+      <!-- lista de produtos -->
+      <div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
+
+        @if(listaDeProdutosPaginada?.itens?.length === 0) {
+        <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>
+        }
+        @else {
+        @for(produto of listaDeProdutosPaginada?.itens; track produto) {
+        <app-resumo-produto [produto]="produto"></app-resumo-produto>
+        }
+        }
+
+      </div>
+
+      <!-- Paginacao -->
+      <nav class="mt-3">
+        <ul class="pagination justify-content-center">
+          <li class="page-item disabled">
+            <a class="page-link">Anterior</a>
+          </li>
+          <li class="page-item"><a class="page-link" href="#">1</a></li>
+          <li class="page-item"><a class="page-link" href="#">2</a></li>
+          <li class="page-item"><a class="page-link" href="#">3</a></li>
+          <li class="page-item">
+            <a class="page-link" href="#">Próxima</a>
+          </li>
+        </ul>
+      </nav>
+      }
     </div>
-
-    <!-- Paginacao -->
-    <nav class="mt-3">
-      <ul class="pagination justify-content-center">
-        <li class="page-item disabled">
-          <a class="page-link">Anterior</a>
-        </li>
-        <li class="page-item"><a class="page-link" href="#">1</a></li>
-        <li class="page-item"><a class="page-link" href="#">2</a></li>
-        <li class="page-item"><a class="page-link" href="#">3</a></li>
-        <li class="page-item">
-          <a class="page-link" href="#">Próxima</a>
-        </li>
-      </ul>
-    </nav>
-    }
   </div>
+</div>

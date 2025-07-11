@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CategoriaViewModel } from '../../../../viewmodels/pesquisa-de-produtos/categoria.viewmodel';
 import { CategoriaService } from '../../../../services/categoria.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,16 +10,21 @@ import { ActivatedRoute, Router } from '@angular/router';
   styles: ``
 })
 export class FiltroPorCategoria implements OnInit {
-  private router = inject(Router);
   private categoriaService = inject(CategoriaService);
   private activatedRoute = inject(ActivatedRoute);
   categorias!: CategoriaViewModel[];
-  categoriaSelecionadaId: string = '';
+  @Input() categoriaSelecionadaId: string = '';
+  @Output() filtrarPorCategoria = new EventEmitter<string>();
+
   get termo() {
     return this.activatedRoute.snapshot.queryParams['termo'] || null;
   }
 
   ngOnInit(): void {
+    this.obterCategorias();
+  }
+
+  private obterCategorias() {
     this.categoriaService.obterCategorias().subscribe({
       next: (categorias) => {
         if (categorias) {
@@ -37,20 +42,7 @@ export class FiltroPorCategoria implements OnInit {
 
   selecionarCategoria(id: string) {
     this.categoriaSelecionadaId = id;
-    this.filtrar();
+    this.filtrarPorCategoria.emit(id);
   }
 
-  filtrar() {
-    if (!this.categoriaSelecionadaId)
-      return;
-
-    this.router.navigate(
-      ['/pesquisa'],
-      {
-        queryParams: { termo: this.termo, categoriaId: this.categoriaSelecionadaId }
-      }
-    );
-
-    // window.location.reload();//TODO: remover após resolver o problema de recarregamento da página
-  }
 }

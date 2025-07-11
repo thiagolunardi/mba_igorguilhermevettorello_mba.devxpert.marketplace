@@ -32,7 +32,7 @@ export class PesquisaProdutos implements OnInit {
     this.listaDeProdutos$ = this.produtoService.obterProdutos(termo, categoriaId);
   }
 
-  filtrarPorCategoria(id: string) {
+  filtrarPorCategoria(id: string | null) {
     this.categoriaId = id;
     this.obterProdutos(this.termo, this.categoriaId);
   }

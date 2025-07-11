@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { CategoriaViewModel } from '../../../../viewmodels/pesquisa-de-produtos/categoria.viewmodel';
 import { CategoriaService } from '../../../../services/categoria.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-filtro-por-categoria',
@@ -13,7 +13,7 @@ export class FiltroPorCategoria implements OnInit {
   private categoriaService = inject(CategoriaService);
   private activatedRoute = inject(ActivatedRoute);
   categorias!: CategoriaViewModel[];
-  @Input() categoriaSelecionadaId: string = '';
+  @Input() categoriaSelecionadaId: string | null = '';
   @Output() filtrarPorCategoria = new EventEmitter<string>();
 
   get termo() {

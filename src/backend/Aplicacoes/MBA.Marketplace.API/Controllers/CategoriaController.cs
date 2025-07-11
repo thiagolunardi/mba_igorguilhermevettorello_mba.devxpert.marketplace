@@ -32,6 +32,7 @@ namespace MBA.Marketplace.API.Controllers
             return CreatedAtAction(null, new { id = categoria.Id }, categoria);
         }
         [HttpGet]
+        [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Categoria>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Listar()
         {

@@ -1,4 +1,5 @@
 ﻿using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
@@ -27,6 +28,10 @@ namespace MBA.Marketplace.Business.Services
         public async Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string descricao)
         {
             return await _produtoRepository.ListarProdutosPorCategoriaOuNomeDescricaoAsync(categoriaId, descricao);
+        }
+        public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
+        {
+            return await _produtoRepository.PesquisarAsync(parametros);
         }
         public async Task<IEnumerable<Produto>> ListarAsync(Vendedor vendedor)
         {
@@ -69,7 +74,7 @@ namespace MBA.Marketplace.Business.Services
         {
             return await _produtoRepository.ObterPorIdAsync(id);
         }
-        
+
         public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)
         {
             var produto = await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);

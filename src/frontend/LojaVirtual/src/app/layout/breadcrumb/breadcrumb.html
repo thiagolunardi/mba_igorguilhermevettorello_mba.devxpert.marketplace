@@ -1,6 +1,16 @@
-<nav style="--bs-breadcrumb-divider: '>';" aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item active" aria-current="page">Destaque</li>
+<nav aria-label="breadcrumb" *ngIf="breadcrumbs.length > 0" style="--bs-breadcrumb-divider: '>';">
+  <ol class="breadcrumb bg-light p-2 rounded">
+
+    @for (item of breadcrumbs; let ultimo = $last; track item) {
+    <li class="breadcrumb-item" [class.active]="ultimo">
+      <ng-container *ngIf="!ultimo">
+        <a [routerLink]="item.url">{{ item.titulo }}</a>
+      </ng-container>
+      <ng-container *ngIf="ultimo">
+        {{ item.titulo }}
+      </ng-container>
+    </li>
+    }
+
   </ol>
 </nav>

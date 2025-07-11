@@ -7,10 +7,11 @@
       </a>
 <form class="col-11" role="search">
   <div class="input-group mb-3" style="margin:0 !important">
-    <input type="text" class="form-control" placeholder="Pesquisar..." aria-label="Pesquisar">
-    <button class="btn btn-outline-secondary" type="button">
-      <i class="bi bi-search"></i>
-    </button>
+   <input type="text" class="form-control" placeholder="Pesquisar..." (keyup.enter)="pesquisar()" [(ngModel)]="termo"
+  [ngModelOptions]="{standalone: true}">
+<button class="btn btn-outline-secondary" type="button" (click)="pesquisar()">
+  <i class="bi bi-search"></i>
+</button>
   </div>
 </form>
 </div>

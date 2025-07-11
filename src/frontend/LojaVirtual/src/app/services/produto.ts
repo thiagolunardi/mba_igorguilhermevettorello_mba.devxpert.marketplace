@@ -40,6 +40,14 @@ export class ProductService {
       preco: 299.50,
       descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
       imagemUrl: 'https://via.placeholder.com/300'
+    },
+        {
+      id: 4,
+      nome: 'Fone de Ouvido Sem Fio',
+      categoria: 'Acessórios',
+      preco: 299.50,
+      descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
+      imagemUrl: 'https://via.placeholder.com/300'
     }
   ];
 

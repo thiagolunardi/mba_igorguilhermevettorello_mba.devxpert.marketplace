@@ -6,7 +6,7 @@ using System.Linq.Expressions;
 
 namespace MBA.Marketplace.Data.Repositories.Base
 {
-    public abstract class Repository<TEntity> : IRepository<TEntity> where TEntity : Entity, new()
+    public class Repository<TEntity> : IRepository<TEntity> where TEntity :  Entity, new()
     {
         protected readonly ApplicationDbContext Db;
         protected readonly DbSet<TEntity> DbSet;

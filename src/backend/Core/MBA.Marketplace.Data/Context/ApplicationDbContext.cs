@@ -14,6 +14,7 @@ namespace MBA.Marketplace.Data.Context
         public DbSet<Vendedor> Vendedores { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Favorito> Favoritos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -25,12 +26,6 @@ namespace MBA.Marketplace.Data.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-
-            //modelBuilder.Entity<IdentityUser>()
-            //    .HasOne(u => u.Vendedor)
-            //    .WithOne(v => v.Usuario)
-            //    .HasForeignKey<Vendedor>(v => v.UsuarioId)
-            //    .IsRequired();
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
         }

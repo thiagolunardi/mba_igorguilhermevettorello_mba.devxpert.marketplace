@@ -4,7 +4,7 @@ import { AsyncPipe } from '@angular/common';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { ResumoProduto } from "./resumo-produto/resumo-produto";
 import { ActivatedRoute } from '@angular/router';
-import { Observable, observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
 

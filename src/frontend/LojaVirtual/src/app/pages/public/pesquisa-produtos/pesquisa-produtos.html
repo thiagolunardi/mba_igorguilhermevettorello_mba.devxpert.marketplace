@@ -5,9 +5,11 @@
 
     <!-- lista de produtos -->
     <div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
+
       @for(produto of listaDeProdutosPaginada?.itens; track produto) {
       <app-resumo-produto [produto]="produto"></app-resumo-produto>
       }
+
     </div>
 
     <!-- Paginacao -->

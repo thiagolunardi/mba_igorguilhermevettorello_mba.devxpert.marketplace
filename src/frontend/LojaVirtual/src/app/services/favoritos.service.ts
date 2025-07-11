@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-<<<<<<< HEAD
-=======
 export interface Favorito {
   id: number;
   nome: string;
@@ -11,14 +9,10 @@ export interface Favorito {
   imagemUrl: string;
 }
 
->>>>>>> 35a53e8e428e7a20c625883fb2278969b026c977
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritosService {
-<<<<<<< HEAD
-  favoritos: any[] = [];
-=======
 
    private favoritos: Favorito[] = [
       {
@@ -46,7 +40,6 @@ export class FavoritosService {
         imagemUrl: 'https://via.placeholder.com/300'
       }
     ];
->>>>>>> 35a53e8e428e7a20c625883fb2278969b026c977
 
   constructor() { }
 
@@ -59,8 +52,4 @@ export class FavoritosService {
   removerFavorito(produto: any) {
       this.favoritos = this.favoritos.filter(item => item.id !== produto.id);
   }
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 35a53e8e428e7a20c625883fb2278969b026c977

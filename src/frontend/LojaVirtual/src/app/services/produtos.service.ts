@@ -1,6 +1,6 @@
 import { inject, Injectable } from "@angular/core";
 import { ProdutoViewModel } from "../viewmodels/pesquisa-de-produtos/produto.viewmodel";
-import { map } from "rxjs";
+import { catchError, map, of } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ListaPaginada } from "../viewmodels/shared/lista-paginada.viewmodel";
 import { adicionarParametrosSePossuirValor } from "../util/common-functions";
@@ -41,7 +41,8 @@ export class ProdutosService {
           else {
             throw new Error(`Erro ao buscar produtos. Status: ${response.status}`);
           }
-        })
+        }),
+        catchError(() => of(null)) // retorna null em caso de erro
       );
   }
 }

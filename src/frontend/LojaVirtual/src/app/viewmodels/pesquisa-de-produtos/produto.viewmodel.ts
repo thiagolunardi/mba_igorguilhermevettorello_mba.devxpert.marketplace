@@ -1,3 +1,5 @@
+import { CategoriaViewModel } from "./categoria.viewmodel";
+
 export interface ProdutoViewModel {
   id: string;
   nome: string;
@@ -5,5 +7,5 @@ export interface ProdutoViewModel {
   imagem: string;
   preco: number;
   categoriaId: string;
-  categoria: string;
+  categoria: CategoriaViewModel;
 }

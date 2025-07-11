@@ -4,6 +4,6 @@ export interface ListaPaginada<T> {
   numeroDePaginas: number;
   tamanhoDaPagina: number;
   totalDeItens: number;
-  temPaginaAnterior: number;
-  temProximaPagina: number;
+  temPaginaAnterior: boolean;
+  temProximaPagina: boolean;
 }

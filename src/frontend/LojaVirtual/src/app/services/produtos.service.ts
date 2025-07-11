@@ -30,7 +30,7 @@ export class ProdutosService {
         { nome: 'numeroDaPagina', valor: numeroDaPagina },
         { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
         { nome: 'orderBy', valor: orderBy }
-      ])
+      ]);
 
     return this.http.get<ListaPaginada<ProdutoViewModel>>(url, { params, observe: 'response' })
       .pipe(

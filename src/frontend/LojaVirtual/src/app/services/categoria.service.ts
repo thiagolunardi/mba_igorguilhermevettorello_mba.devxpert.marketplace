@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { inject, Injectable } from "@angular/core";
 import { CategoriaViewModel } from "../viewmodels/pesquisa-de-produtos/categoria.viewmodel";
-import { catchError, map, of } from "rxjs";
+import { map } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -21,8 +21,7 @@ export class CategoriaService {
           else {
             throw new Error(`Erro ao buscar categorias. Status: ${response.status}`);
           }
-        }),
-        catchError(() => of(null)) // retorna null em caso de erro
+        })
       );
   }
 }

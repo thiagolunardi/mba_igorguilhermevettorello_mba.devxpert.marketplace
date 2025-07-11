@@ -1,9 +1,10 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.viewmodel';
 import { ProdutoViewModel } from '../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { ResumoProduto } from '../resumo-produto/resumo-produto';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-lista-de-produtos',
@@ -12,8 +13,8 @@ import { ResumoProduto } from '../resumo-produto/resumo-produto';
   styles: ``
 })
 export class ListaDeProdutos implements OnInit, OnChanges {
+  private router = inject(Router);
   carregando: boolean = true;
-  erro: boolean = false;
   produtos!: ListaPaginada<ProdutoViewModel> | null;
   @Input() listaDeProdutos$!: Observable<ListaPaginada<ProdutoViewModel> | null>;
 
@@ -33,10 +34,9 @@ export class ListaDeProdutos implements OnInit, OnChanges {
     this.listaDeProdutos$.subscribe({
       next: (resposta) => {
         this.produtos = resposta;
-        this.erro = false;
       },
       error: (err) => {
-        this.erro = true;
+        this.router.navigate(['/erro']);
       },
       complete: () => {
         this.carregando = false;

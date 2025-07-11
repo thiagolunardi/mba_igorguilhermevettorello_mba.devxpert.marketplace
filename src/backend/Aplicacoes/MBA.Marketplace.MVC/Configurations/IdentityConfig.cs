@@ -9,8 +9,6 @@ namespace MBA.Marketplace.MVC.Configurations
     {
         public static IServiceCollection AddIdentityConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;
@@ -18,6 +16,7 @@ namespace MBA.Marketplace.MVC.Configurations
                 options.Password.RequireUppercase = true;
                 options.Password.RequireLowercase = true;
                 options.Password.RequireNonAlphanumeric = true;
+                options.SignIn.RequireConfirmedAccount = true;
             })
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddErrorDescriber<IdentityErrorDescriberPtBr>()

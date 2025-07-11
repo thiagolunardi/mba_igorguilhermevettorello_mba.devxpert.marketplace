@@ -6,8 +6,13 @@
     <!-- lista de produtos -->
     <div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
 
+      @if(listaDeProdutosPaginada?.itens?.length === 0) {
+      <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>
+      }
+      @else {
       @for(produto of listaDeProdutosPaginada?.itens; track produto) {
       <app-resumo-produto [produto]="produto"></app-resumo-produto>
+      }
       }
 
     </div>
@@ -27,11 +32,12 @@
       </ul>
     </nav>
     }
+    @else if((produtos$ | async) == null) {
+    <div class="alert alert-danger w-100 text-center"> Ocorreu um erro ao buscar os produtos. </div>
+    }
     @else {
     <div class="alert alert-info" role="alert">
-      <div class="mb-3">
-        Carregando produtos...
-      </div>
+      <div class="mb-3"> Carregando produtos... </div>
       <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
     </div>
     }

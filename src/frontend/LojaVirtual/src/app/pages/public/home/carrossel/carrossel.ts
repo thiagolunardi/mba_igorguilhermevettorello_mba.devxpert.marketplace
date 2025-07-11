@@ -8,7 +8,13 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './carrossel.html',
 })
 export class Carrossel {
-  images = [62, 83, 466, 965, 982, 1043, 738].map((n) => `https://picsum.photos/id/${n}/900/500`);
+  //images = [62, 83, 466, 965, 982, 1043, 738].map((n) => `https://picsum.photos/id/${n}/900/500`);
+
+    images = [
+    'assets/images/disclaimer_product1.jpg',
+    'assets/images/disclaimer_product2.jpg',
+    'assets/images/disclaimer_product3.jpg'
+  ];
 
   paused = false;
   unpauseOnArrow = false;

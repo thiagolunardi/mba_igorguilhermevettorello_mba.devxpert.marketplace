@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+import { Component, OnInit } from '@angular/core';
+import { FavoritosService } from '../../../services/favoritos.service';
+
+@Component({
+  selector: 'app-favoritos',
+  templateUrl: './favoritos.html',
+
+
+=======
 // favoritos.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
@@ -18,10 +28,34 @@ export interface ItemEmDestaqueViewModel {
   imports: [CommonModule, CurrencyPipe],
   templateUrl: './favoritos.html',
   styleUrls: ['./favoritos.scss'] 
+>>>>>>> 35a53e8e428e7a20c625883fb2278969b026c977
 })
 
 export class Favoritos implements OnInit {
 
+<<<<<<< HEAD
+  produtos = [
+    { id: 1, nome: 'Produto 1' },
+    { id: 2, nome: 'Produto 2' },
+    { id: 3, nome: 'Produto 3' }
+  ];
+
+  constructor(private favoritosService: FavoritosService) {}
+
+
+  ngOnInit(){
+
+
+  }
+
+    adicionarFavorito(produto: any) {
+    this.favoritosService.adicionarFavorito(produto);
+  }
+
+    removerFavorito(produto: any) {
+      this.favoritosService.removerFavorito(produto);
+  }
+=======
   public itensEmDestaque: ItemEmDestaqueViewModel[] = [];
 
   constructor(private favoritosService: FavoritosService) {}
@@ -70,4 +104,5 @@ export class Favoritos implements OnInit {
   trackById(index: number, item: ItemEmDestaqueViewModel): number {
   return item.id;
 }
+>>>>>>> 35a53e8e428e7a20c625883fb2278969b026c977
 }

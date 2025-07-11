@@ -1,3 +1,15 @@
+<<<<<<< HEAD
+<h2>Meus Favoritos</h2>
+<ul>
+  @for (produto of produtos; track produto.nome) {}
+  <li>
+    {{produtos.nome}}
+    <button (click)="removerFavorito(item)">Remover dos Favoritos</button>
+  </li>
+
+<h3>Adicionar Novo Favorito</h3>
+<button (click)="adicionarFavorito(produtos)">Adicionar aos Favoritos</button>
+=======
 <div class="container">
   <h2>Meus Favoritos</h2>
 
@@ -46,3 +58,4 @@
 <ng-template #nenhumProduto>
   <p class="text-center">Nenhum favorito cadastrado no momento.</p>
 </ng-template>
+>>>>>>> 35a53e8e428e7a20c625883fb2278969b026c977

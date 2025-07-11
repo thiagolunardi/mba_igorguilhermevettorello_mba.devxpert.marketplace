@@ -1,26 +1,24 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProdutosService } from '../../../services/produtos.service';
-import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
-import { ResumoProduto } from "./resumo-produto/resumo-produto";
 import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
 import { FiltroPorCategoria } from "./filtro-por-categoria/filtro-por-categoria";
+import { ListaDeProdutos } from "./lista-de-produtos/lista-de-produtos";
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-pesquisa-produtos',
-  imports: [NgbProgressbar, ResumoProduto, FiltroPorCategoria],
+  imports: [FiltroPorCategoria, ListaDeProdutos],
   templateUrl: './pesquisa-produtos.html',
   styles: ``
 })
 export class PesquisaProdutos implements OnInit {
   private produtoService = inject(ProdutosService);
   private activatedRoute = inject(ActivatedRoute);
-  carregando: boolean = true;
-  erro: boolean = false;
-  listaDeProdutosPaginada?: ListaPaginada<ProdutoViewModel> | null;
   termo: string | null = null;
   categoriaId: string | null = null;
+  listaDeProdutos$!: Observable<ListaPaginada<ProdutoViewModel> | null>;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -31,18 +29,7 @@ export class PesquisaProdutos implements OnInit {
   }
 
   obterProdutos(termo: string | null, categoriaId: string | null) {
-    this.produtoService.obterProdutos(termo, categoriaId).subscribe({
-      next: (resposta) => {
-        this.listaDeProdutosPaginada = resposta;
-        this.erro = false;
-      },
-      error: (err) => {
-        this.erro = true;
-      },
-      complete: () => {
-        this.carregando = false;
-      }
-    });
+    this.listaDeProdutos$ = this.produtoService.obterProdutos(termo, categoriaId);
   }
 
   filtrarPorCategoria(id: string) {

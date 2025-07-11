@@ -2,7 +2,7 @@
 
 <div class="btn-group-vertical" style="width: 100%;" role="group">
   @for(categoria of categorias; track categoria) {
-  <input (change)="selecionarCategoria(categoria.id)" type="radio" class="btn-check" name="rdbCategoria"
+  <input (click)="selecionarCategoria(categoria.id)" type="radio" class="btn-check" name="rdbCategoria"
     [id]="categoria.id" autocomplete="off" [checked]="categoria.id === categoriaSelecionadaId">
   <label class="btn btn-outline-primary" [for]="categoria.id">{{categoria.nome}}</label>
   }

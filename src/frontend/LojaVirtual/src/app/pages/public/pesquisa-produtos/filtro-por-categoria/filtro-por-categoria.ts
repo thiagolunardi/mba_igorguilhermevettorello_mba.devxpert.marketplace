@@ -15,7 +15,7 @@ export class FiltroPorCategoria implements OnInit {
   private router = inject(Router);
   categorias!: CategoriaViewModel[];
   @Input() categoriaSelecionadaId: string | null = '';
-  @Output() filtrarPorCategoria = new EventEmitter<string>();
+  @Output() filtrarPorCategoria = new EventEmitter<string | null>();
 
   get termo() {
     return this.activatedRoute.snapshot.queryParams['termo'] || null;
@@ -43,7 +43,7 @@ export class FiltroPorCategoria implements OnInit {
   }
 
   selecionarCategoria(id: string) {
-    this.categoriaSelecionadaId = id;
-    this.filtrarPorCategoria.emit(id);
+    this.categoriaSelecionadaId = this.categoriaSelecionadaId != id ? id : null;;
+    this.filtrarPorCategoria.emit(this.categoriaSelecionadaId);
   }
 }

@@ -29,7 +29,15 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<INotificador, Notificador>();
             service.Configure<JwtSettings>(configuration.GetSection("Jwt"));
             service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            service.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            service.AddControllers();
+            service.AddControllers()
+                   .AddJsonOptions(options =>
+                   {
+                       options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                       options.JsonSerializerOptions.PropertyNamingPolicy = null; // Use original property names
+                       options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                       options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+                   });
         }
 
         private static void RegisterRepositories(IServiceCollection service)

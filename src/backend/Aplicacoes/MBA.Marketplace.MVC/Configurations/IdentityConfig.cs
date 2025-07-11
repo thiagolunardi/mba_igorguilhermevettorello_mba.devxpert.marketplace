@@ -20,7 +20,8 @@ namespace MBA.Marketplace.MVC.Configurations
             })
             .AddEntityFrameworkStores<IdentityDbContext>()
             .AddErrorDescriber<IdentityErrorDescriberPtBr>()
-            .AddDefaultTokenProviders();
+            .AddDefaultTokenProviders()
+            .AddDefaultUI();
 
             return services;
         }

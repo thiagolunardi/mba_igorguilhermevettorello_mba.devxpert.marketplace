@@ -1,4 +1,19 @@
-<div class="row g-4">
+<div class="card" style="width: 18rem;">
+  <img
+    src="https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg"
+    class="card-img-top" alt="...">
+
+  <div class="card-body">
+    <p class="card-title text-uppercase"><strong>{{ produto.nome }}</strong></p>
+    <p class="card-text">Categoria: {{produto.categoria.nome}}</p>
+    <p><strong>{{ produto.preco | currency:'BRL' }}</strong></p>
+    <a [routerLink]="['/produto', produto.id]" class="btn btn-outline-primary btn-md">
+      Ver Detalhes
+    </a>
+  </div>
+</div>
+
+<!-- <div class="row g-4">
   <div class="card shadow-sm col-sm-12">
     <div class="product mb-0">
       <div class="product-thumb-info border-0 mb-3">
@@ -7,7 +22,7 @@
             <img
               src="https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg"
               class="img-flui" style="height: 200px; object-fit: cover;">
-            <!-- <img [src]="itemEmDestaque.imagem ? itemEmDestaque.imagem : 'assets/images/noProduct.png'" class="img-fluid" [alt]="itemEmDestaque.nome" style="height: 200px; object-fit: cover;" /> -->
+
           </div>
         </a>
       </div>
@@ -31,4 +46,4 @@
       </p>
     </div>
   </div>
-</div>
+</div> -->

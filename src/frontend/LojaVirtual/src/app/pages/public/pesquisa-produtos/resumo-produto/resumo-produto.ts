@@ -8,7 +8,7 @@ import { CurrencyPipe } from '@angular/common';
   imports: [RouterLink, CurrencyPipe],
   templateUrl: './resumo-produto.html',
   styles: ``,
-  styleUrls: ['./resumo-produto.scss'],
+  // styleUrls: ['./resumo-produto.scss'],
 })
 export class ResumoProduto {
   @Input() produto!: ProdutoViewModel;

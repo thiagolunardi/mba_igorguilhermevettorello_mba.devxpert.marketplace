@@ -14,7 +14,6 @@ namespace MBA.Marketplace.Data.Context
         public DbSet<Vendedor> Vendedores { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }
-        public DbSet<Favorito> Favoritos { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

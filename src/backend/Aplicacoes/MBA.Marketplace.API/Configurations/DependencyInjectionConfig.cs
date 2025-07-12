@@ -1,9 +1,7 @@
 ﻿using MBA.Marketplace.API.Extensions;
-using MBA.Marketplace.Business.Interfaces.Identity;
 using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
-using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Business.Notifications;
 using MBA.Marketplace.Business.Services;
 using MBA.Marketplace.Data.Context;
@@ -29,7 +27,13 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<INotificador, Notificador>();
             service.Configure<JwtSettings>(configuration.GetSection("Jwt"));
             service.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            service.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve);
+            service.AddControllers()
+               .AddJsonOptions(options =>
+               {
+                   options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                   options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                   options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+               });
         }
 
         private static void RegisterRepositories(IServiceCollection service)

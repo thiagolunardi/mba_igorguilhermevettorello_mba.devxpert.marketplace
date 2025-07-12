@@ -10,8 +10,6 @@ namespace MBA.Marketplace.API.Configurations
     {
         public static IServiceCollection AddIdentityConfig(this IServiceCollection services, IConfiguration configuration)
         {
-            services.AddDbContext<IdentityDbContext>(options => options.UseSqlite(configuration.GetConnectionString("DefaultConnection")));
-
             services.AddIdentity<IdentityUser, IdentityRole>(options =>
             {
                 options.Password.RequireDigit = true;

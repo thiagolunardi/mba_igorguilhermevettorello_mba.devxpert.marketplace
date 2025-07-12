@@ -1,5 +1,6 @@
 ﻿using MBA.Marketplace.API.Extensions;
 using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
@@ -19,6 +20,7 @@ namespace MBA.Marketplace.API.Controllers
         private readonly ICategoriaRepository _categoriaRepository;
         private readonly IProdutoService _produtoService;
         private readonly IConfiguration _config;
+
         public ProdutoController(IVendedorRepository vendedorRepository, ICategoriaRepository categoriaRepository, IProdutoService produtoService, IConfiguration config)
         {
             _vendedorRepository = vendedorRepository;
@@ -26,6 +28,7 @@ namespace MBA.Marketplace.API.Controllers
             _produtoService = produtoService;
             _config = config;
         }
+
         private async Task<Vendedor> BuscarVendedorLogado()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -37,10 +40,12 @@ namespace MBA.Marketplace.API.Controllers
 
             return vendedor;
         }
+
         private async Task<Categoria?> BuscarCategoria(Guid? id)
         {
             return await _categoriaRepository.ObterPorIdAsync(id);
         }
+
         private string GetContentType(string path)
         {
             var ext = Path.GetExtension(path).ToLowerInvariant();
@@ -53,6 +58,7 @@ namespace MBA.Marketplace.API.Controllers
                 _ => "application/octet-stream"
             };
         }
+
         [HttpPost]
         [ProducesResponseType(typeof(Produto), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -70,6 +76,7 @@ namespace MBA.Marketplace.API.Controllers
             var produto = await _produtoService.CriarAsync(dto, vendedor);
             return CreatedAtAction(null, new { id = produto.Id }, produto);
         }
+
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Listar()
@@ -78,6 +85,16 @@ namespace MBA.Marketplace.API.Controllers
             var produtos = await _produtoService.ListarAsync(vendedor);
             return Ok(produtos);
         }
+
+        [HttpGet("pesquisar")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> Pesquisar([FromQuery] PesquisaDeProdutos parametros)
+        {
+            var pesquisaPaginada = await _produtoService.PesquisarAsync(parametros);
+            return Ok(pesquisaPaginada);
+        }
+
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -89,6 +106,7 @@ namespace MBA.Marketplace.API.Controllers
 
             return Ok(produto);
         }
+
         [HttpPut("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -118,6 +136,7 @@ namespace MBA.Marketplace.API.Controllers
 
             return NoContent();
         }
+
         [HttpDelete("{id:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -131,6 +150,7 @@ namespace MBA.Marketplace.API.Controllers
 
             return NoContent();
         }
+
         [HttpGet("imagem/{nome}")]
         [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]

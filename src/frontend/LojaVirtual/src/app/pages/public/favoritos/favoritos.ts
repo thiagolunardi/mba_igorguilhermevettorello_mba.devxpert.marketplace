@@ -17,7 +17,7 @@ export interface ItemEmDestaqueViewModel {
   standalone: true,
   imports: [CommonModule, CurrencyPipe],
   templateUrl: './favoritos.html',
-  styleUrls: ['./favoritos.scss'] 
+  styleUrls: ['./favoritos.scss']
 })
 
 export class Favoritos implements OnInit {
@@ -32,7 +32,7 @@ export class Favoritos implements OnInit {
 
   public obterItensEmDestaque(): ItemEmDestaqueViewModel[] {
     return [
-      { 
+      {
         id: 1,
         nome: 'Smartphone Modelo X',
         categoria: 'Eletrônicos',

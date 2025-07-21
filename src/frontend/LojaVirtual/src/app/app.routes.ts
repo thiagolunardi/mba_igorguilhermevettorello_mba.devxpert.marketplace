@@ -2,11 +2,10 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/public/home/home';
 import { NaoEncontrado } from './pages/public/nao-encontrado/nao-encontrado';
 import { Favoritos } from './pages/public/favoritos/favoritos';
-import { Login } from './pages/public/autenticacao/login/login';
-import { Register } from './pages/public/autenticacao/register/register';
 import { ProdutoComponent } from './pages/public/produto/produto';
 import { VendedorComponent } from './pages/public/vendedor/vendedor';
 import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-produtos';
+import { Erro } from './pages/public/erro/erro';
 
 export const routes: Routes = [
   {
@@ -39,13 +38,18 @@ export const routes: Routes = [
     component: VendedorComponent,
     data: { breadcrumb: 'Vendedor' }
   },
+  // {
+  //   path: 'login',
+  //   component: Login
+  // },
+  // {
+  //   path: 'register',
+  //   component: Register
+  // },
   {
-    path: 'login',
-    component: Login
-  },
-  {
-    path: 'register',
-    component: Register
+    path: 'erro',
+    component: Erro,
+    data: { breadcrumb: 'Erro' }
   },
   {
     path: '**',

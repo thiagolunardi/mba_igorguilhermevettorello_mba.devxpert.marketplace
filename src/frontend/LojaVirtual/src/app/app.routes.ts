@@ -6,6 +6,8 @@ import { ProdutoComponent } from './pages/public/produto/produto';
 import { VendedorComponent } from './pages/public/vendedor/vendedor';
 import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-produtos';
 import { Erro } from './pages/public/erro/erro';
+import { Login } from './pages/public/autenticacao/login/login';
+import { Register } from './pages/public/autenticacao/register/register';
 
 export const routes: Routes = [
   {
@@ -34,18 +36,18 @@ export const routes: Routes = [
     data: { breadcrumb: 'Detalhes do Produto' }
   },
   {
-    path: 'Vendedor',
+    path: 'vendedor',
     component: VendedorComponent,
     data: { breadcrumb: 'Vendedor' }
   },
-  // {
-  //   path: 'login',
-  //   component: Login
-  // },
-  // {
-  //   path: 'register',
-  //   component: Register
-  // },
+  {
+    path: 'login',
+    component: Login
+  },
+  {
+    path: 'register',
+    component: Register
+  },
   {
     path: 'erro',
     component: Erro,

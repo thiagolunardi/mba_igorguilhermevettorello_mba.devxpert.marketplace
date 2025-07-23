@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router, RouterLink } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { BreadcrumbViewModel } from '../../viewmodels/breadcrumb/breadcrumb.viewmodel';
+import { BreadcrumbViewModel } from '../../../viewmodels/breadcrumb/breadcrumb.viewmodel';
 
 @Component({
   selector: 'app-breadcrumb',

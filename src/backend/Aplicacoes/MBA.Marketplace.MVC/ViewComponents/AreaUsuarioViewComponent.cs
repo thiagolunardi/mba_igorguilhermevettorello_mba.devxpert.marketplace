@@ -14,12 +14,16 @@ namespace MBA.Marketplace.MVC.ViewComponents
             if (!string.IsNullOrEmpty(userId))
             {
                 areaUsuario.Logado = true;
-                areaUsuario.Nome = string.Empty;
+                areaUsuario.Nome = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value ?? "Usuário";
+                areaUsuario.Email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
+                areaUsuario.TipoUsuario = HttpContext.User.FindFirst("TipoUsuario")?.Value ?? "Cliente";
             }
             else
             {
                 areaUsuario.Logado = false;
                 areaUsuario.Nome = string.Empty;
+                areaUsuario.Email = string.Empty;
+                areaUsuario.TipoUsuario = string.Empty;
             }
 
             return View(areaUsuario);

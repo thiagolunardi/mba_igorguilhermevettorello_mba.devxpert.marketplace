@@ -1,9 +1,9 @@
 <div class="container">
   <h2>Meus Favoritos</h2>
 
-  <div *ngIf="itensEmDestaque.length > 0; else nenhumProduto">
+  <div *ngIf="produtos of produtos?.itens > 0; else nenhumProduto">
     <div class="row g-4">
-      <div class="card shadow-sm col-sm-4" *ngFor="let item of itensEmDestaque; trackBy: trackById">
+      <div class="card shadow-sm col-sm-4" *ngFor="let item of produtos?.itens">
         <div class="product mb-0">
           <div class="product-thumb-info border-0 mb-3">
             <div class="product-thumb-info-badges-wrapper">
@@ -26,7 +26,7 @@
               </h3>
             </div>
             <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4" style="color:red;">
-              <i class="far fa-x" (click)="removerFavorito(item)" style="color:red !important;"></i> &nbsp; Remover
+              <!-- <i class="far fa-x" (click)="removerFavorito(item)" style="color:red !important;"></i> &nbsp; Remover -->
             </a>
           </div>
 

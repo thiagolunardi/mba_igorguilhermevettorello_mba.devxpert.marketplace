@@ -1,4 +1,9 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient, HttpParams } from "@angular/common/http";
+import { adicionarParametrosSePossuirValor } from "../util/common-functions";
+import { ListaPaginada } from "../viewmodels/shared/lista-paginada.viewmodel";
+import { ProdutoViewModel } from "../viewmodels/pesquisa-de-produtos/produto.viewmodel";
+import { catchError, map, of } from "rxjs";
 
 export interface Favorito {
   id: number;
@@ -14,42 +19,50 @@ export interface Favorito {
 })
 export class FavoritosService {
 
-   private favoritos: Favorito[] = [
-      {
-        id: 1,
-        nome: 'Smartphone Modelo X',
-        categoria: 'Eletrônicos',
-        preco: 1999.90,
-        descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 2,
-        nome: 'Notebook Pro',
-        categoria: 'Computadores',
-        preco: 4599.00,
-        descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 3,
-        nome: 'Fone de Ouvido Sem Fio',
-        categoria: 'Acessórios',
-        preco: 299.50,
-        descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      }
-    ];
+  private http = inject(HttpClient);
 
-  constructor() { }
+  public obterProdutos(
+    termoPesquisado: string | null = null,
+    categoriaId: string | null = null,
+    numeroDaPagina: number | null = null,
+    tamanhoDaPagina: number | null = null,
+    orderBy: string | null = null
+  ) {
+    let url = 'https://localhost:7179/api/produtos/pesquisar';
+    let params = new HttpParams();
 
-  adicionarFavorito(produto: any) {
-    if (!this.favoritos.find(item => item.id === produto.id)) {
-      this.favoritos.push(produto);
+    //adicionar parâmetros ao request somente se eles tiverem valor
+    params = adicionarParametrosSePossuirValor(
+      params,
+      [
+        { nome: 'termoPesquisado', valor: termoPesquisado },
+        { nome: 'categoriaId', valor: categoriaId },
+        { nome: 'numeroDaPagina', valor: numeroDaPagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
+        { nome: 'orderBy', valor: orderBy }
+      ]);
+
+    return this.http.get<ListaPaginada<ProdutoViewModel>>(url, { params, observe: 'response' })
+        .pipe(
+          map(response => {
+            if (response.status === 200) {
+              return response.body;
+            }
+            else {
+              throw new Error(`Erro ao buscar produtos. Status: ${response.status}`);
+            }
+          }),
+          catchError(() => of(null)) // retorna null em caso de erro
+        );
+
+
+  // adicionarFavorito(produto: any) {
+  //   if (!this.favoritos.find(item => item.id === produto.id)) {
+  //     this.favoritos.push(produto);
+  //   }
+  // }
+
+  // removerFavorito(produto: any) {
+  //     this.favoritos = this.favoritos.filter(item => item.id !== produto.id);
     }
-  }
-
-  removerFavorito(produto: any) {
-      this.favoritos = this.favoritos.filter(item => item.id !== produto.id);
-  }
 }

@@ -8,4 +8,5 @@ export interface ProdutoViewModel {
   preco: number;
   categoriaId: string;
   categoria: CategoriaViewModel;
+  src: string;
 }

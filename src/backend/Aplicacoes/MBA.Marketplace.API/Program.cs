@@ -31,11 +31,8 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
 app.UseAuthorization();
-
 app.UseCors("CorsPolicy");
-
 app.MapControllers();
-
 app.Run();

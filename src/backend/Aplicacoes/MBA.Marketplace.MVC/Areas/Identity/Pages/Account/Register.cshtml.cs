@@ -16,6 +16,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
 using MBA.Marketplace.Business.Enums;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 {
@@ -172,7 +173,26 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code.Equals("PasswordRequiresUpper"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresLower"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresDigit"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresNonAlphanumeric"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 

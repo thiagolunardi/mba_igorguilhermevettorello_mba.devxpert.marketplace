@@ -49,7 +49,7 @@ namespace MBA.Marketplace.API.Controllers
             // Cria o registro do vendedor
             await _vendedorRepository.CriarAsync(new Vendedor
             {
-                Id = Guid.Parse(userId),
+                Id = userId.NormalizeGuid(),
                 Nome = dto.Nome,
                 Email = dto.Email,
                 CreatedAt = DateTime.Now

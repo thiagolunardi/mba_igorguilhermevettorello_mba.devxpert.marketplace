@@ -4,67 +4,253 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="container mt-5">
+<div class="page-header">
+    <div class="container">
+        <h2><i class="bi bi-person-circle me-3"></i>Login</h2>
+        <p class="mb-0">Acesse sua conta para continuar</p>
+    </div>
+</div>
+
+<div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white text-center">
-                    <h4 class="mb-0">
-                        <i class="fas fa-sign-in-alt me-2"></i>
-                        Login
-                    </h4>
+        <div class="col-md-6 col-lg-5">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="login-icon">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <h3 class="login-title">Bem-vindo de volta!</h3>
+                    <p class="login-subtitle">Faça login para acessar sua conta</p>
                 </div>
-                <div class="card-body p-4">
+                
+                <div class="login-body">
                     <form asp-action="Login" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
                         
-                        <div class="mb-3">
+                        <div class="form-group mb-4">
                             <label asp-for="Email" class="form-label">
-                                <i class="fas fa-envelope me-1"></i>
+                                <i class="bi bi-envelope me-2"></i>
                                 E-mail
                             </label>
-                            <input asp-for="Email" class="form-control" placeholder="Digite seu e-mail" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <input asp-for="Email" class="form-control form-control-lg" placeholder="Digite seu e-mail" />
+                            <span asp-validation-for="Email" class="text-danger small"></span>
                         </div>
                         
-                        <div class="mb-4">
+                        <div class="form-group mb-4">
                             <label asp-for="Senha" class="form-label">
-                                <i class="fas fa-lock me-1"></i>
+                                <i class="bi bi-lock me-2"></i>
                                 Senha
                             </label>
-                            <input asp-for="Senha" class="form-control" placeholder="Digite sua senha" />
-                            <span asp-validation-for="Senha" class="text-danger"></span>
+                            <input asp-for="Senha" type="password" class="form-control form-control-lg" placeholder="Digite sua senha" />
+                            <span asp-validation-for="Senha" class="text-danger small"></span>
                         </div>
                         
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-sign-in-alt me-2"></i>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" id="lembrar">
+                            <label class="form-check-label" for="lembrar">
+                                Lembrar de mim
+                            </label>
+                        </div>
+                        
+                        <div class="d-grid mb-4">
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="bi bi-box-arrow-in-right me-2"></i>
                                 Entrar
                             </button>
                         </div>
                     </form>
                 </div>
-                <div class="card-footer text-center">
-                    <small class="text-muted">
-                        Não tem uma conta? 
-                        <a href="#" class="text-decoration-none">Registre-se</a>
-                    </small>
+                
+                <div class="login-footer">
+                    <div class="text-center">
+                        <p class="mb-2">
+                            Não tem uma conta? 
+                            <a href="#" class="text-decoration-none fw-bold">Registre-se</a>
+                        </p>
+                        <a href="#" class="text-decoration-none small">Esqueceu sua senha?</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
 
+<style>
+.login-card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 25px;
+    box-shadow: 0 15px 35px var(--shadow-medium);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.login-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px var(--shadow-dark);
+}
+
+.login-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    color: white;
+    padding: 2rem;
+    text-align: center;
+}
+
+.login-icon {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    font-size: 2rem;
+    backdrop-filter: blur(10px);
+}
+
+.login-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+    opacity: 0.9;
+    margin-bottom: 0;
+}
+
+.login-body {
+    padding: 2rem;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-label {
+    color: var(--text-dark);
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.form-control {
+    border: 2px solid rgba(118, 75, 162, 0.1);
+    border-radius: 12px;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem var(--shadow-medium);
+    background: white;
+    transform: translateY(-2px);
+}
+
+.form-control-lg {
+    padding: 1rem 1.25rem;
+    font-size: 1.1rem;
+}
+
+.form-check-input {
+    border-color: var(--primary-color);
+    border-radius: 6px;
+}
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.form-check-label {
+    color: var(--text-dark);
+    font-weight: 500;
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    border: none;
+    border-radius: 12px;
+    font-weight: 600;
+    padding: 1rem;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-success::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+}
+
+.btn-success:hover::before {
+    left: 100%;
+}
+
+.btn-success:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px var(--shadow-dark);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, var(--primary-color) 100%);
+}
+
+.login-footer {
+    background: rgba(118, 75, 162, 0.05);
+    padding: 1.5rem 2rem;
+    text-align: center;
+    border-top: 1px solid rgba(118, 75, 162, 0.1);
+}
+
+.login-footer a {
+    color: var(--primary-color);
+    transition: all 0.3s ease;
+}
+
+.login-footer a:hover {
+    color: var(--accent-color);
+    text-decoration: underline !important;
+}
+
+.alert-danger {
+    background: rgba(220, 53, 69, 0.1);
+    border: 1px solid rgba(220, 53, 69, 0.2);
+    color: #dc3545;
+    border-radius: 12px;
+}
+
+@@media (max-width: 768px) {
+    .login-card {
+        margin: 1rem;
+    }
+    
+    .login-header,
+    .login-body {
+        padding: 1.5rem;
+    }
+    
+    .login-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 1.5rem;
+    }
+    
+    .login-title {
+        font-size: 1.25rem;
+    }
+}
+</style>
+
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    
-    <script>
-        // Adicionar ícones do Font Awesome se não estiverem disponíveis
-        if (typeof FontAwesome === 'undefined') {
-            const link = document.createElement('link');
-            link.rel = 'stylesheet';
-            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css';
-            document.head.appendChild(link);
-        }
-    </script>
 } 

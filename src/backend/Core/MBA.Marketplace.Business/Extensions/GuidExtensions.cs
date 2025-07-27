@@ -1,5 +1,3 @@
-using System;
-
 namespace MBA.Marketplace.Business.Extensions
 {
     public static class GuidExtensions

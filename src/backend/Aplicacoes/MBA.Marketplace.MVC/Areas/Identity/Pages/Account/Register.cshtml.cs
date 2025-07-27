@@ -15,6 +15,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
+using MBA.Marketplace.Business.Enums;
 
 namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 {
@@ -143,6 +144,9 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                         Email = user.Email,
                         CreatedAt = DateTime.Now
                     });
+
+                    await _userManager.AddToRoleAsync(user, TipoUsuario.Vendedor.ToString().ToUpper());
+
                     await _appContext.SaveChangesAsync();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);

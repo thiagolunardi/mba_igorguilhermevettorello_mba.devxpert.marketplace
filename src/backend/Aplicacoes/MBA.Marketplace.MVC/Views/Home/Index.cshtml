@@ -2,33 +2,38 @@
 @using MBA.Marketplace.MVC.ViewModels;
 @model IEnumerable<ProdutoViewModel>
 
-<div class="container py-5 text-white">
-    <h2 class="mb-4 text-success">Produtos</h2>
+<div class="page-header">
+    <div class="container">
+        <h2><i class="bi bi-grid-3x3-gap me-3"></i>Nossos Produtos</h2>
+        <p class="mb-0">Descubra produtos incríveis com os melhores preços</p>
+    </div>
+</div>
 
+<div class="container py-5">
     <div class="row g-4">
         @foreach (var produto in Model)
         {
-            <div class="col-md-4">
+            <div class="col-md-4 col-lg-3">
                 <div class="card h-100 box-produto">
-
                     <img src="/imagens/@produto.Src"
                          onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';"
                          class="card-img-top img-fluid box-imagem"
                          alt="@produto.Nome" />
 
                     <div class="card-body d-flex flex-column">
-                        <h5 class="card-title box-text">@produto.Nome</h5>
-                        <p class="card-text small box-text">
+                        <h5 class="card-title">@produto.Nome</h5>
+                        <p class="card-text small">
                             @produto.Descricao
                         </p>
 
                         <div class="mt-auto">
-                            <p class="fw-bold fs-6 mb-2 box-text ">
-                                Preço: <span class="text-success">@produto.Preco.ToPtBrCurrency()</span>
-                            </p>
+                            <div class="price-display mb-3">
+                                <i class="bi bi-currency-dollar me-1"></i>
+                                @produto.Preco.ToPtBrCurrency()
+                            </div>
 
-                            <a href="@Url.Action("detalhes", "produto", new { id = produto.Id })" class="btn btn-success btn-sm w-100">
-                                Ver Detalhes
+                            <a href="@Url.Action("detalhes", "produto", new { id = produto.Id })" class="btn btn-success w-100">
+                                <i class="bi bi-eye me-2"></i>Ver Detalhes
                             </a>
                         </div>
                     </div>
@@ -36,7 +41,17 @@
             </div>
         }
     </div>
+    
+    @if (!Model.Any())
+    {
+        <div class="text-center py-5">
+            <i class="bi bi-search display-1 text-muted mb-3"></i>
+            <h3 class="text-muted">Nenhum produto encontrado</h3>
+            <p class="text-muted">Tente ajustar os filtros de busca</p>
+        </div>
+    }
 </div>
+
 @if (ViewBag.Categorias != null)
 {
     @section Scripts {
@@ -58,7 +73,7 @@
             } else if (categoria != "") {
                 window.location.href = "/?categoriaId=" + categoria;
             } else if (descricao != "") {
-                window.location.href = "/descricao=" + descricao;
+                window.location.href = "/?descricao=" + descricao;
             }
         });
     </script>

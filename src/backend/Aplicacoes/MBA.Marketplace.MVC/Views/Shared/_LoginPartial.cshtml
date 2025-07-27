@@ -35,7 +35,7 @@
     @if (SignInManager.IsSignedIn(User) && userData != null)
     {
         <li class="nav-item d-flex align-items-center me-3">
-            <a id="manage" class="nav-link text-white d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
+            <a id="manage" class="nav-link text-white d-flex align-items-center" asp-controller="Admin" asp-action="Index" title="Admin">
                 <i class="bi bi-person-circle fs-4 me-2"></i> 
                 <span>Olá! @displayName</span>
             </a>

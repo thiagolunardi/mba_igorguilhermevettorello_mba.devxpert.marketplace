@@ -1,5 +1,6 @@
 ﻿using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Models;
+using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Data.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,7 +24,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context
                 .Vendedores
-                .Where(v => v.Id == Guid.Parse(usuario))
+                .Where(v => v.Id == usuario.NormalizeGuid())
                 .FirstOrDefaultAsync();
         }
     }

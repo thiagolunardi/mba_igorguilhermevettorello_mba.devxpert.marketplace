@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 {
@@ -67,23 +68,25 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "O campo Email é obrigatório.")]
+            [EmailAddress(ErrorMessage = "O formato do email não é válido.")]
+            [Display(Name = "Email")]
             public string Email { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Required]
+            [Required(ErrorMessage = "O campo Senha é obrigatório.")]
             [DataType(DataType.Password)]
+            [Display(Name = "Senha")]
             public string Password { get; set; }
 
             /// <summary>
             ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
             ///     directly from your code. This API may change or be removed in future releases.
             /// </summary>
-            [Display(Name = "Remember me?")]
+            [Display(Name = "Lembrar de mim?")]
             public bool RememberMe { get; set; }
         }
 
@@ -121,7 +124,17 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        _logger.LogInformation("User logged in.");
+                        var roles = await _userManager.GetRolesAsync(user);
+                        var tipoUsuario = roles.FirstOrDefault();
+
+                        var claims = new List<Claim>
+                        {
+                            new Claim("TipoUsuario", tipoUsuario ?? "Cliente")
+                        };
+
+                        await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);
+
+                        _logger.LogInformation("Usuário fez login.");
                         return LocalRedirect(returnUrl);
                     }
                     if (result.RequiresTwoFactor)
@@ -130,18 +143,18 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                     }
                     if (result.IsLockedOut)
                     {
-                        _logger.LogWarning("User account locked out.");
+                        _logger.LogWarning("Conta de usuário bloqueada.");
                         return RedirectToPage("./Lockout");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                         return Page();
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
                     return Page();
                 }
             }

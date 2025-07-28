@@ -5,6 +5,7 @@ using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using System;
 
 namespace MBA.Marketplace.Business.Services
 {
@@ -31,8 +32,45 @@ namespace MBA.Marketplace.Business.Services
         }
         public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
         {
-            return await _produtoRepository.PesquisarAsync(parametros);
+            var produtos = await _produtoRepository.PesquisarAsync(parametros);
+
+            foreach (var produto in produtos.Itens)
+            {
+                produto.Src = ConverterImagemEmBase64(produto);
+            }
+
+            return produtos;
         }
+
+        private string? ConverterImagemEmBase64(Produto produto)
+        {
+            var caminhoImagemBase = @$"{Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, _config["SharedFiles:ImagensPath"])}";
+            var caminhoImagemCompleto = Path.Combine(caminhoImagemBase, produto.Imagem);
+
+            if (!File.Exists(caminhoImagemCompleto))
+            {
+                return null;
+            }
+
+            var bytesImagem = System.IO.File.ReadAllBytes(caminhoImagemCompleto);
+            var base64 = Convert.ToBase64String(bytesImagem);
+            var mimeType = ObterMimeType(Path.GetExtension(caminhoImagemCompleto));
+
+            return $"data:{mimeType};base64,{base64}";
+        }
+
+        private string ObterMimeType(string extensao)
+        {
+            return extensao switch
+            {
+                ".jpg" => "image/jpeg",
+                ".jpeg" => "image/jpeg",
+                ".png" => "image/png",
+                ".gif" => "image/gif",
+                _ => throw new NotSupportedException("Tipo de imagem não suportado.")
+            };
+        }
+
         public async Task<IEnumerable<Produto>> ListarAsync(Vendedor vendedor)
         {
             return await _produtoRepository.ListarPorVendedorIdAsync(vendedor);

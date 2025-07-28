@@ -1,0 +1,27 @@
+<nav class="mt-3">
+  <ul class="pagination justify-content-center">
+    <li class="page-item" [class.disabled]="!habilitarPrimeraPagina">
+      <button class="page-link" (click)="navegarParaPagina(1)">Primeira</button>
+    </li>
+
+    @if(paginaAnterior){
+    <li class="page-item">
+      <button class="page-link" (click)="navegarParaPagina(paginaAnterior)">{{paginaAnterior}}</button>
+    </li>
+    }
+
+    <li class="page-item">
+      <button class="page-link disabled">{{paginacao?.paginaAtual}}</button>
+    </li>
+
+    @if(proximaPagina){
+    <li class="page-item">
+      <button class="page-link" (click)="navegarParaPagina(proximaPagina)">{{proximaPagina}}</button>
+    </li>
+    }
+
+    <li class="page-item" [class.disabled]="!habilitarUltimaPagina">
+      <button class="page-link" (click)="navegarParaPagina(paginacao!.numeroDePaginas)">Última</button>
+    </li>
+  </ul>
+</nav>

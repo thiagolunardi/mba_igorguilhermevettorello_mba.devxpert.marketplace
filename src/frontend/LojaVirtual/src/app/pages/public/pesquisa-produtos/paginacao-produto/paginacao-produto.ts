@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.viewmodel';
 import { NotificacaoService } from '../../../../services/notificacao.service';
@@ -11,8 +11,9 @@ import { NotificacaoService } from '../../../../services/notificacao.service';
 })
 export class PaginacaoProduto implements OnInit {
   notificacaoService = inject(NotificacaoService);
-  @Input() listaPaginada$!: Observable<ListaPaginada<any> | null>;
   paginacao!: ListaPaginada<any> | null;
+  @Input() listaPaginada$!: Observable<ListaPaginada<any> | null>;
+  @Output() trocarPagina = new EventEmitter<number | null>();
 
   ngOnInit(): void {
     this.carregarPaginacao();
@@ -38,8 +39,6 @@ export class PaginacaoProduto implements OnInit {
     this.listaPaginada$.subscribe({
       next: (resposta) => {
         this.paginacao = resposta;
-
-        console.warn(this.paginacao)
       },
       error: (err) => {
         this.notificacaoService.exibir('Erro ao carregar a paginação!');
@@ -48,4 +47,11 @@ export class PaginacaoProduto implements OnInit {
     });
   }
 
+  navegarParaPagina(numeroDaPagina: number | null) {
+    if (numeroDaPagina) {
+      this.trocarPagina.emit(numeroDaPagina);
+    } else {
+      this.notificacaoService.exibir('Número de página inválido!');
+    }
+  }
 }

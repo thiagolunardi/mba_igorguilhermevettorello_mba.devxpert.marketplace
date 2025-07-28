@@ -44,4 +44,8 @@ export class PesquisaProdutos implements OnInit {
     this.categoriaId = id;
     this.obterProdutos(this.termo, this.categoriaId);
   }
+
+  trocarPagina(numeroDaPagina: number | null) {
+    this.obterProdutos(this.termo, this.categoriaId, numeroDaPagina, TAMANHO_PADRAO_PAGINA);
+  }
 }

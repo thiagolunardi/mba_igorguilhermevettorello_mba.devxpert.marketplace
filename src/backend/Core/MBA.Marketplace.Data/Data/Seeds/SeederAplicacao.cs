@@ -1,40 +1,28 @@
-﻿using MBA.Marketplace.Business.Models;
-using MBA.Marketplace.Business.Enums;
+﻿using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Business.Extensions;
+using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Data.Context;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using MBA.Marketplace.Business.Interfaces.Identity;
 
-namespace MBA.Marketplace.MVC.Configurations
+namespace MBA.Marketplace.Data.Data.Seeds
 {
-    public static class DbMigrationHelperExtension
+    public static class SeederAplicacao
     {
-        public static void UseDbMigrationHelper(this WebApplication app)
+        public static async Task SeedData(IServiceProvider serviceProvider, string env)
         {
-            DbMigrationHelpers.EnsureSeedData(app).Wait();
-        }
-    }
-
-    public class DbMigrationHelpers
-    {
-        public static async Task EnsureSeedData(WebApplication serviceScope)
-        {
-            var services = serviceScope.Services.CreateScope().ServiceProvider;
-            await EnsureSeedData(services);
+            await EnsureSeedData(serviceProvider, env);
         }
 
-        public static async Task EnsureSeedData(IServiceProvider serviceProvider)
+        public static async Task EnsureSeedData(IServiceProvider serviceProvider, string env)
         {
             using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
-
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var contextIdentity = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
             var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-            if (env.IsDevelopment() || env.IsEnvironment("Docker") || env.IsStaging())
+            if (env.Equals("Development") || env.Equals("Docker") || env.Equals("Staging"))
             {
                 await context.Database.MigrateAsync();
                 await contextIdentity.Database.MigrateAsync();
@@ -72,7 +60,7 @@ namespace MBA.Marketplace.MVC.Configurations
             await contextIdentity.SaveChangesAsync();
         }
 
-        private static async Task EnsureSeedApplication(UserManager<IdentityUser> userManager,  ApplicationDbContext context, IdentityDbContext contextIdentity)
+        private static async Task EnsureSeedApplication(UserManager<IdentityUser> userManager, ApplicationDbContext context, IdentityDbContext contextIdentity)
         {
             var emailAdmin = "administrador@marketplace.com.br";
             if (await userManager.FindByEmailAsync(emailAdmin) == null)
@@ -104,7 +92,7 @@ namespace MBA.Marketplace.MVC.Configurations
             var vendedorNome = "Vendedor";
             var vendedorEmail = "vendedor@marketplace.com.br";
             var vendedorId = Guid.NewGuid();
-            if (await userManager.FindByEmailAsync(vendedorEmail) == null) 
+            if (await userManager.FindByEmailAsync(vendedorEmail) == null)
             {
                 var vendedorSistema = new IdentityUser
                 {

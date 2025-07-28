@@ -1,8 +1,13 @@
 ﻿@using MBA.Marketplace.MVC.ViewModels;
+@using MBA.Marketplace.Business.Enums
 @model List<CategoriaViewModel>
 @{
     ViewData["Title"] = "Listar Categorias";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    
+    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? "Cliente";
+    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
+    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
 }
 
 @if (!string.IsNullOrEmpty(ViewBag.Erro))
@@ -16,7 +21,10 @@ else
             <tr>
                 <th>Nome</th>
                 <th>Descrição</th>
-                <th style="width: 120px;" class="text-end">Ações</th>
+                @if (isAdmin)
+                {
+                    <th style="width: 120px;" class="text-end">Ações</th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -25,14 +33,17 @@ else
                 <tr class="border-bottom border-secondary-subtle">
                     <td class="fw-semibold">@categoria.Nome</td>
                     <td class="text-muted">@categoria.Descricao</td>
-                    <td class="text-end">
-                        <a class="btn btn-outline-success btn-sm me-1" title="Editar" href="@Url.Action("editar", "categoria", new { id = categoria.Id })" data-id="@categoria.Id">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a onclick="deletarCategoria(this, event)" class="btn btn-outline-danger btn-sm btn-remover" title="Remover" data-id="@categoria.Id">
-                            <i class="bi bi-trash"></i>
-                        </a>
-                    </td>
+                    @if (isAdmin)
+                    {
+                        <td class="text-end">
+                            <a class="btn btn-outline-success btn-sm me-1" title="Editar" href="@Url.Action("editar", "categoria", new { id = categoria.Id })" data-id="@categoria.Id">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a onclick="deletarCategoria(this, event)" class="btn btn-outline-danger btn-sm btn-remover" title="Remover" data-id="@categoria.Id">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>

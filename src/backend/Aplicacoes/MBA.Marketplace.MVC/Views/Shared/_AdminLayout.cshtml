@@ -55,13 +55,16 @@
                                 Listar Categorias
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
-                               href="@Url.Action("Criar", "Categoria")">
-                                <i class="bi bi-plus-circle admin-menu-icon"></i>
-                                Cadastrar Categoria
-                            </a>
-                        </li>
+                        @if (!isVendedor)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
+                                   href="@Url.Action("Criar", "Categoria")">
+                                    <i class="bi bi-plus-circle admin-menu-icon"></i>
+                                    Cadastrar Categoria
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
 

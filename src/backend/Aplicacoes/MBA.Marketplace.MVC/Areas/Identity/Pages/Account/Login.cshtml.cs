@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 {
@@ -123,6 +124,16 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                     var result = await _signInManager.PasswordSignInAsync(user, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
+                        var roles = await _userManager.GetRolesAsync(user);
+                        var tipoUsuario = roles.FirstOrDefault();
+
+                        var claims = new List<Claim>
+                        {
+                            new Claim("TipoUsuario", tipoUsuario ?? "Cliente")
+                        };
+
+                        await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);
+
                         _logger.LogInformation("Usuário fez login.");
                         return LocalRedirect(returnUrl);
                     }

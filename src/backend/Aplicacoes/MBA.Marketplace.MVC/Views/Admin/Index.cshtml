@@ -1,6 +1,11 @@
-﻿@{
+﻿@using MBA.Marketplace.Business.Enums
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Dashboard";
+
+    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? "Cliente";
+    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
+    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
 }
 
 <div class="row">

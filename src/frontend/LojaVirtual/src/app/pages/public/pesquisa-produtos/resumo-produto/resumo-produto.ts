@@ -3,7 +3,7 @@ import { RouterLink } from '@angular/router';
 import { ProdutoViewModel } from '../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 import { CurrencyPipe } from '@angular/common';
 import { NotificacaoService } from '../../../../services/notificacao.service';
-import { IMAGEM_PLACEHOLDER } from '../../../../util/constanstes';
+import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
 
 @Component({
   selector: 'app-resumo-produto',

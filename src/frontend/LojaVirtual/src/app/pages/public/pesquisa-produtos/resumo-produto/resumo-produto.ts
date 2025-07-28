@@ -9,7 +9,7 @@ import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
   selector: 'app-resumo-produto',
   imports: [RouterLink, CurrencyPipe],
   templateUrl: './resumo-produto.html',
-  styles: ``
+  styleUrl: './resumo-produto.scss'
 })
 export class ResumoProduto {
   @Input() produto!: ProdutoViewModel;

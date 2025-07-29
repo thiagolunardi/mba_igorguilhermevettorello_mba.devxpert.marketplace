@@ -1,6 +1,12 @@
 ﻿@using MBA.Marketplace.Business.Enums
 @using System.Security.Claims
 @RenderSection("Styles", required: false)
+@{
+    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? TipoUsuario.Cliente.ToString();
+    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
+    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
+}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -24,12 +30,6 @@
 
             <!-- Menu Section -->
             <div class="flex-grow-1 p-3">
-                @{
-                    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? "Cliente";
-                    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
-                    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
-                }
-
                 <!-- Dashboard -->
                 <div class="admin-menu-section">
                     <div class="admin-menu-section-title">Dashboard</div>
@@ -55,7 +55,7 @@
                                 Listar Categorias
                             </a>
                         </li>
-                        @if (!isVendedor)
+                        @if (isAdmin)
                         {
                             <li class="nav-item">
                                 <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
@@ -229,6 +229,7 @@
         </div>
     </div>
 
+    <partial name="_ModalLayout" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

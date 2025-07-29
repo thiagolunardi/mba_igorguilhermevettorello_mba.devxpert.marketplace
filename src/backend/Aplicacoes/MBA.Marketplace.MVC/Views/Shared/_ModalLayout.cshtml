@@ -1,0 +1,73 @@
+﻿<div class="modal fade show" id="modalSucessoCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-success fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Cadastro realizado
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Sua categoria foi criada com sucesso.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-success btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-exclamation-circle me-2"></i> Falha ao realizar o cadastro
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Ocorreu um erro ao realizar o cadastro de categoria. Tente novamente mais tarde!
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmarRemoverCategoria" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm">
+            <div class="modal-header bg-warning-subtle border-0">
+                <h5 class="modal-title" id="confirmarLabel">Confirmar remoção</h5>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja remover esta categoria?
+                <div id="spinner" class="text-center mt-3 d-none">
+                    <div class="spinner-border text-warning" role="status"></div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Não</button>
+                <button type="button" id="btnConfirmarRemocao" onclick="confirmacaoDeletarCategoria(this, event)" class="btn btn-outline-aplication btn-sm">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalResultadoRemoverCategoria" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm">
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title" id="resultadoTitulo">Resultado</h5>
+            </div>
+            <div class="modal-body text-secondary small" id="resultadoMensagem"></div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success btn-sm btn-modal-ajax" data-bs-dismiss="modal" onclick="location.reload()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>

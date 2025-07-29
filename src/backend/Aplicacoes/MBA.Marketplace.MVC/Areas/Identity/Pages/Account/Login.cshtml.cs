@@ -106,13 +106,13 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
+                        ModelState.AddModelError("Input.Password", "Tentativa de login inválida.");
                         return Page();
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Tentativa de login inválida.");
+                    ModelState.AddModelError("Input.Password", "Tentativa de login inválida.");
                     return Page();
                 }
             }

@@ -1,4 +1,6 @@
 :root {
+    --bs-success: #764ba2;
+    --bs-success-rgb: 118, 75, 162;
     --bs-aplication: #764ba2;
     --primary-color: #764ba2;
     --primary-light: #8a5bb8;
@@ -301,6 +303,20 @@ body {
 }
 
 /* Action Buttons */
+.btn-success {
+  background-color: #764ba2 !important;
+  border-color: #764ba2 !important;
+}
+
+.alert-success {
+  background-color: #764ba2 !important;
+  color: white !important;
+}
+
+.badge-success {
+  background-color: #764ba2 !important;
+}
+
 /*.btn-success {
   background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
   border: none;

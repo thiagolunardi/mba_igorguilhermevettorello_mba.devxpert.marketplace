@@ -1,0 +1,65 @@
+<div class="container" *ngIf="produto">
+  <h1>Detalhes do produto</h1>
+  <hr />
+
+  <div role="main" class="main shop pt-4">
+    <div class="row">
+      <div class="col-md-5 mb-5 mb-md-0">
+        <img [src]="produto.imagem || 'https://via.placeholder.com/400?text=Sem+Imagem'"
+             class="img-fluid" [alt]="produto.nome"
+             style="object-fit: cover;" />
+      </div>
+
+      <div class="col-md-7">
+        <div class="summary entry-summary position-relative">
+          <h1 class="mb-0 font-weight-bold text-7">{{ produto.nome }}</h1>
+
+          <div class="d-block text-4 my-2">
+            <span>{{ produto.categoria.nome }}</span>
+          </div>
+
+          <div class="divider divider-small">
+            <hr class="bg-color-grey-scale-4">
+          </div>
+
+          <p class="price mb-3">
+            <span class="sale text-color-dark">{{ produto.preco | currency:'BRL' }}</span>
+          </p>
+
+          <p class="text-3-5 mb-3">{{ produto.descricao }}</p>
+
+          <ul class="list list-unstyled text-2">
+            <li class="mb-0">ESTOQUE: <strong class="text-color-dark">{{ produto.estoque }}</strong></li>
+            <li class="mb-0">SKU: <strong class="text-color-dark">{{ produto.id }}</strong></li>
+          </ul>
+
+          <form enctype="multipart/form-data" method="post" class="cart" action="#">
+            <hr>
+            <div class="quantity quantity-lg">
+              <input type="button" class="minus" value="-">
+              <input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
+              <input type="button" class="plus" value="+">
+            </div>
+            <button type="submit" class="btn btn-dark btn-modern text-uppercase">Adicionar ao carrinho</button>
+            <hr>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <div class="row mt-5">
+      <div class="col">
+        <div id="description" class="tabs tabs-simple">
+          <ul class="nav nav-tabs">
+            <li class="nav-item"><a class="nav-link active" href="#productDescription" data-bs-toggle="tab">Descrição</a></li>
+          </ul>
+          <div class="tab-content p-0">
+            <div class="tab-pane px-0 py-3 active" id="productDescription">
+              <p>{{ produto.descricao }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -131,6 +131,7 @@ namespace MBA.Marketplace.MVC.Controllers
                 if (response)
                 {
                     ViewBag.RegistroSucesso = true;
+                    TempData["RegistroSucesso"] = true;
                     return RedirectToAction(nameof(Index));
                 }
                 else

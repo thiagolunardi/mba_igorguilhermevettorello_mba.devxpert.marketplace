@@ -1,4 +1,4 @@
-﻿<div class="modal fade show" id="modalSucessoCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog">
+﻿<div class="modal fade show" id="modalSucessoCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm border-0 rounded-3">
             <div class="modal-header bg-light border-0 rounded-top-3">
@@ -18,7 +18,7 @@
     </div>
 </div>
 
-<div class="modal fade show" id="modalErroCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog">
+<div class="modal fade show" id="modalErroCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm border-0 rounded-3">
             <div class="modal-header bg-light border-0 rounded-top-3">
@@ -38,7 +38,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalConfirmarRemoverCategoria" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true">
+<div class="modal fade" id="modalConfirmarRemoverCategoria" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm">
             <div class="modal-header bg-warning-subtle border-0">
@@ -58,7 +58,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="modalResultadoRemoverCategoria" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="modalResultadoRemoverCategoria" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm">
             <div class="modal-header bg-light border-0">
@@ -67,6 +67,66 @@
             <div class="modal-body text-secondary small" id="resultadoMensagem"></div>
             <div class="modal-footer border-0">
                 <button type="button" class="btn btn-success btn-sm btn-modal-ajax" data-bs-dismiss="modal" onclick="location.reload()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalSucessoEditarCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-success fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Edição realizada
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Sua categoria foi editada com sucesso.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-success btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroEditarCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Falha ao realizar atualização
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Ocorreu um erro ao realizar a atualização da categoria. Tente novamente mais tarde!
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalCategoriaNaoEncontrado" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-x-circle me-2"></i> Falha ao localizar categoria
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Categoria não encontrada.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
             </div>
         </div>
     </div>

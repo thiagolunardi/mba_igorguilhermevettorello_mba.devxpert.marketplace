@@ -4,6 +4,7 @@
 @{
     ViewData["Title"] = "Listar Categorias";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    ViewBag.RegistroSucesso = TempData["RegistroSucesso"];
 
     var userTipo = User.FindFirst("TipoUsuario")?.Value ?? TipoUsuario.Cliente.ToString();
     var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
@@ -53,6 +54,14 @@ else
 @if (isAdmin)
 { 
     @section Scripts {
+        @if (ViewBag.RegistroSucesso == true)
+        {
+            <script>
+                var meuModal = new bootstrap.Modal(document.getElementById('modalSucessoEditarCategoria'));
+                meuModal.show();
+            </script>
+        }
+
         <script>
             let categoriaId = null;
             let url = "@Url.Action("deletar", "categoria")";
@@ -111,7 +120,7 @@ else
                     $(".btn-modal-ajax").removeClass("btn-success").addClass("btn-danger")
                 }
 
-            const modalResultado = new bootstrap.Modal(document.getElementById('modalResultadoRemoverCategoria'));
+                const modalResultado = new bootstrap.Modal(document.getElementById('modalResultadoRemoverCategoria'));
                 modalResultado.show();
             }
         </script>

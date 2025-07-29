@@ -2,9 +2,9 @@
 
 namespace MBA.Marketplace.MVC.Configurations
 {
-    public static class MigrationsAndSeedConfiguration
+    public static class MigrationsAndSeedConfig
     {
-        public static void UseMigrationsAndSeeds(this WebApplication app)
+        public static void UseMigrationsAndSeedsConfig(this WebApplication app)
         {
             var services = app.Services.CreateScope().ServiceProvider;
             using var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope();

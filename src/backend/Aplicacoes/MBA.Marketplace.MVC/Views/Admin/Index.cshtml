@@ -1,4 +1,7 @@
-﻿@using MBA.Marketplace.Business.Enums
+﻿@using MBA.Marketplace.MVC.ViewModels;
+@using MBA.Marketplace.Business.Enums
+@model AdminDashboardViewModel
+
 @{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewData["Title"] = "Dashboard";
@@ -25,7 +28,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title mb-1">Categorias</h6>
-                        <h3 class="mb-0 fw-bold">12</h3>
+                        <h3 class="mb-0 fw-bold">@Model.TotalCategoria</h3>
                         <small class="opacity-75">Total cadastradas</small>
                     </div>
                     <div class="fs-1 opacity-75">
@@ -49,7 +52,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title mb-1">Produtos</h6>
-                        <h3 class="mb-0 fw-bold">156</h3>
+                        <h3 class="mb-0 fw-bold">@Model.TotalProdutos</h3>
                         <small class="opacity-75">Total cadastrados</small>
                     </div>
                     <div class="fs-1 opacity-75">
@@ -73,7 +76,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <div>
                         <h6 class="card-title mb-1">Vendedores</h6>
-                        <h3 class="mb-0 fw-bold">8</h3>
+                        <h3 class="mb-0 fw-bold">@Model.TotalVendedores</h3>
                         <small class="opacity-75">Ativos no sistema</small>
                     </div>
                     <div class="fs-1 opacity-75">
@@ -82,7 +85,8 @@
                 </div>
             </div>
             <div class="card-footer bg-transparent border-0">
-                <a href="#" class="btn btn-sm btn-light w-100">
+        
+                <a href="@Url.Action("Index", "Vendedor")" class="btn btn-sm btn-light w-100">
                     <i class="bi bi-arrow-right me-1"></i>
                     Ver Vendedores
                 </a>

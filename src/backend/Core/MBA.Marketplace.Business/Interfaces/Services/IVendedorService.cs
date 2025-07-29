@@ -5,5 +5,7 @@ namespace MBA.Marketplace.Business.Interfaces.Services
     public interface IVendedorService
     {
         Task<Vendedor> ObterPorIdAsync(string id);
+        Task<IEnumerable<Vendedor>> ListarAsync();
+
     }
 }

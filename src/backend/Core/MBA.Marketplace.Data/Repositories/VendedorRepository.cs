@@ -20,6 +20,13 @@ namespace MBA.Marketplace.Data.Repositories
             return true;
         }
 
+        public async Task<IEnumerable<Vendedor>> ListarAsync()
+        {
+            return await _context.
+                   Vendedores
+                   .ToListAsync();
+        }
+
         public async Task<Vendedor?> ObterPorUsuarioIdAsync(string usuario)
         {
             return await _context

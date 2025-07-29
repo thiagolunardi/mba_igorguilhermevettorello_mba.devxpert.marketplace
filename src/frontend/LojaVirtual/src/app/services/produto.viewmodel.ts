@@ -10,15 +10,12 @@ export interface Vendedor {
   email: string;
 }
 
-export interface ItemEmDestaqueViewModel {
+export interface ProdutoViewModel {
   id: string;
   nome: string;
   descricao: string;
   imagem: string;
   preco: number;
   estoque: number;
-  categoriaId: string;
   categoria: Categoria;
-  vendedorId: string;
-  vendedor: Vendedor;
 }

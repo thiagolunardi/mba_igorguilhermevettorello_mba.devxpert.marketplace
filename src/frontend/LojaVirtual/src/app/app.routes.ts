@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 import { Home } from './pages/public/home/home';
 import { NaoEncontrado } from './pages/public/nao-encontrado/nao-encontrado';
 import { Favoritos } from './pages/public/favoritos/favoritos';
-import { ProdutoComponent } from './pages/public/produto/produto';
+import { ProdutoDetalhesComponent } from './pages/public/produto-detalhes/produto-detalhes';
 import { VendedorComponent } from './pages/public/vendedor/vendedor';
 import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-produtos';
 import { Erro } from './pages/public/erro/erro';
@@ -38,7 +38,7 @@ export const routes: Routes = [
       },
       {
         path: 'produto/:id',
-        component: ProdutoComponent,
+        component: ProdutoDetalhesComponent,
         data: { breadcrumb: 'Detalhes do Produto' }
       },
       {

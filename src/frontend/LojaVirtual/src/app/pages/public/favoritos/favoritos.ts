@@ -36,7 +36,7 @@ export class Favoritos implements OnInit, OnChanges {
       this.termo = params['termo'];
       this.categoriaId = params['categoriaId'];
       this.obterProdutos(this.termo, this.categoriaId);
-      //this.carregarProdutos();
+      this.carregarProdutos();
     });
   }
 

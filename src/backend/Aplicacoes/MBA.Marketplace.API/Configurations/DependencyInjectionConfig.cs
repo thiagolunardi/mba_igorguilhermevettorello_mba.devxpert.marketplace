@@ -1,4 +1,5 @@
 ﻿using MBA.Marketplace.API.Extensions;
+using MBA.Marketplace.Business.Interfaces.Identity;
 using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
@@ -50,7 +51,7 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
             service.AddScoped<IAccountService, AccountService>();
-
+            service.AddScoped<IUser, AspNetUser>();
         }
     }
 }

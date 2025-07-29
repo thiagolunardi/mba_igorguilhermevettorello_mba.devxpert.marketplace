@@ -90,7 +90,7 @@ namespace MBA.Marketplace.API.Controllers
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Pesquisar([FromQuery] PesquisaDeProdutos parametros)
-        {
+        {            
             var pesquisaPaginada = await _produtoService.PesquisarAsync(parametros);
             return Ok(pesquisaPaginada);
         }

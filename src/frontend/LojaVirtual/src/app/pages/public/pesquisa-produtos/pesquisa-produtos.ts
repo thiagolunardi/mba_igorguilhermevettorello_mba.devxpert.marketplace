@@ -6,10 +6,12 @@ import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmod
 import { FiltroPorCategoria } from "./filtro-por-categoria/filtro-por-categoria";
 import { ListaDeProdutos } from "./lista-de-produtos/lista-de-produtos";
 import { Observable } from 'rxjs';
+import { TAMANHO_PADRAO_PAGINA } from '../../../util/constantes';
+import { PaginacaoProduto } from "./paginacao-produto/paginacao-produto";
 
 @Component({
   selector: 'app-pesquisa-produtos',
-  imports: [FiltroPorCategoria, ListaDeProdutos],
+  imports: [FiltroPorCategoria, ListaDeProdutos, PaginacaoProduto],
   templateUrl: './pesquisa-produtos.html',
   styles: ``
 })
@@ -24,16 +26,26 @@ export class PesquisaProdutos implements OnInit {
     this.activatedRoute.queryParams.subscribe(params => {
       this.termo = params['termo'];
       this.categoriaId = params['categoriaId'];
-      this.obterProdutos(this.termo, this.categoriaId);
+      this.obterProdutos(this.termo, this.categoriaId, 1, TAMANHO_PADRAO_PAGINA);
     });
   }
 
-  obterProdutos(termo: string | null, categoriaId: string | null) {
-    this.listaDeProdutos$ = this.produtoService.obterProdutos(termo, categoriaId);
+  obterProdutos(
+    termo: string | null,
+    categoriaId: string | null,
+    numeroDaPagina: number | null = null,
+    tamanhoDaPagina: number | null = null,
+    orderBy: string | null = null
+  ) {
+    this.listaDeProdutos$ = this.produtoService.obterProdutos(termo, categoriaId, numeroDaPagina, tamanhoDaPagina, orderBy);
   }
 
   filtrarPorCategoria(id: string | null) {
     this.categoriaId = id;
     this.obterProdutos(this.termo, this.categoriaId);
+  }
+
+  trocarPagina(numeroDaPagina: number | null) {
+    this.obterProdutos(this.termo, this.categoriaId, numeroDaPagina, TAMANHO_PADRAO_PAGINA);
   }
 }

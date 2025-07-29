@@ -27,4 +27,8 @@
     <ProjectReference Include="..\..\Core\MBA.Marketplace.Data\MBA.Marketplace.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
 </Project>

@@ -151,7 +151,6 @@ namespace MBA.Marketplace.MVC.Controllers
 
         [HttpDelete("deletar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Deletar(Guid id)
         {
             try

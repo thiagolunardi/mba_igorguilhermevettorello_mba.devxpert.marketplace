@@ -1,9 +1,12 @@
 ﻿@using MBA.Marketplace.MVC.Extensions;
 @using MBA.Marketplace.MVC.ViewModels;
+@using MBA.Marketplace.Business.Enums;
 @model List<ProdutoViewModel>
 @{
     ViewData["Title"] = "Listar Produtos";
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var isAdmin = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+    var isVendedor = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Vendedor.ToString();
 }
 
 @if (!string.IsNullOrEmpty(ViewBag.Erro))
@@ -35,59 +38,33 @@ else
                     <td class="text-muted">@produto.Categoria.Nome</td>
                     <td class="text-muted">
                         <img 
-                            style="width: 100px" 
-                            src="/imagens/@produto.Src"
-                            onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';" />
+                        style="width: 100px" 
+                        src="/imagens/@produto.Src"
+                        onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';" />
                     </td>
                     <td class="text-end">
-                        <a class="btn btn-outline-success btn-sm me-1" title="Editar" href="@Url.Action("editar", "produto", new { id = produto.Id })" data-id="@produto.Id">
-                            <i class="bi bi-pencil"></i>
-                        </a>
-                        <a onclick="deletarProduto(this, event)" class="btn btn-outline-danger btn-sm btn-remover" title="Remover" data-id="@produto.Id">
-                            <i class="bi bi-trash"></i>
-                        </a>
+                        @if (isAdmin)
+                        {
+                            <a class="btn btn-outline-aplication btn-sm me-1" title="Editar" href="@Url.Action("detalhes", "produto", new { id = produto.Id })" data-id="@produto.Id">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                        }
+
+                        @if (isVendedor)
+                        {
+                            <a class="btn btn-outline-aplication btn-sm me-1" title="Editar" href="@Url.Action("editar", "produto", new { id = produto.Id })" data-id="@produto.Id">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <a onclick="deletarProduto(this, event)" class="btn btn-outline-danger btn-sm btn-remover" title="Remover" data-id="@produto.Id">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 }
-
-<!-- Modal de confirmação -->
-<div class="modal fade" id="modalConfirmar" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow-sm">
-            <div class="modal-header bg-warning-subtle border-0">
-                <h5 class="modal-title" id="confirmarLabel">Confirmar remoção</h5>
-            </div>
-            <div class="modal-body">
-                Tem certeza que deseja remover este produto?
-                <div id="spinner" class="text-center mt-3 d-none">
-                    <div class="spinner-border text-warning" role="status"></div>
-                </div>
-            </div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Não</button>
-                <button type="button" id="btnConfirmarRemocao" onclick="confirmacaoDeletarCategoria(this, event)" class="btn btn-danger btn-sm">Sim</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal de feedback -->
-<div class="modal fade" id="modalResultado" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content shadow-sm">
-            <div class="modal-header bg-light border-0">
-                <h5 class="modal-title" id="resultadoTitulo">Resultado</h5>
-            </div>
-            <div class="modal-body" id="resultadoMensagem"></div>
-            <div class="modal-footer border-0">
-                <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal" onclick="location.reload()">OK</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 @section Scripts {
     <script>
@@ -97,7 +74,7 @@ else
         function deletarProduto(element, event) {
             event.preventDefault();
             produtoId = $(element).data('id');
-            const modal = new bootstrap.Modal(document.getElementById('modalConfirmar'));
+            const modal = new bootstrap.Modal(document.getElementById('modalProdutoConfirmar'));
             modal.show();
         }
 
@@ -129,7 +106,7 @@ else
 
         function showResultado(mensagem, sucesso) {
             if (sucesso) {
-                $("#modalResultado").find(".modal-header").html(`<h5 class="modal-title text-success fw-semibold">
+                $("#modalProdutoResultado").find(".modal-header").html(`<h5 class="modal-title text-success fw-semibold">
                     <i class="bi bi-check-circle me-2"></i> Remoção do produto
                 </h5>`);
 
@@ -137,7 +114,7 @@ else
 
                 $(".btn-modal-ajax").removeClass("btn-danger").addClass("btn-success");
             } else {
-                $("#modalResultado").find(".modal-header").html(`<h5 class="modal-title text-danger fw-semibold">
+                $("#modalProdutoResultado").find(".modal-header").html(`<h5 class="modal-title text-danger fw-semibold">
                     <i class="bi bi-x-circle me-2"></i> Falha ao remover o produto
                 </h5>`);
 
@@ -145,7 +122,7 @@ else
 
                 $(".btn-modal-ajax").removeClass("btn-success").addClass("btn-danger")
             }
-            const modalResultado = new bootstrap.Modal(document.getElementById('modalResultado'));
+            const modalResultado = new bootstrap.Modal(document.getElementById('modalProdutoResultado'));
             modalResultado.show();
         }
     </script>

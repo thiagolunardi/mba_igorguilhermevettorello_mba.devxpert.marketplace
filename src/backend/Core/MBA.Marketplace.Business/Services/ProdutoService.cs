@@ -41,7 +41,6 @@ namespace MBA.Marketplace.Business.Services
 
             return produtos;
         }
-
         private string? ConverterImagemEmBase64(Produto produto)
         {
             var caminhoImagemBase = @$"{Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, _config["SharedFiles:ImagensPath"])}";
@@ -58,7 +57,6 @@ namespace MBA.Marketplace.Business.Services
 
             return $"data:{mimeType};base64,{base64}";
         }
-
         private string ObterMimeType(string extensao)
         {
             return extensao switch
@@ -70,7 +68,6 @@ namespace MBA.Marketplace.Business.Services
                 _ => throw new NotSupportedException("Tipo de imagem não suportado.")
             };
         }
-
         public async Task<IEnumerable<Produto>> ListarAsync(Vendedor vendedor)
         {
             return await _produtoRepository.ListarPorVendedorIdAsync(vendedor);
@@ -112,7 +109,6 @@ namespace MBA.Marketplace.Business.Services
         {
             return await _produtoRepository.ObterPorIdAsync(id);
         }
-
         public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)
         {
             var produto = await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);

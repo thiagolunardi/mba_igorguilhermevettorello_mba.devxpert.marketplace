@@ -6,9 +6,8 @@
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
     ViewBag.RegistroSucesso = TempData["RegistroSucesso"];
 
-    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? TipoUsuario.Cliente.ToString();
-    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
-    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
+    var isAdmin = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+    var isVendedor = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Vendedor.ToString();
 }
 
 @if (!string.IsNullOrEmpty(ViewBag.Erro))

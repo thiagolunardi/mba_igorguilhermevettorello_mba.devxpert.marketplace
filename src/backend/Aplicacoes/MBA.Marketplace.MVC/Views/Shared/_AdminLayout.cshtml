@@ -2,9 +2,13 @@
 @using System.Security.Claims
 @RenderSection("Styles", required: false)
 @{
-    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? TipoUsuario.Cliente.ToString();
-    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
-    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
+    var isAdmin = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+    var isVendedor = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Vendedor.ToString();
+    var userTipo = TipoUsuario.Vendedor.ToString();
+    if (isAdmin)
+    { 
+        userTipo = TipoUsuario.Administrador.ToString();
+    }
 }
 
 <!DOCTYPE html>
@@ -36,7 +40,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Admin" ? "active" : "")" 
-                               href="@Url.Action("Index", "Admin")">
+                            href="@Url.Action("Index", "Admin")">
                                 <i class="bi bi-speedometer2 admin-menu-icon"></i>
                                 Dashboard
                             </a>
@@ -50,7 +54,7 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
-                               href="@Url.Action("Index", "Categoria")">
+                            href="@Url.Action("Index", "Categoria")">
                                 <i class="bi bi-list-ul admin-menu-icon"></i>
                                 Listar Categorias
                             </a>
@@ -59,7 +63,7 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
-                                   href="@Url.Action("Criar", "Categoria")">
+                                href="@Url.Action("Criar", "Categoria")">
                                     <i class="bi bi-plus-circle admin-menu-icon"></i>
                                     Cadastrar Categoria
                                 </a>
@@ -74,18 +78,21 @@
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")" 
-                               href="@Url.Action("Index", "Produto")">
+                            href="@Url.Action("Index", "Produto")">
                                 <i class="bi bi-box-seam admin-menu-icon"></i>
                                 Listar Produtos
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")" 
-                               href="@Url.Action("Criar", "Produto")">
-                                <i class="bi bi-plus-circle admin-menu-icon"></i>
-                                Cadastrar Produto
-                            </a>
-                        </li>
+                        @if (isVendedor)
+                        { 
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")"
+                                href="@Url.Action("Criar", "Produto")">
+                                    <i class="bi bi-plus-circle admin-menu-icon"></i>
+                                    Cadastrar Produto
+                                </a>
+                            </li>
+                        }
                     </ul>
                 </div>
 
@@ -100,24 +107,29 @@
                                 Perfil
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/Email">
-                                <i class="bi bi-envelope admin-menu-icon"></i>
-                                Email
-                            </a>
-                        </li>
+                        @if (isVendedor) 
+                        { 
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/Email">
+                                    <i class="bi bi-envelope admin-menu-icon"></i>
+                                    Email
+                                </a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">
                                 <i class="bi bi-key admin-menu-icon"></i>
                                 Senha
                             </a>
                         </li>
+                        @*                      
                         <li class="nav-item">
                             <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">
                                 <i class="bi bi-shield-lock admin-menu-icon"></i>
                                 Autenticação de Dois Fatores
                             </a>
-                        </li>
+                        </li> 
+                        *@
                         <li class="nav-item">
                             <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
                                 <i class="bi bi-file-earmark-text admin-menu-icon"></i>

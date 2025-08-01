@@ -13,19 +13,16 @@ namespace MBA.Marketplace.API.Controllers
     public class VendedorController : ControllerBase
     {
 
-        private readonly IVendedorRepository _vendedorRepository;
+        private readonly IVendedorService _vendedorService;
         private readonly IProdutoService _produtoService;
-        private readonly IConfiguration _config;
 
         public VendedorController(
-            IVendedorRepository vendedorRepository,
+            IVendedorService vendedorService,
             ICategoriaRepository categoriaRepository,
-            IProdutoService produtoService,
-            IConfiguration config)
+            IProdutoService produtoService)
         {
-            _vendedorRepository = vendedorRepository;
+            _vendedorService = vendedorService;
             _produtoService = produtoService;
-            _config = config;
         }
 
         [HttpGet("{id:guid}/produtos")]
@@ -39,6 +36,19 @@ namespace MBA.Marketplace.API.Controllers
 
             var produtosDoVendedor = await _produtoService.PesquisarAsync(parametros);
             return Ok(produtosDoVendedor);
+        }
+
+        [HttpGet("{id:guid}")]
+        [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ObterVendedorPorId(Guid id)
+        {
+            var vendedor = await _vendedorService.ObterPorIdAsync(id.ToString());
+
+            if (vendedor == null)
+                return NotFound();
+
+            return Ok(vendedor);
         }
     }
 }

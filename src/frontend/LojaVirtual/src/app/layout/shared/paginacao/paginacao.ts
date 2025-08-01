@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificacaoService } from '../../../services/notificacao.service';
 import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
@@ -10,7 +10,7 @@ import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmod
   templateUrl: './paginacao.html',
   styles: ``
 })
-export class Paginacao implements OnInit {
+export class Paginacao implements OnInit, OnChanges {
   notificacaoService = inject(NotificacaoService);
   paginacao!: ListaPaginada<any> | null;
   @Input() listaPaginada$!: Observable<ListaPaginada<any> | null>;
@@ -19,6 +19,13 @@ export class Paginacao implements OnInit {
   ngOnInit(): void {
     this.carregarPaginacao();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listaPaginada$'] && !changes['listaPaginada$'].firstChange) {
+      this.carregarPaginacao();
+    }
+  }
+
 
   get habilitarPrimeraPagina(): boolean {
     return this.paginacao ? this.paginacao.paginaAtual > 1 : false;

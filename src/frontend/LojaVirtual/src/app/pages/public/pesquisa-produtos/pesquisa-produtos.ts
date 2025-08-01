@@ -7,7 +7,7 @@ import { FiltroPorCategoria } from "./filtro-por-categoria/filtro-por-categoria"
 import { ListaDeProdutos } from "./lista-de-produtos/lista-de-produtos";
 import { Observable } from 'rxjs';
 import { TAMANHO_PADRAO_PAGINA } from '../../../util/constantes';
-import { Paginacao } from '../../../layout/shared/paginacao-produto/paginacao';
+import { Paginacao } from '../../../layout/shared/paginacao/paginacao';
 
 @Component({
   selector: 'app-pesquisa-produtos',

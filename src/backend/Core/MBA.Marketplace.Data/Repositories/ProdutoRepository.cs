@@ -53,6 +53,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             var query = _context.Produtos
                 .Include(p => p.Categoria)
+                .Include(x => x.Vendedor)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -68,6 +69,11 @@ namespace MBA.Marketplace.Data.Repositories
             if (parametros.CategoriaId != null)
             {
                 query = query.Where(p => p.CategoriaId == parametros.CategoriaId);
+            }
+
+            if (parametros.VendedorId != null)
+            {
+                query = query.Where(p => p.VendedorId == parametros.VendedorId);
             }
 
             //Ordenação dinâmica

@@ -1,0 +1,134 @@
+@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Gerenciar Email";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                    <p class="text-muted mb-0">Gerencie seu endereço de email</p>
+                </div>
+            </div>
+
+            <!-- Status Message -->
+            @if (!string.IsNullOrEmpty(Model.StatusMessage))
+            {
+                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                    <i class="bi bi-info-circle me-2"></i>
+                    @Model.StatusMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <!-- Navigation Pills -->
+            <div class="row">
+                <div class="col-md-3">
+                    <partial name="_ManageNav" />
+                </div>
+
+                <div class="col-md-9">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-envelope-check me-2"></i>Configurações de Email
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Current Email Status -->
+                            <div class="row mb-4">
+                                <div class="col-12">
+                                    <div class="card bg-light">
+                                        <div class="card-body">
+                                            <h6 class="card-title">
+                                                <i class="bi bi-info-circle me-2"></i>Email Atual
+                                            </h6>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div>
+                                                    <strong>@Model.Email</strong>
+                                                    @if (Model.IsEmailConfirmed)
+                                                    {
+                                                        <span class="badge bg-success ms-2">
+                                                            <i class="bi bi-check-circle me-1"></i>Verificado
+                                                        </span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="badge bg-warning ms-2">
+                                                            <i class="bi bi-exclamation-triangle me-1"></i>Não Verificado
+                                                        </span>
+                                                    }
+                                                </div>
+                                                @if (!Model.IsEmailConfirmed)
+                                                {
+                                                    <form id="send-verification" method="post" asp-page-handler="SendVerificationEmail">
+                                                        <button type="submit" class="btn btn-link btn-sm">
+                                                            <i class="bi bi-send me-1"></i>Enviar email de verificação
+                                                        </button>
+                                                    </form>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Change Email Form -->
+                            <form id="change-email-form" method="post" asp-page-handler="ChangeEmail">
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                                
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label asp-for="Input.NewEmail" class="form-label">
+                                                <i class="bi bi-envelope me-2"></i>Novo Email
+                                            </label>
+                                            <input asp-for="Input.NewEmail" class="form-control" placeholder="exemplo@email.com" />
+                                            <span asp-validation-for="Input.NewEmail" class="text-danger"></span>
+                                            <div class="form-text">
+                                                Um email de confirmação será enviado para o novo endereço.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex justify-content-between mt-4">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="bi bi-envelope-plus me-2"></i>Alterar Email
+                                    </button>
+                                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-secondary">
+                                        <i class="bi bi-arrow-left me-2"></i>Voltar ao Perfil
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Important Information -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title text-warning">
+                                <i class="bi bi-exclamation-triangle me-2"></i>Informações Importantes
+                            </h6>
+                            <ul class="mb-0">
+                                <li>O email é usado para login e recuperação de senha</li>
+                                <li>Você receberá um email de confirmação no novo endereço</li>
+                                <li>O email só será alterado após a confirmação</li>
+                                <li>Mantenha sempre um email válido e acessível</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+} 

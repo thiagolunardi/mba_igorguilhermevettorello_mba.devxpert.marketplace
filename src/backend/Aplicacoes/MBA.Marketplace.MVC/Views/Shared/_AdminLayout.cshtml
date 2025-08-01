@@ -102,7 +102,7 @@
                     <div class="admin-menu-section-title">Configurações</div>
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/Index">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Manage") == true ? "active" : "")" asp-area="Identity" asp-page="/Account/Manage/Index">
                                 <i class="bi bi-person admin-menu-icon"></i>
                                 Perfil
                             </a>

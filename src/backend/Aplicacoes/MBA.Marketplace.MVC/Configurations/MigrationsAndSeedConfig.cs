@@ -10,7 +10,7 @@ namespace MBA.Marketplace.MVC.Configurations
             using var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope();
             var env = scope.ServiceProvider.GetRequiredService<IWebHostEnvironment>();
             string environmentName = env.EnvironmentName; 
-            SeederAplicacao.SeedData(services, environmentName).Wait();
+            SeedsAplicacao.SeedData(services, environmentName).Wait();
         }
     }
 }

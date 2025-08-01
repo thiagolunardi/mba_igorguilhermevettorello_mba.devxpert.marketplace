@@ -1,9 +1,9 @@
 <div class="container">
   <!-- dados do vendedor -->
   <div>
-    <h2>Loja do Vendedor: {{ vendedor.nome }}</h2>
-    <p>Registrado em: {{ vendedor.createdAt | date:'dd/MM/yyyy' }} -
-      Email: {{ vendedor.email }}</p>
+    <h2>Loja do Vendedor: {{ vendedor?.nome }}</h2>
+    <p>Registrado em: {{ vendedor?.createdAt | date:'dd/MM/yyyy' }} </p>
+    <p>Email: {{ vendedor?.email }}</p>
   </div>
 
 
@@ -15,7 +15,9 @@
   </div>
   }
   @else {
-  <div class="d-flex flex-wrap mt-5 gap-3 justify-content-start">
+  <h3 class="mt-5 mb-3">Produtos</h3>
+
+  <div class="d-flex flex-wrap gap-3 justify-content-start">
 
     @if(listaPaginada?.itens?.length === 0) {
     <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>

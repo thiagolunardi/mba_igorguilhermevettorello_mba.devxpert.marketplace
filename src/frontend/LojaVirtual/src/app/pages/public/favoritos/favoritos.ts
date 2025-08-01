@@ -1,16 +1,12 @@
-// favoritos.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { FavoritosService } from '../../../services/favoritos.service';
-
-export interface ItemEmDestaqueViewModel {
-  id: number;
-  imagem: string;
-  categoria: string;
-  descricao: string;
-  nome: string;
-  preco: number;
-}
+import { ActivatedRoute } from '@angular/router';
+import { ProdutosService } from '../../../services/produtos.service';
+import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
+import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-favoritos',
@@ -20,54 +16,61 @@ export interface ItemEmDestaqueViewModel {
   styleUrls: ['./favoritos.scss']
 })
 
-export class Favoritos implements OnInit {
-
-  public itensEmDestaque: ItemEmDestaqueViewModel[] = [];
+export class Favoritos implements OnInit, OnChanges {
 
   constructor(private favoritosService: FavoritosService) {}
 
+  private produtoService = inject(ProdutosService);
+  private activatedRoute = inject(ActivatedRoute);
+
+  termo: string | null = null;
+  categoriaId: string | null = null;
+
+  private router = inject(Router);
+  produtos!: ListaPaginada<ProdutoViewModel> | null;
+
+  listaDeProdutos$!: Observable<ListaPaginada<ProdutoViewModel> | null>;
+
   ngOnInit() {
-    this.itensEmDestaque = this.obterItensEmDestaque();
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.termo = params['termo'];
+      this.categoriaId = params['categoriaId'];
+      this.obterProdutos(this.termo, this.categoriaId);
+      this.carregarProdutos();
+    });
   }
 
-  public obterItensEmDestaque(): ItemEmDestaqueViewModel[] {
-    return [
-      {
-        id: 1,
-        nome: 'Smartphone Modelo X',
-        categoria: 'Eletrônicos',
-        preco: 1999.90,
-        descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-        imagem: 'https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg'
+  obterProdutos(termo: string | null, categoriaId: string | null) {
+    this.listaDeProdutos$ = this.produtoService.obterProdutos(termo, categoriaId);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listaDeProdutos$'] && !changes['listaDeProdutos$'].firstChange) {
+      this.carregarProdutos();
+    }
+  }
+
+  carregarProdutos() {
+    if (!this.listaDeProdutos$) return;
+    this.listaDeProdutos$.subscribe({
+      next: (resposta) => {
+        this.produtos = resposta;
       },
-      {
-        id: 2,
-        nome: 'Notebook Pro',
-        categoria: 'Computadores',
-        preco: 4599.00,
-        descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-        imagem: 'https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg'
+      error: (err) => {
+        this.router.navigate(['/erro']);
       },
-      {
-        id: 3,
-        nome: 'Fone de Ouvido Sem Fio',
-        categoria: 'Acessórios',
-        preco: 299.50,
-        descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-        imagem: 'https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg'
-      }
-    ];
+    });
   }
 
-  adicionarFavorito(produto: ItemEmDestaqueViewModel) {
-    this.favoritosService.adicionarFavorito(produto);
-  }
+  // adicionarFavorito(produto: ItemEmDestaqueViewModel) {
+  //   this.favoritosService.adicionarFavorito(produto);
+  // }
 
-  removerFavorito(produto: ItemEmDestaqueViewModel) {
-    this.favoritosService.removerFavorito(produto);
-  }
+  // removerFavorito(produto: ItemEmDestaqueViewModel) {
+  //   this.favoritosService.removerFavorito(produto);
+  // }
 
-  trackById(index: number, item: ItemEmDestaqueViewModel): number {
-  return item.id;
-}
+  // trackById(index: number, item: ItemEmDestaqueViewModel): number {
+  // return item.id;
+  // }
 }

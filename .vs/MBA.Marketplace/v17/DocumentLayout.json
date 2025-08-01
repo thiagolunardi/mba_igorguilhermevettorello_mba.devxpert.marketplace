@@ -1,0 +1,74 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Projetos\\WorkProjects\\Learn-Dev-IO\\MBA\\Projetos\\modulo-2\\mba.devxpert.marketplace\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{77CBCD3A-7874-4409-8975-DCF81CA35A85}|src\\backend\\Aplicacoes\\MBA.Marketplace.MVC\\MBA.Marketplace.MVC.csproj|c:\\projetos\\workprojects\\learn-dev-io\\mba\\projetos\\modulo-2\\mba.devxpert.marketplace\\src\\backend\\aplicacoes\\mba.marketplace.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{77CBCD3A-7874-4409-8975-DCF81CA35A85}|src\\backend\\Aplicacoes\\MBA.Marketplace.MVC\\MBA.Marketplace.MVC.csproj|solutionrelative:src\\backend\\aplicacoes\\mba.marketplace.mvc\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8EDBFF6F-7FA2-4249-B6B5-825C99C2E094}|src\\backend\\Aplicacoes\\MBA.Marketplace.API\\MBA.Marketplace.API.csproj|c:\\projetos\\workprojects\\learn-dev-io\\mba\\projetos\\modulo-2\\mba.devxpert.marketplace\\src\\backend\\aplicacoes\\mba.marketplace.api\\controllers\\contacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8EDBFF6F-7FA2-4249-B6B5-825C99C2E094}|src\\backend\\Aplicacoes\\MBA.Marketplace.API\\MBA.Marketplace.API.csproj|solutionrelative:src\\backend\\aplicacoes\\mba.marketplace.api\\controllers\\contacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ContaController.cs",
+              "DocumentMoniker": "C:\\Projetos\\WorkProjects\\Learn-Dev-IO\\MBA\\Projetos\\modulo-2\\mba.devxpert.marketplace\\src\\backend\\Aplicacoes\\MBA.Marketplace.API\\Controllers\\ContaController.cs",
+              "RelativeDocumentMoniker": "src\\backend\\Aplicacoes\\MBA.Marketplace.API\\Controllers\\ContaController.cs",
+              "ToolTip": "C:\\Projetos\\WorkProjects\\Learn-Dev-IO\\MBA\\Projetos\\modulo-2\\mba.devxpert.marketplace\\src\\backend\\Aplicacoes\\MBA.Marketplace.API\\Controllers\\ContaController.cs",
+              "RelativeToolTip": "src\\backend\\Aplicacoes\\MBA.Marketplace.API\\Controllers\\ContaController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-11T23:47:59.054Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Projetos\\WorkProjects\\Learn-Dev-IO\\MBA\\Projetos\\modulo-2\\mba.devxpert.marketplace\\src\\backend\\Aplicacoes\\MBA.Marketplace.MVC\\Program.cs",
+              "RelativeDocumentMoniker": "src\\backend\\Aplicacoes\\MBA.Marketplace.MVC\\Program.cs",
+              "ToolTip": "C:\\Projetos\\WorkProjects\\Learn-Dev-IO\\MBA\\Projetos\\modulo-2\\mba.devxpert.marketplace\\src\\backend\\Aplicacoes\\MBA.Marketplace.MVC\\Program.cs",
+              "RelativeToolTip": "src\\backend\\Aplicacoes\\MBA.Marketplace.MVC\\Program.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAAABsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-09T00:55:47.462Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

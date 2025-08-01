@@ -8,9 +8,9 @@ out/
 *.suo
 *.userosscache
 *.sln.docstates
-.vscode/
-.vs/
-.idea/
+#.vscode/
+#.vs/
+#.idea/
 
 # OS-generated files
 .DS_Store

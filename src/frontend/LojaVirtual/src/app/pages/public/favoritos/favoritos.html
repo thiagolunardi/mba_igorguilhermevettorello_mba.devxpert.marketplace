@@ -1,48 +1,50 @@
 <div class="container">
   <h2>Meus Favoritos</h2>
 
-  <div *ngIf="itensEmDestaque.length > 0; else nenhumProduto">
+  @if(produtos != undefined && produtos.itens.length > 0)
+  {
     <div class="row g-4">
-      <div class="card shadow-sm col-sm-4" *ngFor="let item of itensEmDestaque; trackBy: trackById">
-        <div class="product mb-0">
-          <div class="product-thumb-info border-0 mb-3">
-            <div class="product-thumb-info-badges-wrapper">
-              <span class="badge badge-ecommerce badge-success">NOVO</span>
-            </div>
-            <a href="#">
-              <div class="product-thumb-info-image">
-                <img [src]="item.imagem || 'https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg'" class="img-fluid" [alt]="item.nome" style="height: 200px; object-fit: cover;" />
+      @for (item of produtos.itens; track item.id) {
+        <div class="card shadow-sm col-sm-4">
+          <div class="product mb-0">
+            <div class="product-thumb-info border-0 mb-3">
+              <div class="product-thumb-info-badges-wrapper">
+                <span class="badge badge-ecommerce badge-success">NOVO</span>
               </div>
-            </a>
-          </div>
-
-          <div class="d-flex justify-content-between">
-            <div>
-              <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">
-                {{ item.categoria }}
+              <a href="#">
+                <div class="product-thumb-info-image">
+                  <img [src]="item.imagem || 'https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg'" class="img-fluid product-image" [alt]="item.nome" [title]="item.nome" />
+                </div>
               </a>
-              <h3 class="fontForce text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
-                <a href="#" class="text-color-dark text-color-hover-primary">{{ item.nome }}</a>
-              </h3>
             </div>
-            <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4" style="color:red;">
-              <i class="far fa-x" (click)="removerFavorito(item)" style="color:red !important;"></i> &nbsp; Remover
-            </a>
-          </div>
 
-          <div title="Rated 5 out of 5">
-            <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
-          </div>
+            <div class="d-flex justify-content-between">
+              <div>
+                <a href="#" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">
+                  {{ item.categoria }}
+                </a>
+                <h3 class="fontForce text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
+                  <a href="#" class="text-color-dark text-color-hover-primary">{{ item.nome }}</a>
+                </h3>
+              </div>
+              <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4" style="color:red;">
+                <!-- <i class="far fa-x" (click)="removerFavorito(item)" style="color:red !important;"></i> &nbsp; Remover -->
+              </a>
+            </div>
 
-          <p class="price text-5 mb-3">
-            <span class="amount">{{ item.preco | currency:'BRL' }}</span>
-          </p>
+            <div title="Rated 5 out of 5">
+              <input type="text" class="d-none" value="5" title="" data-plugin-star-rating data-plugin-options="{'displayOnly': true, 'color': 'default', 'size':'xs'}">
+            </div>
+
+            <p class="price text-5 mb-3">
+              <span class="amount">{{ item.preco | currency:'BRL' }}</span>
+            </p>
+          </div>
         </div>
-      </div>
+      }
     </div>
-  </div>
-</div>
+  }@else {
+    <p class="text-center">Nenhum favorito cadastrado no momento.</p>
+  }
 
-<ng-template #nenhumProduto>
-  <p class="text-center">Nenhum favorito cadastrado no momento.</p>
-</ng-template>
+</div>

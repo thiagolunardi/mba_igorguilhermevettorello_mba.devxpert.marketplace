@@ -105,7 +105,7 @@ namespace MBA.Marketplace.Business.Services
         {
             return await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);
         }
-        public async Task<Produto> PublicObterPorIdAsync(Guid id)
+        public async Task<Produto> ObterPorIdAsync(Guid id)
         {
             return await _produtoRepository.ObterPorIdAsync(id);
         }

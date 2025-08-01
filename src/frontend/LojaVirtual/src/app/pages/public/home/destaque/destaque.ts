@@ -13,10 +13,10 @@ import { ItemDestaqueComponent } from '../item-destaque/item-destaque';
   styleUrls: ['./destaque.scss']
 })
 export class DestaqueComponent implements OnInit {
-  
-  public itensEmDestaque$!: Observable<ItemEmDestaqueViewModel[]>;
 
-  constructor(private itensEmDestaqueService: ItensEmDestaqueService) {}
+  public itensEmDestaque$!: Observable<ItemEmDestaqueViewModel[] | null>;
+
+  constructor(private itensEmDestaqueService: ItensEmDestaqueService) { }
 
   ngOnInit(): void {
     this.itensEmDestaque$ = this.itensEmDestaqueService.obterItensEmDestaque();

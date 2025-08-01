@@ -192,7 +192,7 @@ namespace MBA.Marketplace.MVC.Controllers
         [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Detalhes(Guid id)
         {
-            var produto = await _produtoService.PublicObterPorIdAsync(id);
+            var produto = await _produtoService.ObterPorIdAsync(id);
             if (produto == null) return NotFound();
 
             var viewModel = _mapper.Map<ProdutoViewModel>(produto);

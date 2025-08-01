@@ -5,7 +5,7 @@ import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmod
 
 
 @Component({
-  selector: 'app-paginacao-produto',
+  selector: 'app-paginacao',
   imports: [],
   templateUrl: './paginacao.html',
   styles: ``

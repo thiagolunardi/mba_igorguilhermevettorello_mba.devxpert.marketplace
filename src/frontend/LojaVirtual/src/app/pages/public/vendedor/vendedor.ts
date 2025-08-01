@@ -7,10 +7,11 @@ import { ResumoProduto } from '../pesquisa-produtos/resumo-produto/resumo-produt
 import { VendedorService } from '../../../services/vendedor.service';
 import { VendedorViewModel } from '../../../viewmodels/vendedor-detalhes/vendedor-viewmodel';
 import { DatePipe } from '@angular/common';
+import { Paginacao } from '../../../layout/shared/paginacao/paginacao';
 
 @Component({
   selector: 'app-vendedor',
-  imports: [NgbProgressbar, ResumoProduto, DatePipe],
+  imports: [NgbProgressbar, ResumoProduto, DatePipe, Paginacao],
   templateUrl: './vendedor.html',
   styles: ``
 })
@@ -20,7 +21,7 @@ export class VendedorComponent implements OnInit {
   private router = inject(Router);
 
   carregando: boolean = true;
-  vendedor!: VendedorViewModel;
+  vendedor: VendedorViewModel | null = null;
   listaPaginada!: ListaPaginada<ProdutoViewModel> | null;
 
   ngOnInit(): void {

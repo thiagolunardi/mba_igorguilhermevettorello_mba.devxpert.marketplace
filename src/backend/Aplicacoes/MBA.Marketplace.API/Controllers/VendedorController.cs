@@ -12,7 +12,6 @@ namespace MBA.Marketplace.API.Controllers
     [AllowAnonymous]
     public class VendedorController : ControllerBase
     {
-
         private readonly IVendedorService _vendedorService;
         private readonly IProdutoService _produtoService;
 
@@ -27,11 +26,12 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpGet("{id:guid}/produtos")]
         [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ObterProdutosDoVendedor(Guid id)
+        public async Task<IActionResult> ObterProdutosDoVendedor([FromRoute] Guid id, [FromQuery] int pagina = 1)
         {
             var parametros = new PesquisaDeProdutos()
             {
-                VendedorId = id
+                VendedorId = id,
+                NumeroDaPagina = pagina
             };
 
             var produtosDoVendedor = await _produtoService.PesquisarAsync(parametros);

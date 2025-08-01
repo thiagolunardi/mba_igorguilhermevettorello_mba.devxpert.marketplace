@@ -1,15 +1,16 @@
 import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.viewmodel';
-import { NotificacaoService } from '../../../../services/notificacao.service';
+import { NotificacaoService } from '../../../services/notificacao.service';
+import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
+
 
 @Component({
   selector: 'app-paginacao-produto',
   imports: [],
-  templateUrl: './paginacao-produto.html',
+  templateUrl: './paginacao.html',
   styles: ``
 })
-export class PaginacaoProduto implements OnInit {
+export class Paginacao implements OnInit {
   notificacaoService = inject(NotificacaoService);
   paginacao!: ListaPaginada<any> | null;
   @Input() listaPaginada$!: Observable<ListaPaginada<any> | null>;

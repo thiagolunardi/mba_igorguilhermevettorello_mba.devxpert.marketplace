@@ -1,49 +1,23 @@
-﻿using MBA.Marketplace.API.Extensions;
-using MBA.Marketplace.Business.DTOs;
-using MBA.Marketplace.Business.DTOs.Paginacao;
-using MBA.Marketplace.Business.Interfaces.Repositories;
+﻿using MBA.Marketplace.Business.DTOs.Paginacao;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using System.Security.Claims;
 
 namespace MBA.Marketplace.API.Controllers
 {
     [ApiController]
     [Route("api/produtos")]
-    [Authorize]
+    [AllowAnonymous]
     public class ProdutoController : ControllerBase
     {
-        private readonly IVendedorRepository _vendedorRepository;
-        private readonly ICategoriaRepository _categoriaRepository;
         private readonly IProdutoService _produtoService;
         private readonly IConfiguration _config;
 
-        public ProdutoController(IVendedorRepository vendedorRepository, ICategoriaRepository categoriaRepository, IProdutoService produtoService, IConfiguration config)
+        public ProdutoController(IProdutoService produtoService, IConfiguration config)
         {
-            _vendedorRepository = vendedorRepository;
-            _categoriaRepository = categoriaRepository;
             _produtoService = produtoService;
             _config = config;
-        }
-
-        private async Task<Vendedor> BuscarVendedorLogado()
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var vendedor = await _vendedorRepository.ObterPorUsuarioIdAsync(userId);
-
-            if (vendedor == null)
-                throw new UnauthorizedAccessException("Usuário não é um vendedor válido.");
-
-            return vendedor;
-        }
-
-        private async Task<Categoria?> BuscarCategoria(Guid? id)
-        {
-            return await _categoriaRepository.ObterPorIdAsync(id);
         }
 
         private string GetContentType(string path)
@@ -59,38 +33,10 @@ namespace MBA.Marketplace.API.Controllers
             };
         }
 
-        [HttpPost]
-        [ProducesResponseType(typeof(Produto), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Criar([FromForm] ProdutoDto dto)
-        {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var vendedor = await BuscarVendedorLogado();
-
-            var categoria = await BuscarCategoria(dto.CategoriaId);
-            if (categoria == null)
-                return BadRequest(new { mensagem = "Categoria não é válida." });
-
-            var produto = await _produtoService.CriarAsync(dto, vendedor);
-            return CreatedAtAction(null, new { id = produto.Id }, produto);
-        }
-
-        [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Listar()
-        {
-            var vendedor = await BuscarVendedorLogado();
-            var produtos = await _produtoService.ListarAsync(vendedor);
-            return Ok(produtos);
-        }
-
         [HttpGet("pesquisar")]
-        [AllowAnonymous]
-        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Pesquisar([FromQuery] PesquisaDeProdutos parametros)
-        {            
+        {
             var pesquisaPaginada = await _produtoService.PesquisarAsync(parametros);
             return Ok(pesquisaPaginada);
         }
@@ -98,61 +44,18 @@ namespace MBA.Marketplace.API.Controllers
         [HttpGet("{id:guid}")]
         [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [AllowAnonymous]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var vendedor = await BuscarVendedorLogado();
-            var produto = await _produtoService.ObterPorIdAsync(id, vendedor);
-            if (produto == null) return NotFound();
+            var produto = await _produtoService.ObterPorIdAsync(id);
+
+            if (produto == null)
+                return NotFound();
 
             return Ok(produto);
         }
 
-        [HttpPut("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Atualizar(Guid id, [FromForm] ProdutoEditDto dto, IFormFile? imagem)
-        {
-            ModelState.Remove("imagem");
-            if (imagem != null)
-            {
-                var validador = new ImagemAttribute();
-                var resultado = validador.GetValidationResult(imagem, new ValidationContext(imagem));
-                if (resultado != ValidationResult.Success)
-                    ModelState.AddModelError("Imagem", resultado.ErrorMessage);
-            }
-
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var vendedor = await BuscarVendedorLogado();
-
-            var categoria = await BuscarCategoria(dto.CategoriaId);
-            if (categoria == null) return BadRequest(new { mensagem = "Categoria não é válida." });
-
-            var sucesso = await _produtoService.AtualizarAsync(id, dto, vendedor, imagem);
-            if (!sucesso)
-                return NotFound();
-
-            return NoContent();
-        }
-
-        [HttpDelete("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Remover(Guid id)
-        {
-            var vendedor = await BuscarVendedorLogado();
-
-            var sucesso = await _produtoService.RemoverAsync(id, vendedor);
-            if (!sucesso)
-                return NotFound();
-
-            return NoContent();
-        }
-
         [HttpGet("imagem/{nome}")]
-        [AllowAnonymous]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public IActionResult ObterImagem(string nome)
         {

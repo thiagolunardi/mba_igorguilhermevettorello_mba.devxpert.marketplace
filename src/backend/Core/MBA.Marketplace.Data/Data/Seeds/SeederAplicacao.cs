@@ -143,47 +143,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
             if (!context.Produtos.Any())
             {
                 var agora = DateTime.Now;
-                context.Produtos.AddRange(
-                    new Produto
-                    {
-                        Id = Guid.NewGuid(),
-                        Nome = "Smartphone X100",
-                        Descricao = "Smartphone de última geração com câmera de 108MP",
-                        Imagem = "/imagens/smartphone.jpg",
-                        Preco = 2999.90m,
-                        Estoque = 15,
-                        CategoriaId = eletronicoId,
-                        VendedorId = vendedorId,
-                        CreatedAt = agora,
-                        UpdatedAt = agora
-                    },
-                    new Produto
-                    {
-                        Id = Guid.NewGuid(),
-                        Nome = "Camisa Social Masculina",
-                        Descricao = "Camisa social de algodão premium",
-                        Imagem = "/imagens/camisa.jpg",
-                        Preco = 129.90m,
-                        Estoque = 40,
-                        CategoriaId = roupaId,
-                        VendedorId = vendedorId,
-                        CreatedAt = agora,
-                        UpdatedAt = agora
-                    },
-                    new Produto
-                    {
-                        Id = Guid.NewGuid(),
-                        Nome = "Livro de Design de Software",
-                        Descricao = "Um guia completo sobre padrões e arquitetura de software",
-                        Imagem = "/imagens/livro.jpg",
-                        Preco = 89.90m,
-                        Estoque = 25,
-                        CategoriaId = livroId,
-                        VendedorId = vendedorId,
-                        CreatedAt = agora,
-                        UpdatedAt = agora
-                    }
-                );
+                context.Produtos.AddRange(SeederProdutos.CriarProdutos(eletronicoId, roupaId, vendedorId, livroId, agora));
             }
 
             await context.SaveChangesAsync();

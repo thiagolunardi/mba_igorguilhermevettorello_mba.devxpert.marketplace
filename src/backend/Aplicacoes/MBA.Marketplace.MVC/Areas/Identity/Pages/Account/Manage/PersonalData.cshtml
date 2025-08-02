@@ -8,22 +8,8 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
-                    <p class="text-muted mb-0">Gerencie seus dados pessoais e privacidade</p>
-                </div>
-            </div>
-
-            <!-- Navigation Pills -->
             <div class="row">
-                <div class="col-md-3">
-                    <partial name="_ManageNav" />
-                </div>
-
-                <div class="col-md-9">
-                    <!-- Account Data -->
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">
@@ -80,41 +66,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Data Management -->
-                    <div class="card mt-4">
-                        <div class="card-header">
-                            <h5 class="card-title mb-0">
-                                <i class="bi bi-download me-2"></i>Gerenciamento de Dados
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="d-grid">
-                                        <button type="button" class="btn btn-outline-primary" onclick="downloadPersonalData()">
-                                            <i class="bi bi-download me-2"></i>Baixar Meus Dados
-                                        </button>
-                                        <small class="text-muted mt-2">
-                                            Baixe uma cópia de todos os seus dados pessoais que temos armazenados.
-                                        </small>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="d-grid">
-                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
-                                            <i class="bi bi-trash me-2"></i>Excluir Conta
-                                        </button>
-                                        <small class="text-muted mt-2">
-                                            Exclua permanentemente sua conta e todos os dados associados.
-                                        </small>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Privacy Information -->
                     <div class="card mt-4">
                         <div class="card-body">
                             <h6 class="card-title text-info">
@@ -129,64 +80,11 @@
                         </div>
                     </div>
 
-                    <!-- Back Button -->
                     <div class="mt-4">
-                        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left me-2"></i>Voltar ao Perfil
-                        </a>
+                        <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-outline-danger btn-sm">Cancelar</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Delete Account Modal -->
-<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-danger text-white">
-                <h5 class="modal-title" id="deleteAccountModalLabel">
-                    <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Exclusão da Conta
-                </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="alert alert-warning">
-                    <i class="bi bi-exclamation-triangle me-2"></i>
-                    <strong>Atenção:</strong> Esta ação não pode ser desfeita!
-                </div>
-                <p>Ao excluir sua conta:</p>
-                <ul>
-                    <li>Todos os seus dados pessoais serão removidos permanentemente</li>
-                    <li>Você perderá acesso a todos os produtos e serviços</li>
-                    <li>Esta ação não pode ser revertida</li>
-                </ul>
-                <p class="mb-0"><strong>Tem certeza de que deseja continuar?</strong></p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                    <i class="bi bi-x me-2"></i>Cancelar
-                </button>
-                <button type="button" class="btn btn-danger" onclick="deleteAccount()">
-                    <i class="bi bi-trash me-2"></i>Excluir Conta
-                </button>
-            </div>
-        </div>
-    </div>
-</div>
-
-@section Scripts {
-    <script>
-        function downloadPersonalData() {
-            // Implementar download dos dados pessoais
-            alert('Funcionalidade de download de dados será implementada em breve.');
-        }
-
-        function deleteAccount() {
-            // Implementar exclusão da conta
-            alert('Funcionalidade de exclusão de conta será implementada em breve.');
-            $('#deleteAccountModal').modal('hide');
-        }
-    </script>
-}

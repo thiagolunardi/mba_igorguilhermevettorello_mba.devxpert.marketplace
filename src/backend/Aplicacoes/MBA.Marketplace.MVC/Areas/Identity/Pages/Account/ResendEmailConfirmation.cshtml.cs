@@ -4,13 +4,9 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
 
 namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 {
@@ -18,13 +14,11 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
     public class ResendEmailConfirmationModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger<ResendEmailConfirmationModel> _logger;
 
-        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender emailSender, ILogger<ResendEmailConfirmationModel> logger)
+        public ResendEmailConfirmationModel(UserManager<IdentityUser> userManager, ILogger<ResendEmailConfirmationModel> logger)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
             _logger = logger;
         }
 
@@ -53,28 +47,14 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
             if (user == null)
             {
-                ModelState.AddModelError("Input.Email", "Se o email fornecido estiver registrado, você receberá um link de confirmação.");
+                ModelState.AddModelError("Input.Email", "Email não consta no sistema.");
                 return Page();
             }
 
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { area = "Identity", userId = userId, code = code },
-                protocol: Request.Scheme);
-
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirme seu email",
-                $"Por favor, confirme sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
-
-            ModelState.AddModelError("Input.Email", "Link de confirmação enviado. Verifique seu email para confirmar sua conta.");
-            _logger.LogInformation("Email confirmation resent to {Email}", Input.Email);
+            // Redireciona para RegisterConfirmation em vez de enviar email
+            _logger.LogInformation("User with email {Email} redirected to confirmation page", Input.Email);
             
-            return Page();
+            return RedirectToPage("RegisterConfirmation", new { email = Input.Email });
         }
     }
 } 

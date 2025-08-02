@@ -83,7 +83,26 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account.Manage
             {
                 foreach (var error in changePasswordResult.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code.Equals("PasswordRequiresUpper"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresLower"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresDigit"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresNonAlphanumeric"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Input.OldPassword", error.Description);
+                    }
                 }
                 return Page();
             }

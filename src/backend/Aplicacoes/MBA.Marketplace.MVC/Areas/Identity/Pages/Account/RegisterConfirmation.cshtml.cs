@@ -17,16 +17,27 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
     {
         private readonly UserManager<IdentityUser> _userManager;
         private readonly IEmailSender _sender;
+        private readonly IWebHostEnvironment _environment;
+        private readonly IConfiguration _configuration;
 
-        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(
+            UserManager<IdentityUser> userManager, 
+            IEmailSender sender,
+            IConfiguration configuration, 
+            IWebHostEnvironment environment)
         {
             _userManager = userManager;
             _sender = sender;
+            _configuration = configuration;
+            _environment = environment;
         }
 
         public string Email { get; set; }
 
         public bool DisplayConfirmAccountLink { get; set; }
+        public bool EmailService { get; set; }
+        public bool IsDevelopment { get; set; }
+
 
         public string EmailConfirmationUrl { get; set; }
 
@@ -41,11 +52,14 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return NotFound($"Unable to load user with email '{email}'.");
+                return NotFound($"Não é possível carregar o usuário com e-mail '{email}'.");
             }
 
+            
+            IsDevelopment = _environment.IsDevelopment();
+            EmailService = _configuration.GetValue<bool>("EmailService");
             Email = email;
-            DisplayConfirmAccountLink = true;
+            DisplayConfirmAccountLink = !EmailService;
             if (DisplayConfirmAccountLink)
             {
                 var userId = await _userManager.GetUserIdAsync(user);

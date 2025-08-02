@@ -22,17 +22,14 @@ namespace MBA.Marketplace.Data.Repositories
 
         public async Task<IEnumerable<Vendedor>> ListarAsync()
         {
-            return await _context.
-                   Vendedores
-                   .ToListAsync();
+            return await _context.Vendedores.AsNoTracking().ToListAsync();
         }
 
         public async Task<Vendedor?> ObterPorUsuarioIdAsync(string usuario)
         {
-            return await _context
-                .Vendedores
-                .Where(v => v.Id == usuario.NormalizeGuid())
-                .FirstOrDefaultAsync();
+            return await _context.Vendedores
+                                 .Where(v => v.Id == usuario.NormalizeGuid())
+                                 .FirstOrDefaultAsync();
         }
     }
 }

@@ -40,6 +40,7 @@ namespace MBA.Marketplace.API.Configurations
         private static void RegisterRepositories(IServiceCollection service)
         {
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            service.AddScoped<IClienteRepository, ClienteRepository>();
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
             service.AddScoped<IUserRepository<IdentityUser>, UserRepository>();
@@ -48,7 +49,7 @@ namespace MBA.Marketplace.API.Configurations
 
         private static void RegisterServices(IServiceCollection service)
         {
-            service.AddScoped<ICategoriaService, CategoriaService>();
+            service.AddScoped<ICategoriaService, CategoriaService>();            
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
             service.AddScoped<IAccountService, AccountService>();

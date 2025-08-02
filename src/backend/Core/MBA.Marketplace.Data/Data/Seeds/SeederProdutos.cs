@@ -19,7 +19,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = eletronicoId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto
                     {
@@ -32,7 +33,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = roupaId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto
                     {
@@ -45,7 +47,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = livroId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -58,6 +61,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true,
                         Src = "/imagens/senhor_dos_aneis.jpg"
                     },
                     new Produto {
@@ -71,6 +75,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true,
                         Src = "/imagens/1984.jpg"
                     },
                     new Produto {
@@ -84,6 +89,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -96,6 +102,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -108,6 +115,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -120,6 +128,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
 
                     // ELETRÔNICOS
@@ -134,6 +143,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -146,6 +156,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -158,6 +169,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -169,7 +181,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = eletronicoId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -181,7 +194,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = eletronicoId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -193,7 +207,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = eletronicoId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
 
                     // ROUPAS
@@ -207,7 +222,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = roupaId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -219,7 +235,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         CategoriaId = roupaId,
                         VendedorId = vendedorId,
                         CreatedAt = agora,
-                        UpdatedAt = agora
+                        UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -232,6 +249,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -244,6 +262,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -256,6 +275,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -268,6 +288,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -280,6 +301,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     },
                     new Produto {
                         Id = Guid.NewGuid(),
@@ -292,6 +314,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                         VendedorId = vendedorId,
                         CreatedAt = agora,
                         UpdatedAt = agora,
+                        Ativo = true
                     }
             };
         }

@@ -20,6 +20,7 @@ namespace MBA.Marketplace.MVC.Controllers
         private readonly IVendedorService _vendedorService;
         private readonly ILogger<ProdutoController> _logger;
         private readonly IMapper _mapper;
+
         public ProdutoController(ICategoriaService categoriaService, IProdutoService produtoService, IVendedorService vendedorService, ILogger<ProdutoController> logger, IMapper mapper)
         {
             _categoriaService = categoriaService;
@@ -28,6 +29,7 @@ namespace MBA.Marketplace.MVC.Controllers
             _logger = logger;
             _mapper = mapper;
         }
+
         private async Task<SelectList> BuscarCategorias()
         {
             var select = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -39,6 +41,7 @@ namespace MBA.Marketplace.MVC.Controllers
             }
             return select;
         }
+
         private async Task<Vendedor> BuscarVendedorLogado()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -48,10 +51,12 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return vendedor;
         }
+
         private async Task<bool> IsAdmin()
         {
             return User.FindFirst(ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
         }
+
         [HttpGet]
         [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Index()
@@ -71,6 +76,7 @@ namespace MBA.Marketplace.MVC.Controllers
             var model = _mapper.Map<List<ProdutoViewModel>>(produtos);
             return View(model);
         }
+
         [HttpGet("criar")]
         [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Criar()
@@ -78,6 +84,7 @@ namespace MBA.Marketplace.MVC.Controllers
             ViewBag.Categorias = await BuscarCategorias();
             return View(new ProdutoFormViewModel());
         }
+
         [HttpPost("criar")]
         [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Criar(ProdutoFormViewModel model)
@@ -116,6 +123,7 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return View(model);
         }
+
         [HttpGet("editar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Editar(Guid id)
@@ -133,6 +141,7 @@ namespace MBA.Marketplace.MVC.Controllers
             var model = _mapper.Map<ProdutoFormViewModel>(produto);
             return View(model);
         }
+
         [HttpPost("editar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Editar(Guid id, ProdutoFormViewModel model)
@@ -175,6 +184,7 @@ namespace MBA.Marketplace.MVC.Controllers
                 return View(model);
             }
         }
+
         [HttpDelete("deletar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Deletar(Guid id)
@@ -187,6 +197,7 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return BadRequest("Erro ao excluir produto.");
         }
+
         [AllowAnonymous]
         [HttpGet("detalhe/{id:Guid}")]
         [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]

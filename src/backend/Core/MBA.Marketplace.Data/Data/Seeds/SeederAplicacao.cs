@@ -128,6 +128,45 @@ namespace MBA.Marketplace.Data.Data.Seeds
                 });
             }
 
+            var clienteNome = "Cliente";
+            var clienteEmail = "cliente@cliente.com.br";
+            var clienteId = Guid.NewGuid();
+            if (await userManager.FindByEmailAsync(clienteEmail) == null)
+            {
+                var clienteSistema = new IdentityUser
+                {
+                    Id = clienteId.ToString(),
+                    UserName = clienteNome,
+                    NormalizedUserName = clienteNome,
+                    Email = clienteEmail,
+                    NormalizedEmail = clienteEmail,
+                    EmailConfirmed = true,
+                    SecurityStamp = Guid.NewGuid().ToString(),
+                    ConcurrencyStamp = Guid.NewGuid().ToString(),
+                    PhoneNumberConfirmed = false,
+                    TwoFactorEnabled = false,
+                    LockoutEnabled = true,
+                    AccessFailedCount = 0
+                };
+
+                var result = await userManager.CreateAsync(clienteSistema, "Vendedor@123");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(clienteSistema, TipoUsuario.Cliente.ToString().ToUpper());
+                }
+
+                await contextIdentity.SaveChangesAsync();
+
+
+                await context.Clientes.AddAsync(new Cliente
+                {
+                    Id = clienteId,
+                    Nome = clienteNome,
+                    Email = clienteEmail,
+                    CreatedAt = DateTime.UtcNow
+                });
+            }
+
             Guid eletronicoId = Guid.NewGuid();
             Guid roupaId = Guid.NewGuid();
             Guid livroId = Guid.NewGuid();

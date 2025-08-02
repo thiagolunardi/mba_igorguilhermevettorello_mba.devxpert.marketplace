@@ -4,7 +4,6 @@ using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MBA.Marketplace.API.Controllers
@@ -13,16 +12,20 @@ namespace MBA.Marketplace.API.Controllers
     [Route("api/conta")]
     public class ContaController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly IVendedorRepository _vendedorRepository;
+        private readonly IClienteRepository _clienteRepository;
         private readonly IAccountService _accountService;
 
         private string[] ErrorPassowrd = { "PasswordTooShort", "PasswordRequiresNonAlphanumeric", "PasswordRequiresLower", "PasswordRequiresUpper", "PasswordRequiresDigit" };
         private string[] ErrorEmail = { "DuplicateUserName" };
-        public ContaController(UserManager<IdentityUser> userManager, IVendedorRepository vendedorRepository, IAccountService accountService)
+
+        public ContaController(
+            IVendedorRepository vendedorRepository, 
+            IClienteRepository clienteRepository,
+            IAccountService accountService)
         {
-            _userManager = userManager;
             _vendedorRepository = vendedorRepository;
+            _clienteRepository = clienteRepository;
             _accountService = accountService;
         }
 
@@ -77,6 +80,15 @@ namespace MBA.Marketplace.API.Controllers
                 }
                 return BadRequest(ModelState);
             }
+
+            // Cria o registro do vendedor
+            await _clienteRepository.CriarAsync(new Cliente
+            {
+                Id = userId.NormalizeGuid(),
+                Nome = dto.Nome,
+                Email = dto.Email,
+                CreatedAt = DateTime.Now
+            });
 
             return Ok(new { message = "Conta de cliente criada com sucesso." });
         }

@@ -5,9 +5,8 @@
   <div role="main" class="main shop pt-4">
     <div class="row">
       <div class="col-md-5 mb-5 mb-md-0">
-        <img [src]="produto.imagem || 'https://via.placeholder.com/400?text=Sem+Imagem'"
-             class="img-fluid" [alt]="produto.nome"
-             style="object-fit: cover;" />
+        <img [src]="produto.imagem || 'https://via.placeholder.com/400?text=Sem+Imagem'" class="img-fluid"
+          [alt]="produto.nome" style="object-fit: cover;" />
       </div>
 
       <div class="col-md-7">
@@ -16,6 +15,11 @@
 
           <div class="d-block text-4 my-2">
             <span>{{ produto.categoria.nome }}</span>
+          </div>
+
+          <div class="d-block text-4 my-2">
+            <span>Vendido por <a [routerLink]="['/vendedor/' + produto.vendedor.id]"
+                routerLinkActive="router-link-active">{{ produto.vendedor.nome }}</a> </span>
           </div>
 
           <div class="divider divider-small">
@@ -46,12 +50,13 @@
         </div>
       </div>
     </div>
-    
+
     <div class="row mt-5">
       <div class="col">
         <div id="description" class="tabs tabs-simple">
           <ul class="nav nav-tabs">
-            <li class="nav-item"><a class="nav-link active" href="#productDescription" data-bs-toggle="tab">Descrição</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#productDescription"
+                data-bs-toggle="tab">Descrição</a></li>
           </ul>
           <div class="tab-content p-0">
             <div class="tab-pane px-0 py-3 active" id="productDescription">

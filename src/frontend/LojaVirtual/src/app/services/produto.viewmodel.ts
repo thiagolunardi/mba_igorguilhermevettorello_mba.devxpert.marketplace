@@ -18,4 +18,5 @@ export interface ProdutoViewModel {
   preco: number;
   estoque: number;
   categoria: Categoria;
+  vendedor: Vendedor;
 }

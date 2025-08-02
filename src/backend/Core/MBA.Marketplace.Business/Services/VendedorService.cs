@@ -18,6 +18,11 @@ namespace MBA.Marketplace.Business.Services
             _vendedorRepository = vendedorRepository;
         }
 
+        public Task<IEnumerable<Vendedor>> ListarAsync()
+        {
+            return _vendedorRepository.ListarAsync();
+        }
+
         public async Task<Vendedor?> ObterPorIdAsync(string id)
         {
             return await _vendedorRepository.ObterPorUsuarioIdAsync(id);

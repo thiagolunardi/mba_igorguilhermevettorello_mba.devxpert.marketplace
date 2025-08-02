@@ -1,0 +1,192 @@
+@page
+@model PersonalDataModel
+@{
+    ViewData["Title"] = "Dados Pessoais";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <!-- Page Header -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <div>
+                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
+                    <p class="text-muted mb-0">Gerencie seus dados pessoais e privacidade</p>
+                </div>
+            </div>
+
+            <!-- Navigation Pills -->
+            <div class="row">
+                <div class="col-md-3">
+                    <partial name="_ManageNav" />
+                </div>
+
+                <div class="col-md-9">
+                    <!-- Account Data -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-person-badge me-2"></i>Dados da Conta
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="bi bi-envelope me-2"></i>Email
+                                        </label>
+                                        <p class="form-control-plaintext">@User.Identity?.Name</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="bi bi-calendar me-2"></i>Membro desde
+                                        </label>
+                                        <p class="form-control-plaintext">@DateTime.Now.ToString("dd/MM/yyyy", new System.Globalization.CultureInfo("pt-BR"))</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="bi bi-shield-check me-2"></i>Status da Conta
+                                        </label>
+                                        <p class="form-control-plaintext">
+                                            <span class="badge bg-success">
+                                                <i class="bi bi-check-circle me-1"></i>Ativa
+                                            </span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="bi bi-person-check me-2"></i>Tipo de Usuário
+                                        </label>
+                                        <p class="form-control-plaintext">
+                                            @{
+                                                var userRole = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value ?? "Usuário";
+                                                var badgeClass = userRole == "Administrador" ? "bg-danger" : "bg-primary";
+                                            }
+                                            <span class="badge @badgeClass">@userRole</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Data Management -->
+                    <div class="card mt-4">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-download me-2"></i>Gerenciamento de Dados
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-outline-primary" onclick="downloadPersonalData()">
+                                            <i class="bi bi-download me-2"></i>Baixar Meus Dados
+                                        </button>
+                                        <small class="text-muted mt-2">
+                                            Baixe uma cópia de todos os seus dados pessoais que temos armazenados.
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="d-grid">
+                                        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteAccountModal">
+                                            <i class="bi bi-trash me-2"></i>Excluir Conta
+                                        </button>
+                                        <small class="text-muted mt-2">
+                                            Exclua permanentemente sua conta e todos os dados associados.
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Information -->
+                    <div class="card mt-4">
+                        <div class="card-body">
+                            <h6 class="card-title text-info">
+                                <i class="bi bi-info-circle me-2"></i>Informações sobre Privacidade
+                            </h6>
+                            <ul class="mb-0">
+                                <li>Seus dados são protegidos de acordo com a LGPD (Lei Geral de Proteção de Dados)</li>
+                                <li>Não compartilhamos suas informações pessoais com terceiros sem consentimento</li>
+                                <li>Você pode solicitar a correção ou exclusão de seus dados a qualquer momento</li>
+                                <li>Mantenha suas informações atualizadas para uma melhor experiência</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Back Button -->
+                    <div class="mt-4">
+                        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left me-2"></i>Voltar ao Perfil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Account Modal -->
+<div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="deleteAccountModalLabel">
+                    <i class="bi bi-exclamation-triangle me-2"></i>Confirmar Exclusão da Conta
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle me-2"></i>
+                    <strong>Atenção:</strong> Esta ação não pode ser desfeita!
+                </div>
+                <p>Ao excluir sua conta:</p>
+                <ul>
+                    <li>Todos os seus dados pessoais serão removidos permanentemente</li>
+                    <li>Você perderá acesso a todos os produtos e serviços</li>
+                    <li>Esta ação não pode ser revertida</li>
+                </ul>
+                <p class="mb-0"><strong>Tem certeza de que deseja continuar?</strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="bi bi-x me-2"></i>Cancelar
+                </button>
+                <button type="button" class="btn btn-danger" onclick="deleteAccount()">
+                    <i class="bi bi-trash me-2"></i>Excluir Conta
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function downloadPersonalData() {
+            // Implementar download dos dados pessoais
+            alert('Funcionalidade de download de dados será implementada em breve.');
+        }
+
+        function deleteAccount() {
+            // Implementar exclusão da conta
+            alert('Funcionalidade de exclusão de conta será implementada em breve.');
+            $('#deleteAccountModal').modal('hide');
+        }
+    </script>
+}

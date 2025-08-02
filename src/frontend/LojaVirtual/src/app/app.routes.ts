@@ -42,7 +42,7 @@ export const routes: Routes = [
         data: { breadcrumb: 'Detalhes do Produto' }
       },
       {
-        path: 'vendedor',
+        path: 'vendedor/:id',
         component: VendedorComponent,
         data: { breadcrumb: 'Vendedor' }
       },

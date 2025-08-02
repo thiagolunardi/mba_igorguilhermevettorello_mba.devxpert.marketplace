@@ -6,8 +6,7 @@
     </div>
     <div class="col-9">
       <app-lista-de-produtos [listaDeProdutos$]="listaDeProdutos$"></app-lista-de-produtos>
-      <app-paginacao-produto (trocarPagina)="trocarPagina($event)"
-        [listaPaginada$]="listaDeProdutos$"></app-paginacao-produto>
+      <app-paginacao (trocarPagina)="trocarPagina($event)" [listaPaginada$]="listaDeProdutos$"></app-paginacao>
     </div>
   </div>
 </div>

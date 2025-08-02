@@ -42,14 +42,12 @@ namespace MBA.Marketplace.MVC.Controllers
                 return View(new List<CategoriaViewModel>());
             }
         }
-
         [HttpGet("criar")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
         public IActionResult Criar()
         {
             return View();
         }
-
         [HttpPost("criar")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
         [ValidateAntiForgeryToken]
@@ -87,7 +85,6 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return View(model);
         }
-
         [HttpGet("editar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
         public async Task<IActionResult> Editar(Guid id)
@@ -111,7 +108,6 @@ namespace MBA.Marketplace.MVC.Controllers
                 return View(new CategoriaFormViewModel());
             }
         }
-
         [HttpPost("editar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
         [ValidateAntiForgeryToken]
@@ -131,6 +127,7 @@ namespace MBA.Marketplace.MVC.Controllers
                 if (response)
                 {
                     ViewBag.RegistroSucesso = true;
+                    TempData["RegistroSucesso"] = true;
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -148,10 +145,8 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return View(model);
         }
-
         [HttpDelete("deletar/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Deletar(Guid id)
         {
             try

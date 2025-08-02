@@ -5,7 +5,7 @@ namespace MBA.Marketplace.Business.Interfaces.Repositories
     public interface IVendedorRepository
     {
         Task<bool> CriarAsync(Vendedor vendedor);
-        Task<Vendedor?> ObterPorUsuarioIdAsync(string usuarioId);
+        Task<Vendedor?> ObterPorUsuarioIdAsync(string usuario);
         Task<IEnumerable<Vendedor>> ListarAsync();
 
     }

@@ -4,8 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MBA.Marketplace.Business.Models
 {
-    [Table("Vendedores")]
-    public class Vendedor : Entity
+    [Table("Clientes")]
+    public class Cliente : Entity
     {
         [Required]
         [MaxLength(255)]
@@ -17,7 +17,5 @@ namespace MBA.Marketplace.Business.Models
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }
-
-        public IEnumerable<Produto> Produtos { get; set; }
     }
 }

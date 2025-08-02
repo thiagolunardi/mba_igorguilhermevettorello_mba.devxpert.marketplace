@@ -11,6 +11,7 @@ namespace MBA.Marketplace.Data.Context
 
         private static readonly ILoggerFactory _logger = LoggerFactory.Create(p => p.AddConsole());
 
+        public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Vendedor> Vendedores { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Produto> Produtos { get; set; }

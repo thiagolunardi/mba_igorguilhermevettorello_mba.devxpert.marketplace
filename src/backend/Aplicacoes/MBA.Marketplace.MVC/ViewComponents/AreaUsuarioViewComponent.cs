@@ -1,4 +1,5 @@
 ﻿using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Data.Context;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -14,42 +15,45 @@ namespace MBA.Marketplace.MVC.ViewComponents
             _context = context;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync()
+        public async Task<IViewComponentResult> InvokeAsync(bool mostrarTipoUsuario)
         {
             var userId = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
             var areaUsuario = new AreaUsuarioDto();
+            areaUsuario.MostrarTipoUsuario = mostrarTipoUsuario;
 
             if (!string.IsNullOrEmpty(userId))
             {
                 areaUsuario.Logado = true;
+                var isAdmin = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+                var isVendedor = HttpContext.User.FindFirst(ClaimTypes.Role)?.Value == TipoUsuario.Vendedor.ToString();
                 areaUsuario.Email = HttpContext.User.FindFirst(ClaimTypes.Email)?.Value ?? "";
-                areaUsuario.TipoUsuario = HttpContext.User.FindFirst("TipoUsuario")?.Value ?? "Cliente";
+                areaUsuario.TipoUsuario = TipoUsuario.Vendedor.ToString();
+                if (isAdmin)
+                {
+                    areaUsuario.TipoUsuario = TipoUsuario.Administrador.ToString();
+                }
                 
-                // Buscar o nome do vendedor no banco de dados
                 try
                 {
                     if (Guid.TryParse(userId, out Guid parsedUserId))
                     {
                         var vendedor = await _context.Vendedores.FindAsync(parsedUserId);
-                        if (vendedor != null && !string.IsNullOrEmpty(vendedor.Nome))
+                        if (isVendedor && vendedor != null && !string.IsNullOrEmpty(vendedor.Nome))
                         {
                             areaUsuario.Nome = vendedor.Nome;
                         }
                         else
                         {
-                            // Fallback para o nome do usuário se não encontrar vendedor
                             areaUsuario.Nome = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value ?? "Usuário";
                         }
                     }
                     else
                     {
-                        // Fallback se não conseguir fazer o parse do ID
                         areaUsuario.Nome = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value ?? "Usuário";
                     }
                 }
                 catch
                 {
-                    // Fallback em caso de erro
                     areaUsuario.Nome = HttpContext.User.FindFirst(ClaimTypes.Name)?.Value ?? "Usuário";
                 }
             }

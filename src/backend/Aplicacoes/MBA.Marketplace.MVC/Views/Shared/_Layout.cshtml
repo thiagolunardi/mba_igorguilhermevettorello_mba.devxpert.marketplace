@@ -11,45 +11,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-lg px-3 py-2 d-flex justify-content-between align-items-center">
-            <a asp-action="index" asp-controller="home" class="navbar-brand d-flex align-items-center me-auto">
-                <i class="bi bi-bag-check-fill me-2 fs-4"></i>
-                <strong>MBA.MarketPlace</strong>
-            </a>
-            <form class="mx-auto w-50 search-form" style="min-width: 400px;">
-                <div class="input-group">
-                    <select class="form-select select-categorias" style="max-width: 150px;">
-                        <option value="" selected>Categorias</option>
-                    </select>
-                    <input type="search" class="form-control input-categorias" placeholder="Busque seu produto..." aria-label="Search">
-                    <button class="btn btn-buscar-produtos" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </div>
-            </form>
-
-            @* <div class="d-flex align-items-center ms-auto">
-                <vc:area-usuario />
-            </div> *@
-            <partial name="_LoginPartial" />
-        </nav>
-    </header>
-    
     <div class="main-content">
         <main role="main" class="pb-3">
-            @RenderBody()
+            <a href="@Url.Action("Index", "Home")">
+                Acesse o sistema
+            </a>
         </main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 -
-            <i class="bi bi-bag-check-fill me-2 fs-4"></i>
-            <strong>MBA.MarketPlace</strong>
-            - Desenvolvido por: Galera Top do MBA
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

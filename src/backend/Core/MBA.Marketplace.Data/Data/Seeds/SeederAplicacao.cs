@@ -149,7 +149,7 @@ namespace MBA.Marketplace.Data.Data.Seeds
                     AccessFailedCount = 0
                 };
 
-                var result = await userManager.CreateAsync(clienteSistema, "Vendedor@123");
+                var result = await userManager.CreateAsync(clienteSistema, "Cliente@123");
                 if (result.Succeeded)
                 {
                     await userManager.AddToRoleAsync(clienteSistema, TipoUsuario.Cliente.ToString().ToUpper());

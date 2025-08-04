@@ -8,15 +8,6 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
-                    <p class="text-muted mb-0">Gerencie as informações do seu perfil</p>
-                </div>
-            </div>
-
-            <!-- Status Message -->
             @if (!string.IsNullOrEmpty(Model.StatusMessage))
             {
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -26,13 +17,8 @@
                 </div>
             }
 
-            <!-- Navigation Pills -->
             <div class="row">
-                <div class="col-md-3">
-                    <partial name="_ManageNav" />
-                </div>
-
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">
@@ -93,13 +79,11 @@
                                     </div>
                                 </div>
 
-                                <div class="d-flex justify-content-between mt-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-check2 me-2"></i>Salvar Alterações
+                                <div class="text-end mt-2">
+                                    <button type="submit" class="btn btn-outline-aplication btn-sm">
+                                        <i class="bi bi-save me-1"></i> Salvar Alterações
                                     </button>
-                                    <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-outline-secondary">
-                                        <i class="bi bi-arrow-left me-2"></i>Voltar ao Dashboard
-                                    </a>
+                                    <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-outline-danger btn-sm">Cancelar</a>
                                 </div>
                             </form>
                         </div>
@@ -113,9 +97,17 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // Máscara para telefone
         $(document).ready(function() {
-            $('#Input_PhoneNumber').mask('(00) 00000-0000');
+            $('#Input_PhoneNumber').on('input', function() {
+                const value = $(this).val().replace(/\D/g, '');
+                if (value.length >= 10) {
+                    $(this).addClass('is-valid').removeClass('is-invalid');
+                } else if (value.length > 0) {
+                    $(this).addClass('is-invalid').removeClass('is-valid');
+                } else {
+                    $(this).removeClass('is-valid is-invalid');
+                }
+            });
         });
     </script>
 } 

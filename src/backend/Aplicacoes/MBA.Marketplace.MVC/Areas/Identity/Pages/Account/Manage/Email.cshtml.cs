@@ -100,8 +100,9 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account.Manage
                     "Confirme seu email",
                     $"Por favor confirme sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
 
-                StatusMessage = "Link de confirmação para alterar email foi enviado. Por favor verifique seu email.";
-                return RedirectToPage();
+                // Redireciona o usuário diretamente para a página de confirmação de alteração de email
+                return RedirectToPage("/Account/ConfirmEmailChange", 
+                    new { area = "Identity", userId = userId, email = Input.NewEmail, code = code });
             }
 
             StatusMessage = "Seu email não foi alterado.";

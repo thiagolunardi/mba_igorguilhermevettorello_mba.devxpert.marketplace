@@ -5,39 +5,25 @@
 @inject UserManager<IdentityUser> UserManager
 @inject ApplicationDbContext context
 
-@if (SignInManager.IsSignedIn(User))
+@if (!Model.MostrarTipoUsuario)
 {
-    <ul class="navbar-nav d-flex align-items-center">
-        <li class="nav-item d-flex align-items-center me-3">
-            <a class="nav-link text-white d-flex align-items-center" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
-                <i class="bi bi-person-circle fs-4 me-2"></i>
-                <span>Olá! @Model.Nome</span>
-            </a>
-        </li>
-        <li class="nav-item d-flex align-items-center">
-            <form class="form-inline m-0" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                <button type="submit" class="nav-link btn btn-link text-white border-0 d-flex align-items-center">
-                    <i class="bi bi-box-arrow-right me-1"></i>
-                    <span>Sair</span>
-                </button>
-            </form>
-        </li>
-    </ul>
+    <div class="d-flex align-items-center">
+        <div class="admin-user-avatar me-2">
+            @(@Model.Nome.Substring(0, 1).ToUpper() ?? "U")
+        </div>
+        <span class="admin-user-info">@Model.Nome</span>
+    </div>
 }
-else
+
+@if (Model.MostrarTipoUsuario)
 {
-    <ul class="navbar-nav d-flex align-items-center">
-        <li class="nav-item d-flex align-items-center me-2">
-            <a class="nav-link text-white d-flex align-items-center" asp-area="Identity" asp-page="/Account/Register">
-                <i class="bi bi-person-plus me-1"></i>
-                <span>Registrar</span>
-            </a>
-        </li>
-        <li class="nav-item d-flex align-items-center">
-            <a class="nav-link text-white d-flex align-items-center" asp-area="Identity" asp-page="/Account/Login">
-                <i class="bi bi-box-arrow-in-right me-1"></i>
-                <span>Entrar</span>
-            </a>
-        </li>
-    </ul>
+    <div class="d-flex align-items-center">
+        <div class="admin-user-avatar me-3">
+            @(@Model.Nome.Substring(0, 1).ToUpper() ?? "U")
+        </div>
+        <div class="flex-grow-1">
+            <div class="fw-bold text-dark">@Model.Nome</div>
+            <small class="text-muted">@Model.TipoUsuario</small>
+        </div>
+    </div>
 }

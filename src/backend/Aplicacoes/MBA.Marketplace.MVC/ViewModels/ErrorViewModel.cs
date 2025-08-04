@@ -1,4 +1,4 @@
-namespace MBA.DevXpert.Marketplace.MVC.Models
+namespace MBA.Marketplace.MVC.ViewModels
 {
     public class ErrorViewModel
     {

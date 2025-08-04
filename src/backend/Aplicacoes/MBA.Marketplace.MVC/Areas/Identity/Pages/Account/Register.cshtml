@@ -264,11 +264,6 @@
                     <i class="bi bi-question-circle"></i>
                     <span>Esqueceu a senha?</span>
                 </a>
-                
-                <a href="/" class="link-item">
-                    <i class="bi bi-house"></i>
-                    <span>Voltar para a Home</span>
-                </a>
             </div>
 
             @if ((Model.ExternalLogins?.Count ?? 0) > 0)
@@ -295,38 +290,29 @@
     <partial name="_ValidationScriptsPartial" />
     
     <script>
-        // Função para limpar erros quando o usuário focar no campo
         function clearErrorsOnFocus() {
-            // Seleciona todos os inputs do formulário
             const inputs = document.querySelectorAll('#registerForm input');
-            
             inputs.forEach(input => {
                 input.addEventListener('focus', function() {
-                    // Remove a classe de erro do input
                     this.classList.remove('input-validation-error');
-                    
-                    // Encontra o span de erro correspondente e o esconde com transição suave
                     const fieldName = this.name;
                     const errorSpan = document.querySelector(`span[data-valmsg-for="${fieldName}"]`);
                     if (errorSpan && errorSpan.textContent.trim() !== '') {
-                        // Adiciona classe para transição suave
+                        
                         errorSpan.classList.add('hidden');
                         
-                        // Remove o conteúdo após a transição
                         setTimeout(() => {
                             errorSpan.textContent = '';
                             errorSpan.classList.remove('hidden');
                         }, 300);
                     }
                     
-                    // Remove a classe de erro do container do input
                     const formFloating = this.closest('.form-floating');
                     if (formFloating) {
                         formFloating.classList.remove('has-error');
                     }
                 });
                 
-                // Também limpa erros quando o usuário começa a digitar
                 input.addEventListener('input', function() {
                     if (this.classList.contains('input-validation-error')) {
                         this.classList.remove('input-validation-error');
@@ -345,7 +331,6 @@
             });
         }
         
-        // Executa quando o DOM estiver carregado
         document.addEventListener('DOMContentLoaded', function() {
             clearErrorsOnFocus();
         });

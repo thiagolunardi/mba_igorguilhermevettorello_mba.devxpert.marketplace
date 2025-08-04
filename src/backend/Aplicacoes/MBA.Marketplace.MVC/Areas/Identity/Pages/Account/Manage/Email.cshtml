@@ -8,31 +8,17 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <!-- Page Header -->
-            <div class="d-flex justify-content-between align-items-center mb-4">
-                <div>
-                    <h1 class="h3 mb-0">@ViewData["Title"]</h1>
-                    <p class="text-muted mb-0">Gerencie seu endereço de email</p>
-                </div>
-            </div>
-
-            <!-- Status Message -->
             @if (!string.IsNullOrEmpty(Model.StatusMessage))
             {
-                <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
                     <i class="bi bi-info-circle me-2"></i>
                     @Model.StatusMessage
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             }
 
-            <!-- Navigation Pills -->
             <div class="row">
-                <div class="col-md-3">
-                    <partial name="_ManageNav" />
-                </div>
-
-                <div class="col-md-9">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h5 class="card-title mb-0">
@@ -40,7 +26,6 @@
                             </h5>
                         </div>
                         <div class="card-body">
-                            <!-- Current Email Status -->
                             <div class="row mb-4">
                                 <div class="col-12">
                                     <div class="card bg-light">
@@ -96,14 +81,11 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="d-flex justify-content-between mt-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="bi bi-envelope-plus me-2"></i>Alterar Email
+                                <div class="text-end mt-2">
+                                    <button type="submit" class="btn btn-outline-aplication btn-sm">
+                                        <i class="bi bi-save me-1"></i> Alterar Email
                                     </button>
-                                    <a asp-area="Identity" asp-page="/Account/Manage/Index" class="btn btn-outline-secondary">
-                                        <i class="bi bi-arrow-left me-2"></i>Voltar ao Perfil
-                                    </a>
+                                    <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-outline-danger btn-sm">Cancelar</a>
                                 </div>
                             </form>
                         </div>

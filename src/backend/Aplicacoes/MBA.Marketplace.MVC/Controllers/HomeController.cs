@@ -1,6 +1,6 @@
-using System.Diagnostics;
-using MBA.DevXpert.Marketplace.MVC.Models;
+using MBA.Marketplace.MVC.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 namespace MBA.DevXpert.Marketplace.MVC.Controllers
 {

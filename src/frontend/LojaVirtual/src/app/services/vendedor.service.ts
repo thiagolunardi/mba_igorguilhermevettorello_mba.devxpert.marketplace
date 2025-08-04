@@ -5,6 +5,7 @@ import { catchError, map, of } from "rxjs";
 import { ProdutoViewModel } from "../viewmodels/pesquisa-de-produtos/produto.viewmodel";
 import { VendedorViewModel } from "../viewmodels/vendedor-detalhes/vendedor-viewmodel";
 import { adicionarParametrosSePossuirValor } from "../util/common-functions";
+import { TAMANHO_PADRAO_PAGINA } from "../util/constantes";
 
 const URL_BASE = 'https://localhost:7179/api/vendedores/';
 
@@ -31,7 +32,10 @@ export class VendedorService {
       );
   }
 
-  public obterProdutosDoVendedor(id: string, pagina: string = '1') {
+  public obterProdutosDoVendedor(
+    id: string,
+    pagina: number | null = 1,
+    tamanhoDaPagina: number | null = TAMANHO_PADRAO_PAGINA) {
     const url = URL_BASE + `${id}/produtos`;
 
     let params = new HttpParams();

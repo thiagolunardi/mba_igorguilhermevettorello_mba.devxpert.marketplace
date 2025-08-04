@@ -1,0 +1,22 @@
+@if(carregando) {
+<div class="alert alert-info" role="alert">
+  <div class="mb-3"> Carregando produtos... </div>
+  <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
+</div>
+}
+@else {
+<h3 class="mt-5 mb-3">Produtos</h3>
+
+<div class="d-flex flex-wrap gap-3 justify-content-start">
+
+  @if(produtos?.itens?.length === 0) {
+  <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>
+  }
+  @else {
+  @for(produto of produtos?.itens; track produto) {
+  <app-resumo-produto [produto]="produto"></app-resumo-produto>
+  }
+  }
+
+</div>
+}

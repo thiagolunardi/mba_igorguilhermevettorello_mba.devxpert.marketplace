@@ -10,6 +10,11 @@ namespace MBA.Marketplace.Data.Repositories
     {
         private readonly ApplicationDbContext _context;
 
+        public ClienteRepository(ApplicationDbContext context)
+        {
+            _context = context;
+        }
+
         public async Task<bool> CriarAsync(Cliente cliente)
         {
             _context.Clientes.Add(cliente);

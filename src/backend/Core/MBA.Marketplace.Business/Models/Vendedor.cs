@@ -14,6 +14,9 @@ namespace MBA.Marketplace.Business.Models
         [Required]
         public string Email { get; set; }
 
+        [Required]
+        public bool Ativo { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
         public DateTime UpdatedAt { get; set; }

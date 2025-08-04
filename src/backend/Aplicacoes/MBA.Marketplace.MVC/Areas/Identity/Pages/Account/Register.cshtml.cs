@@ -104,7 +104,8 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                         Id = userId.NormalizeGuid(),
                         Nome = Input.Nome,
                         Email = user.Email,
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.Now,
+                        Ativo = true
                     });
 
                     await _userManager.AddToRoleAsync(user, TipoUsuario.Vendedor.ToString().ToUpper());

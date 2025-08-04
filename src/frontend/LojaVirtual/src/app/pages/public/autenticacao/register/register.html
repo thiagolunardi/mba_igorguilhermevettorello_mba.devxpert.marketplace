@@ -1,76 +1,79 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form">
-  <h2>Cadastro</h2>
-
-  <input type="text" formControlName="nome" placeholder="Nome" />
-  <input type="email" formControlName="email" placeholder="Email" />
-  <input type="password" formControlName="senha" placeholder="Senha" />
-  <input type="password" formControlName="confirmacaoSenha" placeholder="Senha" />
-  <button type="submit" [disabled]="form.invalid">Cadastrar</button>
-
-  <p *ngIf="error" class="error">{{ error }}</p>
-</form>
-
-
-<!-- <div class="container mt-5">
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <img src="~/images/logo.svg" alt="Logo" style="height: 50px;" />
-    <button id="darkToggle" class="btn btn-outline-secondary btn-sm">
-      <i class="bi bi-moon-fill me-1"></i> Modo Escuro
-    </button>
-  </div>
-
+<div class="container mt-5">
   <div class="row justify-content-center">
     <div class="col-md-6">
-      <div class="card shadow-lg border-0 rounded-4 p-4">
-        <div class="card-body">
-          <h2 class="card-title text-center mb-4">
-            <i class="bi bi-person-plus-fill me-2"></i>Registrar-se
-          </h2>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate class="card shadow-sm p-4 border">
 
-          <form asp-route-returnUrl="@Model.ReturnUrl" method="post" novalidate>
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+        <h3 class="mb-4 text-center">Cadastro de Usuário</h3>
 
-            <div class="form-floating mb-3">
-              <input asp-for="Input.Nome" class="form-control" placeholder="Nome" />
-              <label asp-for="Input.Nome"><i class="bi bi-person-fill me-1"></i> Nome completo</label>
-              <span asp-validation-for="Input.Nome" class="text-danger small"></span>
-            </div>
+        <!-- Nome -->
+        <div class="mb-3">
+          <label for="nome" class="form-label">Nome</label>
+          <input id="nome" type="text" formControlName="nome" class="form-control"
+            [ngClass]="{ 'is-invalid': f.nome.invalid && f.nome.touched }">
 
-            <div class="form-floating mb-3">
-              <input asp-for="Input.Email" class="form-control" placeholder="Email" autocomplete="email" />
-              <label asp-for="Input.Email"><i class="bi bi-envelope-fill me-1"></i> Email</label>
-              <span asp-validation-for="Input.Email" class="text-danger small"></span>
-            </div>
+          @if(f.nome.errors && f.nome.errors['required']){
+          <div class="invalid-feedback">
+            Nome é obrigatório.
+          </div>
+          }
+        </div>
 
-            <div class="form-floating mb-3">
-              <input asp-for="Input.Password" class="form-control" placeholder="Senha" autocomplete="new-password"
-                type="password" />
-              <label asp-for="Input.Password"><i class="bi bi-lock-fill me-1"></i> Senha</label>
-              <span asp-validation-for="Input.Password" class="text-danger small"></span>
-            </div>
+        <!-- Email -->
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" type="email" formControlName="email" class="form-control"
+            [ngClass]="{ 'is-invalid': f.email.invalid && f.email.touched }">
 
-            <div class="form-floating mb-4">
-              <input asp-for="Input.ConfirmPassword" class="form-control" placeholder="Confirmar Senha"
-                autocomplete="new-password" type="password" />
-              <label asp-for="Input.ConfirmPassword"><i class="bi bi-shield-lock-fill me-1"></i> Confirmar Senha</label>
-              <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
-            </div>
+          @if(f.email.errors && f.email.errors['required']){
+          <div class="invalid-feedback">
+            Email é obrigatório.
+          </div>
+          }
 
-            <button type="submit" class="btn btn-primary w-100">
-              <i class="bi bi-check-circle-fill me-1"></i> Criar Conta
-            </button>
-          </form>
+          @if(f.email.errors && f.email.errors['email']){
+          <div class="invalid-feedback">
+            Email inválido.
+          </div>
+          }
+        </div>
 
-          <hr class="my-4" />
+        <!-- Senha -->
+        <div class="mb-3">
+          <label for="senha" class="form-label">Senha</label>
+          <input id="senha" type="password" formControlName="senha" class="form-control"
+            [ngClass]="{ 'is-invalid': f.senha.invalid && f.senha.touched }">
 
-          <div class="text-center">
-            <p class="mb-0">
-              Já tem conta?
-              <a asp-page="./Login"><i class="bi bi-box-arrow-in-right"></i> Entrar</a>
-            </p>
+          @if(f.senha.errors && f.senha.errors['required']){
+          <div class="invalid-feedback">
+            Senha é obrigatória.
+          </div>
+          }
+
+          @if(f.senha.errors && f.senha.errors['minlength']){
+          <div class="invalid-feedback">
+            A senha deve ter no mínimo 6 caracteres.
+          </div>
+          }
+        </div>
+
+        <!-- Confirmação de Senha -->
+        <div class="mb-3">
+          <label for="confirmacaoSenha" class="form-label">Confirmação da Senha</label>
+          <input id="confirmacaoSenha" type="password" formControlName="confirmacaoSenha" class="form-control"
+            [ngClass]="{ 'is-invalid': (f.confirmacaoSenha.touched && form.hasError('senhasDiferentes')) }">
+          <div class="invalid-feedback" *ngIf="form.hasError('senhasDiferentes')">
+            As senhas não coincidem.
           </div>
         </div>
-      </div>
+
+        <!-- Erro geral -->
+        <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
+
+        <!-- Botão -->
+        <button type="submit" class="btn btn-primary w-100">
+          <i class="bi bi-person-plus"></i> Cadastrar
+        </button>
+      </form>
     </div>
   </div>
-</div> -->
+</div>

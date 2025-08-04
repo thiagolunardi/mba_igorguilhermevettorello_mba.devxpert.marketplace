@@ -1,4 +1,17 @@
-<div class="container mt-5">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="register-form">
+  <h2>Cadastro</h2>
+
+  <input type="text" formControlName="nome" placeholder="Nome" />
+  <input type="email" formControlName="email" placeholder="Email" />
+  <input type="password" formControlName="senha" placeholder="Senha" />
+  <input type="password" formControlName="confirmacaoSenha" placeholder="Senha" />
+  <button type="submit" [disabled]="form.invalid">Cadastrar</button>
+
+  <p *ngIf="error" class="error">{{ error }}</p>
+</form>
+
+
+<!-- <div class="container mt-5">
   <div class="d-flex justify-content-between align-items-center mb-3">
     <img src="~/images/logo.svg" alt="Logo" style="height: 50px;" />
     <button id="darkToggle" class="btn btn-outline-secondary btn-sm">
@@ -60,4 +73,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

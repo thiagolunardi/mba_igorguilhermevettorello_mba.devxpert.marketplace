@@ -124,7 +124,8 @@ namespace MBA.Marketplace.Data.Data.Seeds
                     Id = vendedorId,
                     Nome = vendedorNome,
                     Email = vendedorEmail,
-                    CreatedAt = DateTime.UtcNow
+                    CreatedAt = DateTime.UtcNow,
+                    Ativo = true
                 });
             }
 

@@ -6,29 +6,7 @@
     <p>Email: {{ vendedor?.email }}</p>
   </div>
 
-
   <!-- lista de produtos -->
-  @if(carregando) {
-  <div class="alert alert-info" role="alert">
-    <div class="mb-3"> Carregando produtos... </div>
-    <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
-  </div>
-  }
-  @else {
-  <h3 class="mt-5 mb-3">Produtos</h3>
-
-  <div class="d-flex flex-wrap gap-3 justify-content-start">
-
-    @if(listaPaginada?.itens?.length === 0) {
-    <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>
-    }
-    @else {
-    @for(produto of listaPaginada?.itens; track produto) {
-    <app-resumo-produto [produto]="produto"></app-resumo-produto>
-    }
-    }
-
-  </div>
-  }
-
+  <app-lista-de-produtos-do-vendedor [listaDeProdutos$]="listaPaginada$"></app-lista-de-produtos-do-vendedor>
+  <app-paginacao (trocarPagina)="trocarPagina($event)" [listaPaginada$]="listaPaginada$"></app-paginacao>
 </div>

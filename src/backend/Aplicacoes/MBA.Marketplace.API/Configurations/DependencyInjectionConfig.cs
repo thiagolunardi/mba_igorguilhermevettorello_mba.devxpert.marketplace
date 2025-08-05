@@ -54,6 +54,7 @@ namespace MBA.Marketplace.API.Configurations
             service.AddScoped<IVendedorService, VendedorService>();
             service.AddScoped<IAccountService, AccountService>();
             service.AddScoped<IUser, AspNetUser>();
+            service.AddScoped<IFavoritoService, FavoritoService>();
         }
     }
 }

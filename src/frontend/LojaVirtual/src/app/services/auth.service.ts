@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { CadastroViewModel } from '../viewmodels/cadastro/cadastro.viewmodel';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -11,9 +12,14 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  login(data: { email: string; senha: string }) {
+  login(data: { email: string; senha: string }): Observable<{ token: string }> {
     return this.http.post<{ token: string }>(`${this.apiUrl}/login`, data)
-      .pipe(tap(response => this.setToken(response.token)));
+      .pipe(
+        tap({
+          next: response => this.setToken(response.token),
+          error: err => console.error('Erro de login:', err)
+        })
+      );
   }
 
   register(usuario: CadastroViewModel) {

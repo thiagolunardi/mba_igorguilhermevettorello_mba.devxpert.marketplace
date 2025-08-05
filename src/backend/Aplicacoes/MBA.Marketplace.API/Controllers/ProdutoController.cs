@@ -33,6 +33,14 @@ namespace MBA.Marketplace.API.Controllers
             };
         }
 
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ListarProdutosFiltro([FromQuery] string? ordenarPor,[FromQuery] int? limit)
+        {
+            var produtos = await _produtoService.ListarProdutosFiltroAsync(ordenarPor, limit);
+            return Ok(produtos);
+        }
+
         [HttpGet("pesquisar")]
         [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Pesquisar([FromQuery] PesquisaDeProdutos parametros)

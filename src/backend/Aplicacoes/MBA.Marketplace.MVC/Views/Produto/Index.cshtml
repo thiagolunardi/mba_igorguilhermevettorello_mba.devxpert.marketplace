@@ -37,7 +37,7 @@ else
                     <td class="text-muted">@produto.Estoque</td>
                     <td class="text-muted">@produto.Categoria.Nome</td>
                     <td class="text-muted">
-                        <img style="width: 100px" src="@produto.Src" onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';" />
+                        <img style="width: 100px" src="@Html.CheckImage(produto.Src)" onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';" />
                     </td>
                     <td class="text-end">
                         @if (isAdmin)

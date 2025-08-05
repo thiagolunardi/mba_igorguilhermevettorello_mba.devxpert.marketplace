@@ -57,7 +57,7 @@
                     <input name="Imagem" id="Imagem" type="file" class="form-control form-control-sm" accept="image/*" />
                     <span asp-validation-for="Imagem" class="text-danger small"></span>
                     <div class="mt-2">
-                        <img src="@Model.Src" onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';" alt="@Model.Nome" class="img-thumbnail" id="previewImagem" style="max-width: 150px;" />
+                        <img src="@Html.CheckImage(Model.Src)" onerror="this.onerror=null; this.src='/images/foto-indisponivel.png';" alt="@Model.Nome" class="img-thumbnail" id="previewImagem" style="max-width: 150px;" />
                     </div>
                     <input type="hidden" name="Src" value="@Model.Src" />
                 </div>

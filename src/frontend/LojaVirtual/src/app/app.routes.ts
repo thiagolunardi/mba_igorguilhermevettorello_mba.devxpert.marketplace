@@ -11,6 +11,7 @@ import { Register } from './pages/public/autenticacao/register/register';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { AuthLayout } from './layout/auth-layout/auth-layout';
 import { AuthGuard } from './guards/auth.guard';
+import { guestGuard } from './guards/guest.guard';
 
 export const routes: Routes = [
   {
@@ -59,6 +60,7 @@ export const routes: Routes = [
   {
     path: '',
     component: AuthLayout,
+    canActivate: [guestGuard],
     children: [
       { path: 'login', component: Login },
       { path: 'cadastro', component: Register },

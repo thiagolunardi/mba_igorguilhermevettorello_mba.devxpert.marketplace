@@ -41,17 +41,21 @@
         <div class="mb-3">
           <label for="senha" class="form-label">Senha</label>
           <input id="senha" type="password" formControlName="senha" class="form-control"
-            [ngClass]="{ 'is-invalid': f.senha.invalid && f.senha.touched }">
+            [ngClass]="{ 'is-invalid': f.senha.invalid && f.senha.touched }" />
 
-          @if(f.senha.errors && f.senha.errors['required']){
-          <div class="invalid-feedback">
+          @if (f.senha.touched && f.senha.invalid) {
+          <div class="invalid-feedback d-block" *ngIf="true">
+            @if (f.senha.errors?.['required']) {
             Senha é obrigatória.
-          </div>
-          }
-
-          @if(f.senha.errors && f.senha.errors['minlength']){
-          <div class="invalid-feedback">
+            } @else if (f.senha.errors?.['minLength']) {
             A senha deve ter no mínimo 6 caracteres.
+            } @else if (f.senha.errors?.['maiuscula']) {
+            A senha deve conter pelo menos uma letra maiúscula.
+            } @else if (f.senha.errors?.['numero']) {
+            A senha deve conter pelo menos um número.
+            } @else if (f.senha.errors?.['caractereEspecial']) {
+            A senha deve conter pelo menos um caractere especial (ex: #, !).
+            }
           </div>
           }
         </div>

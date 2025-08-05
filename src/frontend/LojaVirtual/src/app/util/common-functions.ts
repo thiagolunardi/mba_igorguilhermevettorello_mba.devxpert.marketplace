@@ -30,3 +30,29 @@ export function senhasIguaisValidator(): ValidatorFn {
   };
 }
 
+export function senhaForteValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const senha = control.value;
+
+    if (!senha)
+      return null;
+
+    const errors: ValidationErrors = {};
+
+    if (senha.length < 6) {
+      errors["minLength"] = true;
+    }
+    if (!/[A-Z]/.test(senha)) {
+      errors["maiuscula"] = true;
+    }
+    if (!/\d/.test(senha)) {
+      errors["numero"] = true;
+    }
+    if (!/[\W_]/.test(senha)) {
+      errors["caractereEspecial"] = true;
+    }
+
+    return Object.keys(errors).length ? errors : null;
+  };
+}
+

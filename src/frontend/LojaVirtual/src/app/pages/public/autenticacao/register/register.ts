@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../../services/auth.service';
-import { senhasIguaisValidator } from '../../../../util/common-functions';
+import { senhaForteValidator, senhasIguaisValidator } from '../../../../util/common-functions';
 
 @Component({
   selector: 'app-register',
@@ -19,7 +19,10 @@ export class Register {
   form = this.fb.group({
     nome: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
-    senha: ['', [Validators.required, Validators.minLength(6)]],
+    senha: ['', [
+      Validators.required,
+      senhaForteValidator()
+    ]],
     confirmacaoSenha: ['', Validators.required],
   }, { validators: senhasIguaisValidator() });
 

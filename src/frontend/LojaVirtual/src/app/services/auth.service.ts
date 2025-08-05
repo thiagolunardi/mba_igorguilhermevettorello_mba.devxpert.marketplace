@@ -37,7 +37,16 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
-    return !!this.getToken();
+    const token = this.getToken();
+    if (!token) return false;
+
+    try {
+      const { exp } = jwtDecode<JwtPayload>(token);
+      const now = Date.now() / 1000; // em segundos
+      return exp > now;
+    } catch {
+      return false;
+    }
   }
 
   logout() {

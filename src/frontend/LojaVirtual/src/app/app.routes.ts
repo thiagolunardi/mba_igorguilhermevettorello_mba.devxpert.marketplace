@@ -10,8 +10,8 @@ import { Login } from './pages/public/autenticacao/login/login';
 import { Register } from './pages/public/autenticacao/register/register';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { AuthLayout } from './layout/auth-layout/auth-layout';
-import { AuthGuard } from './guards/auth.guard';
 import { guestGuard } from './guards/guest.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -31,7 +31,7 @@ export const routes: Routes = [
       {
         path: 'favoritos',
         component: Favoritos,
-        canActivate: [AuthGuard],
+        canActivate: [authGuard],
         data: { breadcrumb: 'Favoritos' }
       },
       {

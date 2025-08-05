@@ -15,7 +15,7 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "8.0.0");
+            modelBuilder.HasAnnotation("ProductVersion", "8.0.15");
 
             modelBuilder.Entity("MBA.Marketplace.Business.Models.Categoria", b =>
                 {
@@ -44,11 +44,57 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                     b.ToTable("Categorias");
                 });
 
+            modelBuilder.Entity("MBA.Marketplace.Business.Models.Cliente", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Clientes");
+                });
+
+            modelBuilder.Entity("MBA.Marketplace.Business.Models.Favorito", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Cliente")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("Produto")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Favoritos");
+                });
+
             modelBuilder.Entity("MBA.Marketplace.Business.Models.Produto", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
+
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("INTEGER");
 
                     b.Property<Guid>("CategoriaId")
                         .HasColumnType("TEXT");
@@ -97,6 +143,9 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
+                    b.Property<bool>("Ativo")
+                        .HasColumnType("INTEGER");
+
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
 
@@ -126,7 +175,7 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                         .IsRequired();
 
                     b.HasOne("MBA.Marketplace.Business.Models.Vendedor", "Vendedor")
-                        .WithMany()
+                        .WithMany("Produtos")
                         .HasForeignKey("VendedorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -134,6 +183,11 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                     b.Navigation("Categoria");
 
                     b.Navigation("Vendedor");
+                });
+
+            modelBuilder.Entity("MBA.Marketplace.Business.Models.Vendedor", b =>
+                {
+                    b.Navigation("Produtos");
                 });
 #pragma warning restore 612, 618
         }

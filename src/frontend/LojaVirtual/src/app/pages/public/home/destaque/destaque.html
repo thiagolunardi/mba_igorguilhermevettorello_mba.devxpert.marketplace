@@ -1,7 +1,17 @@
-<div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
+@if ((itensEmDestaque$ | async); as itens) {
 
-  @for (item of itensEmDestaque; track item.id) {
-  <app-item-destaque [itemEmDestaque]="item"></app-item-destaque>
-  }
+  <div class="d-flex flex-wrap mt-5 gap-3 justify-content-center">
 
-</div>
+    @for (item of itens; track item.id) {
+      <app-item-destaque [item]="item"></app-item-destaque>
+    }
+
+  </div>
+
+} @else {
+  
+  <div class="text-center mt-5">
+    <p>Nenhum produto em destaque no momento.</p>
+  </div>
+
+}

@@ -13,11 +13,10 @@ builder.Services.AddLoggingConfig(builder.Configuration);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    app.UseDbMigrationHelper();
+    app.UseMigrationsAndSeedsConfig();
 }
 
 app.UseHsts();

@@ -22,10 +22,10 @@
         </div>
 
         <div class="card-footer bg-light text-end">
-            <button type="submit" class="btn btn-success btn-sm">
+            <button type="submit" class="btn btn-outline-aplication btn-sm">
                 <i class="bi bi-save me-1"></i> Salvar
             </button>
-            <a href="@Url.Action("index", "categoria")" class="btn btn-outline-secondary btn-sm">
+            <a href="@Url.Action("index", "categoria")" class="btn btn-outline-danger btn-sm">
                 Cancelar
             </a>
         </div>
@@ -34,100 +34,28 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
-}
 
-@if (ViewBag.RegistroSucesso == true)
-{
-    <div class="modal fade show" id="modalSucesso" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-0 rounded-top-3">
-                    <h5 class="modal-title text-success fw-semibold">
-                        <i class="bi bi-check-circle me-2"></i> Edição realizada
-                    </h5>
-                </div>
-                <div class="modal-body text-secondary small">
-                    Sua categoria foi editada com sucesso.
-                </div>
-                <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                    <a href="@Url.Action("index", "categoria")" class="btn btn-success btn-sm px-4">
-                        Ok
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if (ViewBag.RegistroSucesso == true)
+    {
+        <script>
+            var meuModal = new bootstrap.Modal(document.getElementById('modalSucessoEditarCategoria'));
+            meuModal.show();
+        </script>
+    }
 
-    <!-- Backdrop manual -->
-    <div class="modal-backdrop fade show"></div>
+    @if (ViewBag.RegistroErro == true)
+    {
+        <script>
+            var meuModal = new bootstrap.Modal(document.getElementById('modalErroEditarCategoria'));
+            meuModal.show();
+        </script>
+    }
 
-    <script>
-        // Impede que o modal feche com tecla ESC ou clique fora
-        document.body.classList.add('modal-open');
-        document.body.style.paddingRight = '0px';
-    </script>
-}
-
-@if (ViewBag.RegistroErro == true)
-{
-    <div class="modal fade show" id="modalSucesso" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-0 rounded-top-3">
-                    <h5 class="modal-title text-danger fw-semibold">
-                        <i class="bi bi-check-circle me-2"></i> Falha ao realizar atualização
-                    </h5>
-                </div>
-                <div class="modal-body text-secondary small">
-                    Ocorreu um erro ao realizar a atualização da categoria. Tente novamente mais tarde!
-                </div>
-                <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                    <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
-                        Ok
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Backdrop manual -->
-    <div class="modal-backdrop fade show"></div>
-
-    <script>
-        // Impede que o modal feche com tecla ESC ou clique fora
-        document.body.classList.add('modal-open');
-        document.body.style.paddingRight = '0px';
-    </script>
-}
-
-@if (ViewBag.RegistroNaoEncontrado == true)
-{
-    <div class="modal fade show" id="modalSucesso" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-0 rounded-top-3">
-                    <h5 class="modal-title text-danger fw-semibold">
-                        <i class="bi bi-x-circle me-2"></i> Falha ao localizar categoria
-                    </h5>
-                </div>
-                <div class="modal-body text-secondary small">
-                    Categoria não encontrada.
-                </div>
-                <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                    <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
-                        Ok
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Backdrop manual -->
-    <div class="modal-backdrop fade show"></div>
-
-    <script>
-        // Impede que o modal feche com tecla ESC ou clique fora
-        document.body.classList.add('modal-open');
-        document.body.style.paddingRight = '0px';
-    </script>
+    @if (ViewBag.RegistroNaoEncontrado == true)
+    {
+        <script>
+            var meuModal = new bootstrap.Modal(document.getElementById('modalCategoriaNaoEncontrado'));
+            meuModal.show();
+        </script>
+    }
 }

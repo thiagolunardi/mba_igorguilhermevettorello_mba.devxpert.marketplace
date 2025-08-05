@@ -1,52 +1,35 @@
-import { inject, Injectable } from '@angular/core';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, map, of } from 'rxjs';
+import { catchError, } from 'rxjs/operators';
 import { ItemEmDestaqueViewModel } from '../pages/public/home/item-destaque/item-em-destaque.viewmodel';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ItensEmDestaqueService {
-  public obterItensEmDestaque(): ItemEmDestaqueViewModel[] {
-    return [
-    { 
-      id: 1,
-      nome: 'Smartphone Modelo X',
-      categoria: 'Eletrônicos',
-      preco: 1999.90,
-      descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-      imagem: 'https://via.placeholder.com/300'
-    },
-    {
-      id: 2,
-      nome: 'Notebook Pro',
-      categoria: 'Computadores',
-      preco: 4599.00,
-      descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-      imagem: 'https://via.placeholder.com/300'
-    },
-    {
-      id: 3,
-      nome: 'Fone de Ouvido Sem Fio',
-      categoria: 'Acessórios',
-      preco: 299.50,
-      descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-      imagem: 'https://via.placeholder.com/300'
-    },
-        {
-      id: 4,
-      nome: 'Fone de Ouvido Sem Fio',
-      categoria: 'Acessórios',
-      preco: 299.50,
-      descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-      imagem: 'https://via.placeholder.com/300'
-    },
-            {
-      id: 5,
-      nome: 'Fone de Ouvido Sem Fio',
-      categoria: 'Acessórios',
-      preco: 299.50,
-      descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-      imagem: 'https://via.placeholder.com/300'
-    }
-    ];
+
+  private apiUrl = 'https://localhost:7179/api/produtos';
+
+  constructor(private http: HttpClient) { }
+
+  obterItensEmDestaque(): Observable<ItemEmDestaqueViewModel[] | null> {
+    const params = new HttpParams().set('ordenarPor', 'dataCadastro').set('limit', 15);
+
+    return this.http.get<ItemEmDestaqueViewModel[]>(this.apiUrl, { 
+        params: params,
+        observe: 'response' 
+      })
+      .pipe( 
+        map(response => {
+          if (response.status === 200) {
+            return response.body;
+          }
+          else {
+            throw new Error(`Erro ao buscar produtos. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(null))
+      );
   }
 }

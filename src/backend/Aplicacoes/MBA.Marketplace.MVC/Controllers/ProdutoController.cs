@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.MVC.ViewModels;
@@ -11,6 +12,7 @@ using System.Security.Claims;
 namespace MBA.Marketplace.MVC.Controllers
 {
     [Route("produto")]
+    [Authorize]
     public class ProdutoController : Controller
     {
         private readonly ICategoriaService _categoriaService;
@@ -18,6 +20,7 @@ namespace MBA.Marketplace.MVC.Controllers
         private readonly IVendedorService _vendedorService;
         private readonly ILogger<ProdutoController> _logger;
         private readonly IMapper _mapper;
+
         public ProdutoController(ICategoriaService categoriaService, IProdutoService produtoService, IVendedorService vendedorService, ILogger<ProdutoController> logger, IMapper mapper)
         {
             _categoriaService = categoriaService;
@@ -26,6 +29,7 @@ namespace MBA.Marketplace.MVC.Controllers
             _logger = logger;
             _mapper = mapper;
         }
+
         private async Task<SelectList> BuscarCategorias()
         {
             var select = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -37,6 +41,7 @@ namespace MBA.Marketplace.MVC.Controllers
             }
             return select;
         }
+
         private async Task<Vendedor> BuscarVendedorLogado()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,21 +51,43 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return vendedor;
         }
+
+        private async Task<bool> IsAdmin()
+        {
+            return User.FindFirst(ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+        }
+
         [HttpGet]
+        [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Index()
         {
-            var vendedor = await BuscarVendedorLogado();
-            var produtos = await _produtoService.ListarAsync(vendedor);
+            var produtos = Enumerable.Empty<Produto>();
+
+            if (await IsAdmin())
+            {
+                produtos = await _produtoService.ListarAllAsync();
+            }
+            else
+            {
+                var vendedor = await BuscarVendedorLogado();
+                produtos = await _produtoService.ListarAsync(vendedor);
+
+            }
+
             var model = _mapper.Map<List<ProdutoViewModel>>(produtos);
             return View(model);
         }
+
         [HttpGet("criar")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Criar()
         {
             ViewBag.Categorias = await BuscarCategorias();
             return View(new ProdutoFormViewModel());
         }
+
         [HttpPost("criar")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Criar(ProdutoFormViewModel model)
         {
             ViewBag.Categorias = await BuscarCategorias();
@@ -97,7 +124,9 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return View(model);
         }
+
         [HttpGet("editar/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Editar(Guid id)
         {
             ViewBag.Categorias = await BuscarCategorias();
@@ -113,7 +142,9 @@ namespace MBA.Marketplace.MVC.Controllers
             var model = _mapper.Map<ProdutoFormViewModel>(produto);
             return View(model);
         }
+
         [HttpPost("editar/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Editar(Guid id, ProdutoFormViewModel model)
         {
             try
@@ -154,7 +185,9 @@ namespace MBA.Marketplace.MVC.Controllers
                 return View(model);
             }
         }
+
         [HttpDelete("deletar/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Deletar(Guid id)
         {
             var vendedor = await BuscarVendedorLogado();
@@ -165,11 +198,13 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return BadRequest("Erro ao excluir produto.");
         }
+
         [AllowAnonymous]
         [HttpGet("detalhe/{id:Guid}")]
+        [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Detalhes(Guid id)
         {
-            var produto = await _produtoService.PublicObterPorIdAsync(id);
+            var produto = await _produtoService.ObterPorIdAsync(id);
             if (produto == null) return NotFound();
 
             var viewModel = _mapper.Map<ProdutoViewModel>(produto);

@@ -9,8 +9,14 @@ out/
 *.userosscache
 *.sln.docstates
 #.vscode/
+<<<<<<< HEAD
 #.vs/
 #.idea/
+=======
+.vs/
+.idea/
+.tsbuildinfo/*
+>>>>>>> staging
 
 # OS-generated files
 .DS_Store
@@ -69,3 +75,5 @@ Imagens
 /src/backend/Core/MBA.Marketplace.Data/dev.db-shm
 /src/backend/Core/MBA.Marketplace.Data/dev.db-wal
 /src/frontend/LojaVirtual/.angular/cache/
+/src/backend/Aplicacoes/images
+/src/backend/Aplicacoes/MBA.Marketplace.MVC/wwwroot/images/produtos

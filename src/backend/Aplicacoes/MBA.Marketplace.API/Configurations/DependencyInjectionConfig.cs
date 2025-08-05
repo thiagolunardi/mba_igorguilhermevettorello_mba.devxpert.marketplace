@@ -1,4 +1,5 @@
 ﻿using MBA.Marketplace.API.Extensions;
+using MBA.Marketplace.Business.Interfaces.Identity;
 using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
@@ -39,18 +40,21 @@ namespace MBA.Marketplace.API.Configurations
         private static void RegisterRepositories(IServiceCollection service)
         {
             service.AddScoped<ICategoriaRepository, CategoriaRepository>();
+            service.AddScoped<IClienteRepository, ClienteRepository>();
             service.AddScoped<IProdutoRepository, ProdutoRepository>();
             service.AddScoped<IVendedorRepository, VendedorRepository>();
             service.AddScoped<IUserRepository<IdentityUser>, UserRepository>();
+            service.AddScoped<IFavoritoRepository, FavoritoRepository>();
         }
 
         private static void RegisterServices(IServiceCollection service)
         {
-            service.AddScoped<ICategoriaService, CategoriaService>();
+            service.AddScoped<ICategoriaService, CategoriaService>();            
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
             service.AddScoped<IAccountService, AccountService>();
-
+            service.AddScoped<IUser, AspNetUser>();
+            service.AddScoped<IFavoritoService, FavoritoService>();
         }
     }
 }

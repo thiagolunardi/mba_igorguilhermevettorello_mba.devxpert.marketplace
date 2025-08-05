@@ -1,11 +1,6 @@
 ﻿using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MBA.Marketplace.Business.Services
 {
@@ -16,6 +11,11 @@ namespace MBA.Marketplace.Business.Services
         public VendedorService(IVendedorRepository vendedorRepository)
         {
             _vendedorRepository = vendedorRepository;
+        }
+
+        public Task<IEnumerable<Vendedor>> ListarAsync()
+        {
+            return _vendedorRepository.ListarAsync();
         }
 
         public async Task<Vendedor?> ObterPorIdAsync(string id)

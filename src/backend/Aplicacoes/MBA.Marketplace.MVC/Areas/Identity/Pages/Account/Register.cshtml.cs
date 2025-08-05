@@ -2,6 +2,8 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using MBA.Marketplace.Business.Enums;
+using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Data.Context;
 using Microsoft.AspNetCore.Authentication;
@@ -10,7 +12,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -45,60 +46,36 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
             _emailSender = emailSender;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public string ReturnUrl { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [EmailAddress]
+            [Required(ErrorMessage = "O campo Nome é obrigatório.")]
+            [StringLength(100, ErrorMessage = "O nome deve ter entre {2} e {1} caracteres.", MinimumLength = 2)]
+            [Display(Name = "Nome")]
+            public string Nome { get; set; }
+
+            [Required(ErrorMessage = "O campo Email é obrigatório.")]
+            [EmailAddress(ErrorMessage = "O formato do email não é válido.")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
-            [Required]
-            [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
+            [Required(ErrorMessage = "O campo Senha é obrigatório.")]
+            [StringLength(100, ErrorMessage = "A senha deve ter no mínimo {2} e no máximo {1} caracteres.", MinimumLength = 6)]
             [DataType(DataType.Password)]
-            [Display(Name = "Password")]
+            [Display(Name = "Senha")]
             public string Password { get; set; }
 
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [DataType(DataType.Password)]
-            [Display(Name = "Confirm password")]
-            [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+            [Display(Name = "Confirmar Senha")]
+            [Compare("Password", ErrorMessage = "A senha e a confirmação de senha não coincidem.")]
             public string ConfirmPassword { get; set; }
         }
-
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -113,25 +90,26 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
-
                 if (result.Succeeded)
                 {
-                    _logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("Usuário criou uma nova conta com senha.");
 
                     var userId = await _userManager.GetUserIdAsync(user);
 
-                    // Cria o registro do vendedor
                     _appContext.Vendedores.Add(new Vendedor
                     {
-                        Id = Guid.Parse(userId),
-                        Nome = user.UserName,
+                        Id = userId.NormalizeGuid(),
+                        Nome = Input.Nome,
                         Email = user.Email,
-                        CreatedAt = DateTime.Now
+                        CreatedAt = DateTime.Now,
+                        Ativo = true
                     });
+
+                    await _userManager.AddToRoleAsync(user, TipoUsuario.Vendedor.ToString().ToUpper());
+
                     await _appContext.SaveChangesAsync();
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
@@ -142,8 +120,8 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                         values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
                         protocol: Request.Scheme);
 
-                    await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
-                        $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+                    await _emailSender.SendEmailAsync(Input.Email, "Confirme seu email",
+                        $"Por favor, confirme sua conta <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
 
                     if (_userManager.Options.SignIn.RequireConfirmedAccount)
                     {
@@ -157,11 +135,29 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError(string.Empty, error.Description);
+                    if (error.Code.Equals("PasswordRequiresUpper"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresLower"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresDigit"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else if (error.Code.Equals("PasswordRequiresNonAlphanumeric"))
+                    {
+                        ModelState.AddModelError("Input.Password", error.Description);
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return Page();
         }
 
@@ -173,9 +169,9 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
             }
             catch
             {
-                throw new InvalidOperationException($"Can't create an instance of '{nameof(IdentityUser)}'. " +
-                    $"Ensure that '{nameof(IdentityUser)}' is not an abstract class and has a parameterless constructor, or alternatively " +
-                    $"override the register page in /Areas/Identity/Pages/Account/Register.cshtml");
+                throw new InvalidOperationException($"Não é possível criar uma instância de '{nameof(IdentityUser)}'. " +
+                    $"Certifique-se de que '{nameof(IdentityUser)}' não é uma classe abstrata e tem um construtor sem parâmetros, ou alternativamente " +
+                    $"substitua a página de registro em /Areas/Identity/Pages/Account/Register.cshtml");
             }
         }
 
@@ -183,7 +179,7 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
         {
             if (!_userManager.SupportsUserEmail)
             {
-                throw new NotSupportedException("The default UI requires a user store with email support.");
+                throw new NotSupportedException("A interface padrão requer um armazenamento de usuário com suporte a email.");
             }
             return (IUserEmailStore<IdentityUser>)_userStore;
         }

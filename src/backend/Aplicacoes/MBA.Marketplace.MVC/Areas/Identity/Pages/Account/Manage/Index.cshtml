@@ -1,0 +1,113 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Gerenciar Perfil";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            @if (!string.IsNullOrEmpty(Model.StatusMessage))
+            {
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="bi bi-check-circle me-2"></i>
+                    @Model.StatusMessage
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">
+                                <i class="bi bi-person-circle me-2"></i>Informações do Perfil
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <form id="profile-form" method="post">
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                                
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">
+                                                <i class="bi bi-envelope me-2"></i>Email
+                                            </label>
+                                            <input value="@Model.Username" class="form-control" disabled readonly />
+                                            <div class="form-text">
+                                                Para alterar o email, acesse a opção <a asp-area="Identity" asp-page="/Account/Manage/Email">Email</a>.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label asp-for="Input.PhoneNumber" class="form-label">
+                                                <i class="bi bi-telephone me-2"></i>Telefone
+                                            </label>
+                                            <input asp-for="Input.PhoneNumber" class="form-control" placeholder="(11) 99999-9999" />
+                                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card bg-light">
+                                            <div class="card-body">
+                                                <h6 class="card-title">
+                                                    <i class="bi bi-info-circle me-2"></i>Informações da Conta
+                                                </h6>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <small class="text-muted">
+                                                            <strong>Email verificado:</strong> 
+                                                            <i class="bi bi-check-circle text-success"></i> Sim
+                                                        </small>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <small class="text-muted">
+                                                            <strong>Membro desde:</strong> 
+                                                            @DateTime.Now.ToString("MMMM/yyyy", new System.Globalization.CultureInfo("pt-BR"))
+                                                        </small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="text-end mt-2">
+                                    <button type="submit" class="btn btn-outline-aplication btn-sm">
+                                        <i class="bi bi-save me-1"></i> Salvar Alterações
+                                    </button>
+                                    <a asp-area="" asp-controller="Admin" asp-action="Index" class="btn btn-outline-danger btn-sm">Cancelar</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        $(document).ready(function() {
+            $('#Input_PhoneNumber').on('input', function() {
+                const value = $(this).val().replace(/\D/g, '');
+                if (value.length >= 10) {
+                    $(this).addClass('is-valid').removeClass('is-invalid');
+                } else if (value.length > 0) {
+                    $(this).addClass('is-invalid').removeClass('is-valid');
+                } else {
+                    $(this).removeClass('is-valid is-invalid');
+                }
+            });
+        });
+    </script>
+} 

@@ -66,8 +66,8 @@ export class Favoritos implements OnInit, OnChanges {
   //   this.favoritosService.adicionarFavorito(produto);
   // }
 
-  // removerFavorito(produto: ItemEmDestaqueViewModel) {
-  //   this.favoritosService.removerFavorito(produto);
+  // removerFavorito(produto: ProdutoViewModel) {
+  //    this.favoritosService.removerFavorito(produto);
   // }
 
   // trackById(index: number, item: ItemEmDestaqueViewModel): number {

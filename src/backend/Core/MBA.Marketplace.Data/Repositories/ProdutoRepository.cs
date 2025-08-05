@@ -53,6 +53,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             var query = _context.Produtos
                 .Include(p => p.Categoria)
+                .Include(x => x.Vendedor)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -68,6 +69,11 @@ namespace MBA.Marketplace.Data.Repositories
             if (parametros.CategoriaId != null)
             {
                 query = query.Where(p => p.CategoriaId == parametros.CategoriaId);
+            }
+
+            if (parametros.VendedorId != null)
+            {
+                query = query.Where(p => p.VendedorId == parametros.VendedorId);
             }
 
             //Ordenação dinâmica
@@ -143,5 +149,22 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context.Produtos.Where(p => p.Id == id && p.VendedorId == vendedor.Id).FirstOrDefaultAsync();
         }
+        public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
+        {
+            var query = _context.Produtos
+                                .Include(p => p.Categoria)
+                                .Include(p => p.Vendedor)
+                                .AsQueryable();
+
+            query = query.OrderByDescending(p => p.CreatedAt);
+
+            if (limit.HasValue)
+            {
+                query = query.Take(limit.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
     }
 }

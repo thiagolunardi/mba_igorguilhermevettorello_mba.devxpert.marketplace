@@ -2,18 +2,11 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using System;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.Encodings.Web;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Logging;
+using System.ComponentModel.DataAnnotations;
 
 namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 {
@@ -21,33 +14,19 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
     public class ForgotPasswordModel : PageModel
     {
         private readonly UserManager<IdentityUser> _userManager;
-        private readonly IEmailSender _emailSender;
         private readonly ILogger<ForgotPasswordModel> _logger;
 
-        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender, ILogger<ForgotPasswordModel> logger)
+        public ForgotPasswordModel(UserManager<IdentityUser> userManager, ILogger<ForgotPasswordModel> logger)
         {
             _userManager = userManager;
-            _emailSender = emailSender;
             _logger = logger;
         }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
-        /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
-        /// </summary>
         public class InputModel
         {
-            /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
-            /// </summary>
             [Required(ErrorMessage = "O campo Email é obrigatório.")]
             [EmailAddress(ErrorMessage = "O campo Email não é um endereço de email válido.")]
             [Display(Name = "Email")]
@@ -56,37 +35,22 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync()
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var user = await _userManager.FindByEmailAsync(Input.Email);
-                if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-                {
-                    // Don't reveal that the user does not exist or is not confirmed
-                    // so we don't reveal information about who does and does not have an account
-                    return RedirectToPage("./ForgotPasswordConfirmation");
-                }
-
-                // For more information on how to enable account confirmation and password reset please
-                // visit https://go.microsoft.com/fwlink/?LinkID=532713
-                var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-                code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                var callbackUrl = Url.Page(
-                    "/Account/ResetPassword",
-                    pageHandler: null,
-                    values: new { area = "Identity", code },
-                    protocol: Request.Scheme);
-
-                await _emailSender.SendEmailAsync(
-                    Input.Email,
-                    "Redefinir Senha",
-                    $"Por favor, redefina sua senha <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.");
-
-                _logger.LogInformation("Password reset email sent to {Email}", Input.Email);
-                return RedirectToPage("./ForgotPasswordConfirmation");
+                return Page();
             }
 
-            // Se chegou até aqui, houve erro de validação - os erros já estão mapeados nos campos específicos
-            return Page();
+            var user = await _userManager.FindByEmailAsync(Input.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("Input.Email", "Email não consta no sistema.");
+                return Page();
+            }
+
+            // Redireciona para página de redefinição de senha em vez de enviar email
+            _logger.LogInformation("User with email {Email} redirected to reset password page", Input.Email);
+            
+            return RedirectToPage("ResetPassword", new { email = Input.Email });
         }
     }
 } 

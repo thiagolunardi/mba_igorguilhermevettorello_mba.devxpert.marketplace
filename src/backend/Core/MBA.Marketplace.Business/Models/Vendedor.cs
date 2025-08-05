@@ -10,10 +10,17 @@ namespace MBA.Marketplace.Business.Models
         [Required]
         [MaxLength(255)]
         public string Nome { get; set; }
+
         [Required]
         public string Email { get; set; }
-        public IEnumerable<Produto> Produtos { get; set; }
+
+        [Required]
+        public bool Ativo { get; set; }
+
         public DateTime CreatedAt { get; set; }
+
         public DateTime UpdatedAt { get; set; }
+
+        public IEnumerable<Produto> Produtos { get; set; }
     }
 }

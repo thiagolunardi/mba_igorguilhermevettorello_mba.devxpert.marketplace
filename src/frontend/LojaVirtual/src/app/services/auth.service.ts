@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { tap } from 'rxjs/operators';
 import { CadastroViewModel } from '../viewmodels/cadastro/cadastro.viewmodel';
 import { Observable } from 'rxjs';
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -43,4 +44,35 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
     this.router.navigate(['/login']);
   }
+
+  getUsuario(): Usuario | null {
+    const token = this.getToken();
+    if (!token) return null;
+
+    try {
+      const decoded = jwtDecode<any>(token);
+
+      return {
+        id: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'],
+        email: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'],
+        nome: decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'],
+        roles: Array.isArray(decoded['role']) ? decoded['role'] : [decoded['role']],
+      };
+    } catch {
+      return null;
+    }
+  }
+}
+
+export interface JwtPayload {
+  nome: string;
+  email: string;
+  exp: number;
+}
+
+export interface Usuario {
+  id: string;
+  email: string;
+  nome: string;
+  roles: string[];
 }

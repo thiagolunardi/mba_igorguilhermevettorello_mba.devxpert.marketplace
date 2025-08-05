@@ -10,8 +10,11 @@
     <a [routerLink]="['/produto', produto.id]" class="btn btn-outline-primary btn-md">
       Ver Detalhes
     </a>
+    @if(authService.isAuthenticated()){
     <button (click)="favoritarProduto()" style="float: right;" class="btn btn-link text-danger" type="button">
       <i class="bi bi-heart"></i>
     </button>
+    }
+
   </div>
 </div>

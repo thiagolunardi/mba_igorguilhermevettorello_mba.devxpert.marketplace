@@ -10,6 +10,8 @@ import { Login } from './pages/public/autenticacao/login/login';
 import { Register } from './pages/public/autenticacao/register/register';
 import { MainLayout } from './layout/main-layout/main-layout';
 import { AuthLayout } from './layout/auth-layout/auth-layout';
+import { guestGuard } from './guards/guest.guard';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   {
@@ -29,6 +31,7 @@ export const routes: Routes = [
       {
         path: 'favoritos',
         component: Favoritos,
+        canActivate: [authGuard],
         data: { breadcrumb: 'Favoritos' }
       },
       {
@@ -57,9 +60,10 @@ export const routes: Routes = [
   {
     path: '',
     component: AuthLayout,
+    canActivate: [guestGuard],
     children: [
       { path: 'login', component: Login },
-      { path: 'register', component: Register },
+      { path: 'cadastro', component: Register },
     ]
   },
 

@@ -12,7 +12,8 @@
       </div>
       <a [routerLink]="['/produto', item.id]">
         <div class="product-thumb-info-image">
-          <img [src]="item.imagem || 'https://via.placeholder.com/300x200.png?text=Sem+Imagem'" class="img-fluid" [alt]="item.nome" style="height: 200px; object-fit: cover;">
+          <img [src]="imagemSrc" class="img-fluid" [alt]="item.nome" style="height: 200px; object-fit: cover;"> 
+          <!-- <img [src]="imagemSrc" class="card-img-top imagem-produto" alt="..."> -->
         </div>
       </a>
     </div>
@@ -20,10 +21,10 @@
     <div class="d-flex justify-content-between">
       <div>
         <a [routerLink]="['/produto', item.id]" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">
-          {{ item.categoria.nome }}
+          {{ item.nome }}
         </a>
         <h3 class="fontForce text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
-          <a [routerLink]="['/produto', item.id]" class="text-color-dark text-color-hover-primary">{{ item.nome }}</a>
+          <a [routerLink]="['/produto', item.id]" class="text-color-dark text-color-hover-primary">{{ item.categoria.nome }}</a>
         </h3>
       </div>
       <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4">

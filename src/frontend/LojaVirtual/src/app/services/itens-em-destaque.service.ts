@@ -1,7 +1,7 @@
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, map, of } from 'rxjs'; // 1. Importar 'of' e 'catchError'
+import { Observable, map, of } from 'rxjs';
 import { catchError, } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 import { ItemEmDestaqueViewModel } from '../pages/public/home/item-destaque/item-em-destaque.viewmodel';
 
 @Injectable({
@@ -9,12 +9,17 @@ import { ItemEmDestaqueViewModel } from '../pages/public/home/item-destaque/item
 })
 export class ItensEmDestaqueService {
 
-  private apiUrl = 'https://localhost:7179/api/marketplace/produtos';
+  private apiUrl = 'https://localhost:7179/api/produtos';
 
   constructor(private http: HttpClient) { }
 
-  obterItensEmDestaque() {
-    return this.http.get<ItemEmDestaqueViewModel[]>(this.apiUrl, { observe: 'response' })
+  obterItensEmDestaque(): Observable<ItemEmDestaqueViewModel[] | null> {
+    const params = new HttpParams().set('ordenarPor', 'dataCadastro').set('limit', 15);
+
+    return this.http.get<ItemEmDestaqueViewModel[]>(this.apiUrl, { 
+        params: params,
+        observe: 'response' 
+      })
       .pipe( 
         map(response => {
           if (response.status === 200) {

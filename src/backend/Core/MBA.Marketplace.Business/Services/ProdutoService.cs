@@ -125,6 +125,11 @@ namespace MBA.Marketplace.Business.Services
             return await _produtoRepository.ObterPorIdAsync(id);
         }
 
+        public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)
+        {
+            return await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
+        }
+
         public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)
         {
             var produto = await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);
@@ -168,7 +173,7 @@ namespace MBA.Marketplace.Business.Services
 
             return await _produtoRepository.RemoverAsync(produto);
         }
-   
+
         public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
         {
             var produtos = await _produtoRepository.ListarProdutosFiltroAsync(ordenarPor, limit);

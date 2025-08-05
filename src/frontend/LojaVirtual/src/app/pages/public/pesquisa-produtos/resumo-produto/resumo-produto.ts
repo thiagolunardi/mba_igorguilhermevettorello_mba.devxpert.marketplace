@@ -4,6 +4,7 @@ import { ProdutoViewModel } from '../../../../viewmodels/pesquisa-de-produtos/pr
 import { CurrencyPipe } from '@angular/common';
 import { NotificacaoService } from '../../../../services/notificacao.service';
 import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
+import { AuthService } from '../../../../services/auth.service';
 
 @Component({
   selector: 'app-resumo-produto',
@@ -14,6 +15,7 @@ import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
 export class ResumoProduto {
   @Input() produto!: ProdutoViewModel;
   private notificacaoService = inject(NotificacaoService);
+  authService = inject(AuthService);
 
   get imagemSrc(): string {
     return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;

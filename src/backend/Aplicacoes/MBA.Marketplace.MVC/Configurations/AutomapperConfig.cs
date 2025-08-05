@@ -19,12 +19,12 @@ namespace MBA.Marketplace.MVC.Configurations
             CreateMap<Categoria, CategoriaFormViewModel>();
 
             CreateMap<Produto, ProdutoViewModel>()
-                .ForMember(dest => dest.Src, opt => opt.MapFrom(src => src.Imagem))
-                .ForMember(dest => dest.Imagem, opt => opt.Ignore())
+                //.ForMember(dest => dest.Src, opt => opt.MapFrom(src => src.Imagem))
+                //.ForMember(dest => dest.Imagem, opt => opt.Ignore())
                 .ForMember(dest => dest.Vendedor, opt => opt.Ignore());
 
             CreateMap<Produto, ProdutoFormViewModel>()
-                .ForMember(dest => dest.Src, opt => opt.MapFrom(src => src.Imagem))
+                //.ForMember(dest => dest.Src, opt => opt.MapFrom(src => src.Imagem))
                 .ForMember(dest => dest.Imagem, opt => opt.Ignore());
 
             CreateMap<Vendedor, VendedorViewModel>().ReverseMap();

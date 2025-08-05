@@ -62,6 +62,7 @@ namespace MBA.Marketplace.MVC.Controllers
         public async Task<IActionResult> Index()
         {
             var produtos = Enumerable.Empty<Produto>();
+
             if (await IsAdmin())
             {
                 produtos = await _produtoService.ListarAllAsync();
@@ -70,7 +71,7 @@ namespace MBA.Marketplace.MVC.Controllers
             {
                 var vendedor = await BuscarVendedorLogado();
                 produtos = await _produtoService.ListarAsync(vendedor);
-                
+
             }
 
             var model = _mapper.Map<List<ProdutoViewModel>>(produtos);

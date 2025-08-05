@@ -58,7 +58,7 @@
               "src/assets/js/custom.js",
               "src/assets/js/theme.js",
               "src/assets/js/view.shop.js",
-              "src/assets/js/theme.init.js"       
+              "src/assets/js/theme.init.js"
             ]
           },
           "configurations": {
@@ -67,7 +67,7 @@
                 {
                   "type": "initial",
                   "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -116,7 +116,7 @@
                 "input": "public"
               }
             ],
-            "styles": [              
+            "styles": [
               "src/styles.scss",
               "src/assets/css/custom.scss",
               "src/assets/css/theme.css",

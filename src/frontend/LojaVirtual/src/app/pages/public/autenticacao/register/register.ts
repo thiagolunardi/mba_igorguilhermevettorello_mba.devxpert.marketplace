@@ -16,7 +16,6 @@ export class Register {
   auth = inject(AuthService);
   router = inject(Router);
 
-
   form = this.fb.group({
     nome: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -25,6 +24,7 @@ export class Register {
   }, { validators: senhasIguaisValidator() });
 
   error = '';
+  loading = false;
 
   get f() {
     return this.form.controls;
@@ -36,6 +36,9 @@ export class Register {
       return;
     }
 
+    this.loading = true;
+    this.error = '';
+
     const cadastro = this.form.value as {
       nome: string;
       email: string;
@@ -45,7 +48,11 @@ export class Register {
 
     this.auth.register(cadastro).subscribe({
       next: () => this.router.navigate(['/home']),
-      error: () => this.error = 'Erro no cadastro. Verifique os dados.'
+      error: () => {
+        this.error = 'Erro no cadastro. Verifique os dados.';
+        this.loading = false;
+      },
+      complete: () => this.loading = false
     });
   }
 }

@@ -70,9 +70,14 @@
         <div class="alert alert-danger" *ngIf="error">{{ error }}</div>
 
         <!-- Botão -->
-        <button type="submit" class="btn btn-primary w-100">
-          <i class="bi bi-person-plus"></i> Cadastrar
+        <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center"
+          [disabled]="form.invalid || loading">
+          <span *ngIf="!loading">
+            <i class="bi bi-person-plus"></i> Cadastrar
+          </span>
+          <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         </button>
+
       </form>
     </div>
   </div>

@@ -1,6 +1,9 @@
-import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { catchError, map, of } from 'rxjs';
+import { ListaPaginada } from '../viewmodels/shared/lista-paginada.viewmodel';
 
-export interface Favorito {
+export interface FavoritoViewModel {
   id: number;
   nome: string;
   categoria: string;
@@ -13,43 +16,59 @@ export interface Favorito {
   providedIn: 'root'
 })
 export class FavoritosService {
+  private http = inject(HttpClient);
+  private readonly URL_BASE = 'https://localhost:7179/api/favoritos/';
 
-   private favoritos: Favorito[] = [
-      {
-        id: 1,
-        nome: 'Smartphone Modelo X',
-        categoria: 'Eletrônicos',
-        preco: 1999.90,
-        descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 2,
-        nome: 'Notebook Pro',
-        categoria: 'Computadores',
-        preco: 4599.00,
-        descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 3,
-        nome: 'Fone de Ouvido Sem Fio',
-        categoria: 'Acessórios',
-        preco: 299.50,
-        descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      }
-    ];
+  obterFavoritos(clienteId: string) {
+    const url = this.URL_BASE + clienteId;
 
-  constructor() { }
-
-  adicionarFavorito(produto: any) {
-    if (!this.favoritos.find(item => item.id === produto.id)) {
-      this.favoritos.push(produto);
-    }
+    return this.http.get<ListaPaginada<FavoritoViewModel>>(url, { observe: 'response' })
+      .pipe(
+        map(response => {
+          if (response.status === 200) {
+            return response.body;
+          }
+          else {
+            throw new Error(`Erro ao buscar favoritos. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(null))
+      );
   }
 
-  removerFavorito(produto: any) {
-      this.favoritos = this.favoritos.filter(item => item.id !== produto.id);
+  adicionarFavorito(produtoId: string) {
+    const url = this.URL_BASE + produtoId;
+
+    return this.http.post<any>(url, { observe: 'response' })  //TODO: alterar tipo de retorno de any p/ algo
+      .pipe(
+        map(response => {
+          if (response.status === 201) {
+            // return response.body;                          //TODO: verificar necessidade de retornar corpo do response
+            return true;
+          }
+          else {
+            throw new Error(`Erro ao adicionar favorito. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(false)),
+      );
+  }
+
+  removerFavorito(produtoId: string) {
+    const url = this.URL_BASE + produtoId;
+
+    return this.http.delete<any>(url, { observe: 'response' })  //TODO: alterar tipo de retorno de any p/ algo
+      .pipe(
+        map(response => {
+          if (response.status === 204) {
+            // return response.body;                          //TODO: verificar necessidade de retornar corpo do response
+            return true;
+          }
+          else {
+            throw new Error(`Erro ao remover favorito. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(false)),
+      );
   }
 }

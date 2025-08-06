@@ -16,8 +16,8 @@ export class ItemDestaqueComponent {
 
     get imagemSrc(): string {
 
-    if (this.item?.imagem) {
-      return `data:image/jpeg;base64,${this.item.imagem}`;
+    if (this.item?.src) {
+      return `data:image/jpeg;base64,${this.item.src}`;
     }
 
     return IMAGEM_PLACEHOLDER;

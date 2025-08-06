@@ -1,4 +1,5 @@
-﻿using MBA.Marketplace.Business.Models;
+﻿using MBA.Marketplace.Business.DTOs.Paginacao;
+using MBA.Marketplace.Business.Models;
 
 namespace MBA.Marketplace.Business.Interfaces.Repositories
 {
@@ -9,5 +10,6 @@ namespace MBA.Marketplace.Business.Interfaces.Repositories
         Task<Favorito?> ObterPorIdAsync(Guid? id);
         Task<bool> AtualizarAsync(Favorito favorito);
         Task RemoverAsync(Favorito favorito);
+        Task<ListaPaginada<Favorito>> PesquisarAsync(PesquisaDeFavoritos parametros);
     }
 }

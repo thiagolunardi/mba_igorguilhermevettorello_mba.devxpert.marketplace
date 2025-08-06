@@ -1,4 +1,5 @@
-﻿using MBA.Marketplace.Business.Interfaces.Repositories;
+﻿using MBA.Marketplace.Business.DTOs.Paginacao;
+using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 
@@ -10,17 +11,20 @@ namespace MBA.Marketplace.Business.Services
         {
             return await repository.ObterPorIdAsync(cliente);
         }
+
         public async Task<Favorito> Cadastrar(Favorito favorito)
         {
             return await repository.CriarAsync(favorito);
         }
+
         public async Task Deletar(Favorito favorito)
         {
             await repository.RemoverAsync(favorito);
         }
-        public async Task<bool> Atualizar(Favorito favorito)
+
+        public async Task<ListaPaginada<Favorito>> PesquisarAsync(PesquisaDeFavoritos parametros)
         {
-            return await repository.AtualizarAsync(favorito);
+            return await repository.PesquisarAsync(parametros);
         }
     }
 }

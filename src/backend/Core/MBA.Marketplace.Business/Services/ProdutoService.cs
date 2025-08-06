@@ -104,7 +104,8 @@ namespace MBA.Marketplace.Business.Services
                 Estoque = (int)dto.Estoque,
                 CategoriaId = (Guid)dto.CategoriaId,
                 VendedorId = vendedor.Id,
-                Imagem = nomeArquivo
+                Imagem = nomeArquivo,
+                Ativo = true
             });
 
             return produto;

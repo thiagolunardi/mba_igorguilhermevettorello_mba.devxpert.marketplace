@@ -19,7 +19,7 @@ namespace MBA.Marketplace.Data.Repositories
             var query = _context.Favoritos
                 .Include(f => f.Produto)
                 .Include(f => f.Cliente)
-                .Where(f => f.ClienteId == parametros.ClienteId)
+                .Where(f => f.ClienteId == parametros.ClienteId && f.Produto.Ativo == true)
                 .OrderBy(f => f.CreatedAt)
                 .AsNoTracking()
                 .AsQueryable();

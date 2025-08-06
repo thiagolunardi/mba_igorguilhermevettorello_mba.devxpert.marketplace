@@ -24,20 +24,20 @@ namespace MBA.Marketplace.API.Controllers
             _produtoService = produtoService;
         }
 
-        [HttpGet("cliente/{clienteId:guid}")]
+        [HttpGet()]
         [ProducesResponseType(typeof(Favorito), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> ObterFavoritosDoCliente([FromRoute] Guid clienteId, [FromQuery] PesquisaDeFavoritos parametros)
+        public async Task<IActionResult> ObterFavoritosDoCliente([FromQuery] int numeroDaPagina, int tamanhoDaPagina)
         {
-            var cliente = await _clienteRepository.ObterPorUsuarioIdAsync(clienteId.ToString());
+            var emailCliente = ObterEmailDoUsuario();
+            var cliente = await _clienteRepository.ObterPorEmailAsync(emailCliente);
 
             if (cliente == null)
                 return NotFound("Cliente não encontrado");
 
-            if (!ValidarSeUsuarioPodeVerDadosDoCliente(cliente))
-                return Unauthorized("Você não tem permissão para acessar os favoritos deste cliente.");
-
+            var parametros = new PesquisaDeFavoritos() { ClienteId = cliente.Id, NumeroDaPagina = numeroDaPagina, TamanhoDaPagina = tamanhoDaPagina };
             var pesquisaPaginada = await _favoritoService.PesquisarAsync(parametros);
 
             if (pesquisaPaginada == null)
@@ -48,6 +48,7 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(Favorito), StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
         public async Task<IActionResult> Cadastrar(Guid produtoId)
@@ -90,11 +91,6 @@ namespace MBA.Marketplace.API.Controllers
 
             await _favoritoService.Deletar(favorito);
             return NoContent();
-        }
-
-        private bool ValidarSeUsuarioPodeVerDadosDoCliente(Cliente cliente)
-        {
-            return String.Equals(cliente.Email, ObterEmailDoUsuario(), StringComparison.InvariantCultureIgnoreCase);
         }
 
         private string? ObterEmailDoUsuario()

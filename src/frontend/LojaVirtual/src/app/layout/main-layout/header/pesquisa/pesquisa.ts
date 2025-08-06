@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
   selector: 'app-pesquisa',
   imports: [FormsModule],
   templateUrl: './pesquisa.html',
+  styleUrls: ['./pesquisa.scss'],
   standalone: true
 })
 export class Pesquisa {

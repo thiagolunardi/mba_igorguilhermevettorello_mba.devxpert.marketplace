@@ -11,7 +11,8 @@ import { CategoriaViewModel } from '../../../viewmodels/pesquisa-de-produtos/cat
     CommonModule,   
     RouterModule 
   ],
-  templateUrl: './menu.html'
+  templateUrl: './menu.html',
+  styleUrls: ['./menu.scss']
 })
 export class Menu implements OnInit {
 

@@ -31,5 +31,12 @@ namespace MBA.Marketplace.Data.Repositories
                                  .Where(v => v.Id == usuario.NormalizeGuid())
                                  .FirstOrDefaultAsync();
         }
+
+        public async Task<Vendedor?> ObterVendedorAtivoPorUsuarioIdAsync(string usuario)
+        {
+            return await _context.Vendedores
+                                 .Where(v => v.Id == usuario.NormalizeGuid() && v.Ativo == true)
+                                 .FirstOrDefaultAsync();
+        }
     }
 }

@@ -53,7 +53,8 @@ namespace MBA.Marketplace.Data.Repositories
         {
             var query = _context.Produtos
                 .Include(p => p.Categoria)
-                .Include(x => x.Vendedor)
+                .Include(p => p.Vendedor)
+                .Where(p => p.Ativo == true)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -139,6 +140,16 @@ namespace MBA.Marketplace.Data.Repositories
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
         }
+        public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)
+        {
+            return await _context
+                .Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Vendedor)
+                .Where(p => p.Id == id && p.Ativo == true)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> RemoverAsync(Produto produto)
         {
             _context.Produtos.Remove(produto);
@@ -154,6 +165,7 @@ namespace MBA.Marketplace.Data.Repositories
             var query = _context.Produtos
                                 .Include(p => p.Categoria)
                                 .Include(p => p.Vendedor)
+                                .Where(p => p.Ativo == true)
                                 .AsQueryable();
 
             query = query.OrderByDescending(p => p.CreatedAt);

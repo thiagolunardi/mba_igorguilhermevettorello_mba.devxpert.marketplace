@@ -104,7 +104,8 @@ namespace MBA.Marketplace.Business.Services
                 Estoque = (int)dto.Estoque,
                 CategoriaId = (Guid)dto.CategoriaId,
                 VendedorId = vendedor.Id,
-                Imagem = nomeArquivo
+                Imagem = nomeArquivo,
+                Ativo = true
             });
 
             return produto;
@@ -123,6 +124,11 @@ namespace MBA.Marketplace.Business.Services
         public async Task<Produto> ObterPorIdAsync(Guid id)
         {
             return await _produtoRepository.ObterPorIdAsync(id);
+        }
+
+        public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)
+        {
+            return await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
         }
 
         public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)
@@ -168,7 +174,7 @@ namespace MBA.Marketplace.Business.Services
 
             return await _produtoRepository.RemoverAsync(produto);
         }
-   
+
         public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
         {
             var produtos = await _produtoRepository.ListarProdutosFiltroAsync(ordenarPor, limit);

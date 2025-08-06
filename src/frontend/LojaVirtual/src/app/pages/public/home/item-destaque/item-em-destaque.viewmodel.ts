@@ -22,4 +22,5 @@ export interface ItemEmDestaqueViewModel {
   vendedorId: string;
   vendedor: Vendedor;
   ativo: boolean;
+  src: string;
 }

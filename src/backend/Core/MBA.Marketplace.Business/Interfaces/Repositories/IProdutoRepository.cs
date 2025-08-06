@@ -14,6 +14,7 @@ namespace MBA.Marketplace.Business.Interfaces.Repositories
         Task<Produto> CriarAsync(Produto produto);
         Task<Produto> ObterPorIdPorVendedorIdAsync(Guid id, Vendedor vendedor);
         Task<Produto> ObterPorIdAsync(Guid id);
+        Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id);
         Task<bool> AtualizarAsync(Produto produto);
         Task<bool> RemoverAsync(Produto produto);
     }

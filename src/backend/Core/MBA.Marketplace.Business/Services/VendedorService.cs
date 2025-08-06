@@ -23,5 +23,11 @@ namespace MBA.Marketplace.Business.Services
             return await _vendedorRepository.ObterPorUsuarioIdAsync(id);
 
         }
+
+        public async Task<Vendedor?> ObterVendedorAtivoPorIdAsync(string id)
+        {
+            return await _vendedorRepository.ObterVendedorAtivoPorUsuarioIdAsync(id);
+
+        }
     }
 }

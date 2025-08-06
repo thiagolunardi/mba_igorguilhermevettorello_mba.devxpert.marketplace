@@ -6,6 +6,7 @@ namespace MBA.Marketplace.Business.Interfaces.Repositories
     {
         Task<bool> CriarAsync(Vendedor vendedor);
         Task<Vendedor?> ObterPorUsuarioIdAsync(string usuario);
+        Task<Vendedor?> ObterVendedorAtivoPorUsuarioIdAsync(string usuario);
         Task<IEnumerable<Vendedor>> ListarAsync();
 
     }

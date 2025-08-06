@@ -78,16 +78,20 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpDelete]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> Deletar(Favorito favorito)
+        public async Task<IActionResult> Deletar(Guid id)
         {
-            if (favorito == null)
-                return BadRequest();
+            var emailCliente = ObterEmailDoUsuario();
+            var cliente = await _clienteRepository.ObterPorEmailAsync(emailCliente);
 
-            var existente = await _favoritoService.Buscar(favorito.Id);
-            if (existente == null)
-                return NotFound();
+            if (cliente == null)
+                return NotFound("Cliente não encontrado.");
+
+            var favorito = await _favoritoService.Buscar(id);
+
+            if (favorito == null || favorito.ClienteId != cliente.Id)
+                return NotFound("Favorito não encontrado");
 
             await _favoritoService.Deletar(favorito);
             return NoContent();

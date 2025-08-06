@@ -7,6 +7,6 @@ namespace MBA.Marketplace.Business.Interfaces.Services
         Task<Vendedor> ObterPorIdAsync(string id);
         Task<Vendedor?> ObterVendedorAtivoPorIdAsync(string id);
         Task<IEnumerable<Vendedor>> ListarAsync();
-
+        Task<Vendedor> ChangeState(Guid id);
     }
 }

@@ -20,6 +20,13 @@ namespace MBA.Marketplace.Data.Repositories
             return true;
         }
 
+        public async Task<bool> AtualizarAsync(Vendedor vendedor)
+        {
+            _context.Vendedores.Update(vendedor);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<Vendedor>> ListarAsync()
         {
             return await _context.Vendedores.AsNoTracking().ToListAsync();

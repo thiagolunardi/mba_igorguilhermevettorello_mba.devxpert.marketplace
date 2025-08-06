@@ -50,5 +50,20 @@ namespace MBA.Marketplace.API.Controllers
 
             return Ok(vendedor);
         }
+
+        [HttpPatch("{id:guid}/change-state")]
+        [ProducesResponseType(typeof(Vendedor), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ChangeState(Guid id)
+        {
+            var vendedor = await _vendedorService.ChangeState(id);
+            
+            if (vendedor == null)
+                return NotFound();
+
+            _ = await _produtoService.ChangeStatePorVendedor(vendedor);
+
+            return Ok(vendedor);
+        }
     }
 }

@@ -79,5 +79,19 @@ namespace MBA.Marketplace.API.Controllers
             var imagem = System.IO.File.OpenRead(caminho);
             return File(imagem, contentType);
         }
+
+        [HttpPatch("{id:guid}/change-state")]
+        [ProducesResponseType(typeof(Produto), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ChangeState(Guid id)
+        {
+            var produto = await _produtoService.ChangeState(id);
+
+            if (produto == null)
+                return NotFound();
+
+            return Ok(produto);
+
+        }
     }
 }

@@ -1,16 +1,28 @@
-<div class="login-page">
-  <div class="login-container">
-    <div class="login-header">
-      <i class="bi bi-box-arrow-in-right"></i>
-      <h4>Entrar</h4>
+<div class="forgot-password-page">
+  <div class="forgot-password-container">
+    <div class="forgot-password-header">
+      <i class="bi bi-key"></i>
+      <h4>Redefinir Senha</h4>
     </div>
     
-    <div class="login-body">
+    <div class="forgot-password-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
         
         @if (error) {
         <div class="validation-summary-errors" role="alert">{{ error }}</div>
         }
+
+        @if (success) {
+        <div class="success-message">
+          <i class="bi bi-check-circle check-icon"></i>
+          <h5>Verifique seu email</h5>
+          <p class="mb-0">{{ success }}</p>
+        </div>
+        }
+
+        <p class="description-text">
+          Digite seu endereço de email e enviaremos um link para redefinir sua senha.
+        </p>
 
         <!-- Email -->
         <div class="form-floating">
@@ -29,46 +41,31 @@
           }
         </div>
 
-        <!-- Senha -->
-        <div class="form-floating">
-          <input id="senha" type="password" formControlName="senha" class="form-control"
-            [ngClass]="{ 'input-validation-error': f.senha.invalid && f.senha.touched }"
-            autocomplete="current-password" aria-required="true" placeholder="password">
-          <label for="senha">Senha</label>
-          @if (f.senha.touched && f.senha.invalid) {
-          <span class="text-danger">
-            @if (f.senha.errors?.['required']) {
-            Senha é obrigatória.
-            }
-          </span>
-          }
-        </div>
-
         <!-- Botão -->
         <div class="d-grid mb-3">
           <button type="submit" class="btn btn-primary"
             [disabled]="form.invalid || loading">
             @if(!loading){
-            <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+            <i class="bi bi-envelope-paper me-2"></i> Enviar Link de Redefinição
             } @else {
             <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
-            Entrando...
+            Enviando...
             }
           </button>
         </div>
       </form>
 
       <div class="links-section">
-        <a routerLink="/register" class="link-item">
-          <i class="bi bi-person-plus"></i>
-          <span>Não tem uma conta? Cadastre-se</span>
+        <a routerLink="/login" class="link-item">
+          <i class="bi bi-arrow-left"></i>
+          <span>Voltar para o Login</span>
         </a>
         
-        <a routerLink="/esqueci-senha" class="link-item">
-          <i class="bi bi-question-circle"></i>
-          <span>Esqueceu a senha?</span>
+        <a routerLink="/register" class="link-item">
+          <i class="bi bi-person-plus"></i>
+          <span>Criar nova conta</span>
         </a>
       </div>
     </div>
   </div>
-</div>
+</div> 

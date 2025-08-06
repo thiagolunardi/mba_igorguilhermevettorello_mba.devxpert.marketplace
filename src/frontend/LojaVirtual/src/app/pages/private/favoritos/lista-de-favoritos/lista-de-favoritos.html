@@ -1,0 +1,40 @@
+@if(carregando) {
+<div class="alert alert-info" role="alert">
+  <div class="mb-3"> Carregando favoritos... </div>
+  <ngb-progressbar class="mb-3" type="success" [value]="100" [striped]="true" [animated]="true" />
+</div>
+}
+@else {
+<h3 class="mt-5 mb-3">Meus Favoritos</h3>
+
+<div class="d-flex flex-wrap gap-3 justify-content-start">
+
+  @if(listaPaginada?.itens?.length === 0) {
+  <div class="alert alert-warning w-100 text-center"> Nenhum produto encontrado. </div>
+  }
+  @else {
+  @for(favorito of listaPaginada?.itens; track favorito.id) {
+
+  <!-- Card de favorito -->
+  <div class="card" style="width: 18rem;">
+    <img [src]="imagemSrc(favorito?.produto?.src)" class="card-img-top imagem-produto" alt="...">
+
+    <div class="card-body">
+      <p class="card-title text-uppercase d-flex justify-content-between align-items-center">
+        <strong>{{ favorito?.produto?.nome }}</strong>
+      </p>
+      <p class="card-text">Categoria: {{favorito.categoria}}</p>
+      <p><strong>{{ favorito?.produto?.preco | currency:'BRL' }}</strong></p>
+      <a [routerLink]="['/produto', favorito.produtoId]" class="btn btn-outline-primary btn-md">
+        Ver Detalhes
+      </a>
+      <button class="btn btn-outline-danger btn-md">
+        Remover
+      </button>
+    </div>
+  </div>
+  }
+  }
+
+</div>
+}

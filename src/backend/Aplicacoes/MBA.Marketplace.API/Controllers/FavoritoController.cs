@@ -26,7 +26,6 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpGet()]
         [ProducesResponseType(typeof(Favorito), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         public async Task<IActionResult> ObterFavoritosDoCliente([FromQuery] int numeroDaPagina, int tamanhoDaPagina)
@@ -39,10 +38,6 @@ namespace MBA.Marketplace.API.Controllers
 
             var parametros = new PesquisaDeFavoritos() { ClienteId = cliente.Id, NumeroDaPagina = numeroDaPagina, TamanhoDaPagina = tamanhoDaPagina };
             var pesquisaPaginada = await _favoritoService.PesquisarAsync(parametros);
-
-            if (pesquisaPaginada == null)
-                return NoContent();
-
             return Ok(pesquisaPaginada);
         }
 

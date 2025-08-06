@@ -1,15 +1,16 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { catchError, map, of } from 'rxjs';
 import { ListaPaginada } from '../viewmodels/shared/lista-paginada.viewmodel';
+import { adicionarParametrosSePossuirValor } from '../util/common-functions';
+import { CategoriaViewModel } from '../viewmodels/pesquisa-de-produtos/categoria.viewmodel';
+import { ProdutoViewModel } from '../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 
 export interface FavoritoViewModel {
-  id: number;
-  nome: string;
-  categoria: string;
-  preco: number;
-  descricao: string;
-  imagemUrl: string;
+  id: string;
+  categoria: CategoriaViewModel;
+  produtoId: string;
+  produto: ProdutoViewModel
 }
 
 @Injectable({
@@ -19,10 +20,21 @@ export class FavoritosService {
   private http = inject(HttpClient);
   private readonly URL_BASE = 'https://localhost:7179/api/favoritos/';
 
-  obterFavoritos(clienteId: string) {
-    const url = this.URL_BASE + clienteId;
+  obterFavoritos(
+    numeroDaPagina: number | null = null,
+    tamanhoDaPagina: number | null = null
+  ) {
+    const url = this.URL_BASE
 
-    return this.http.get<ListaPaginada<FavoritoViewModel>>(url, { observe: 'response' })
+    let params = new HttpParams();
+    params = adicionarParametrosSePossuirValor(
+      params,
+      [
+        { nome: 'numeroDaPagina', valor: numeroDaPagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
+      ]);
+
+    return this.http.get<ListaPaginada<FavoritoViewModel>>(url, { params, observe: 'response' })
       .pipe(
         map(response => {
           if (response.status === 200) {

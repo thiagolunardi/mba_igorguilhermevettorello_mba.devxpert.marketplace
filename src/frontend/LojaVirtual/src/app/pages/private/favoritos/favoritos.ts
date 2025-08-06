@@ -1,38 +1,51 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FavoritosService, FavoritoViewModel } from '../../../services/favoritos.service';
-import { Observable } from 'rxjs';
 import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
+import { IMAGEM_PLACEHOLDER, TAMANHO_PADRAO_PAGINA } from '../../../util/constantes';
+import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
   selector: 'app-favoritos',
-  imports: [],
+  imports: [NgbProgressbar, RouterLink, CurrencyPipe],
   templateUrl: './favoritos.html',
   styles: ``
 })
 export class Favoritos {
-  private activatedRoute = inject(ActivatedRoute);
   private favoritosService = inject(FavoritosService);
   private router = inject(Router);
 
-  id!: string;
   carregando: boolean = true;
-  listaPaginada$!: Observable<ListaPaginada<FavoritoViewModel> | null>;
+  listaPaginada!: ListaPaginada<FavoritoViewModel> | null;
 
   ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.params['id']
-    this.obterProdutos(this.id);
+    this.obterFavoritos(1, TAMANHO_PADRAO_PAGINA);
   }
 
-  // private obterProdutos(
-  //   id: string,
-  //   numeroDaPagina: number | null = null,
-  //   tamanhoDaPagina: number | null = null
-  // ) {
-  //   this.listaPaginada$ = this.favoritosService.obterFavoritos(id, numeroDaPagina, tamanhoDaPagina)
-  // }
+  private obterFavoritos(
+    numeroDaPagina: number | null = null,
+    tamanhoDaPagina: number | null = null
+  ) {
+    this.favoritosService.obterFavoritos(numeroDaPagina, tamanhoDaPagina)
+      .subscribe({
+        next: (resposta) => {
+          this.listaPaginada = resposta;
+        },
+        error: (err) => {
+          this.router.navigate(['/erro']);
+        },
+        complete: () => {
+          this.carregando = false;
+        }
+      });
+  }
 
-  // trocarPagina(numeroDaPagina: number | null) {
-  //   this.obterProdutos(this.id, numeroDaPagina, TAMANHO_PADRAO_PAGINA);
-  // }
+  trocarPagina(numeroDaPagina: number | null) {
+    this.obterFavoritos(numeroDaPagina, TAMANHO_PADRAO_PAGINA);
+  }
+
+  imagemSrc(src: string | undefined) {
+    return src ? src : IMAGEM_PLACEHOLDER;
+  }
 }

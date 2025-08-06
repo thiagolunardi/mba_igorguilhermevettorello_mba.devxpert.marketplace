@@ -44,6 +44,11 @@ namespace MBA.Marketplace.Data.Repositories
             return await _context.Favoritos.FindAsync(id);
         }
 
+        public async Task<Favorito?> ObterPorProdutoIdEClienteIdAsync(Guid? produtoId, Guid? clienteId)
+        {
+            return await _context.Favoritos.FirstOrDefaultAsync(f => f.ProdutoId == produtoId && f.ClienteId == clienteId);
+        }
+
         public async Task<bool> AtualizarAsync(Favorito favorito)
         {
             _context.Favoritos.Update(favorito);

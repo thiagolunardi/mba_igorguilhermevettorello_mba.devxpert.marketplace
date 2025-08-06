@@ -26,5 +26,9 @@ namespace MBA.Marketplace.Business.Services
         {
             return await repository.PesquisarAsync(parametros);
         }
+        public async Task<Favorito?> ObterPorProdutoIdEClienteIdAsync(Guid? produtoId, Guid? clienteId)
+        {
+            return await repository.ObterPorProdutoIdEClienteIdAsync(produtoId, clienteId);
+        }
     }
 }

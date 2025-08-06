@@ -16,6 +16,7 @@ namespace MBA.Marketplace.Business.Interfaces.Repositories
         Task<Produto> ObterPorIdAsync(Guid id);
         Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id);
         Task<bool> AtualizarAsync(Produto produto);
+        Task<bool> AtualizarAsync(IEnumerable<Produto> produtos);
         Task<bool> RemoverAsync(Produto produto);
     }
 }

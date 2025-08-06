@@ -187,6 +187,35 @@ namespace MBA.Marketplace.Business.Services
             return produtos;
         }
 
+        public async Task<Produto> ChangeState(Guid id)
+        {
+            var produto = await _produtoRepository.ObterPorIdAsync(id);
+            if (produto == null)
+                return null;
+
+            produto.Ativo = !produto.Ativo;
+            await _produtoRepository.AtualizarAsync(produto);
+
+            return produto;
+        }
+
+        public async Task<bool> ChangeStatePorVendedor(Vendedor vendedor)
+        {
+            var produtos = await _produtoRepository.ListarPorVendedorIdAsync(vendedor);
+
+            if (produtos == null || !produtos.Any())
+                return true;
+
+            foreach (var produto in produtos)
+            {
+                produto.Ativo = vendedor.Ativo;
+            }
+
+            await _produtoRepository.AtualizarAsync(produtos);
+
+            return true;
+        }
+
         private string? ConverterImagemEmBase64(Produto produto)
         {
             var caminhoImagemBase = @$"{Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, _config["SharedFiles:ImagensPath"])}";

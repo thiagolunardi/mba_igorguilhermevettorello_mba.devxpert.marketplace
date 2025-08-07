@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
 using MBA.Marketplace.Business.Enums;
-using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Business.Interfaces.Services;
-using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.MVC.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 
 namespace MBA.Marketplace.MVC.Controllers
 {
@@ -15,8 +11,6 @@ namespace MBA.Marketplace.MVC.Controllers
     [Authorize]
     public class VendedorController : Controller
     {
-        private readonly ICategoriaService _categoriaService;
-        private readonly IProdutoService _produtoService;
         private readonly IVendedorService _vendedorService;
         private readonly ILogger<VendedorController> _logger;
         private readonly IMapper _mapper;
@@ -27,6 +21,7 @@ namespace MBA.Marketplace.MVC.Controllers
             _logger = logger;
             _mapper = mapper;
         }
+        [Authorize(Roles = nameof(TipoUsuario.Administrador))]
         public async Task<IActionResult> Index()
         {
             var vendedor = await _vendedorService.ListarAsync();
@@ -34,58 +29,12 @@ namespace MBA.Marketplace.MVC.Controllers
             return View(model);
         }
 
-        [HttpPost("ativar/{id:Guid}")]
+        [HttpPost("trocar-status/{id:Guid}")]
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
-        public async Task<IActionResult> Ativar(Guid id)
+        public async Task<IActionResult> TrocarStatus(Guid id)
         {
+            var _ = await _vendedorService.ChangeState(id);
             return Ok();
-            //try
-            //{
-            //    var status = await _categoriaService.RemoverAsync(id);
-
-            //    if (status == StatusRemocaoEnum.NaoEncontrado)
-            //        return NotFound();
-
-            //    if (status == StatusRemocaoEnum.VinculacaoProduto)
-            //    {
-            //        var mensagem = status.GetDescription();
-            //        return Conflict(new { mensagem });
-            //    }
-
-            //    return Ok();
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, "Erro ao deletar categoria.");
-            //    return StatusCode(500, new { mensagem = "Erro interno do servidor." });
-            //}
-        }
-
-        [HttpPost("inativar/{id:Guid}")]
-        [Authorize(Roles = nameof(TipoUsuario.Administrador))]
-        public async Task<IActionResult> Inativar(Guid id)
-        {
-            return Ok();
-            //try
-            //{
-            //    var status = await _categoriaService.RemoverAsync(id);
-
-            //    if (status == StatusRemocaoEnum.NaoEncontrado)
-            //        return NotFound();
-
-            //    if (status == StatusRemocaoEnum.VinculacaoProduto)
-            //    {
-            //        var mensagem = status.GetDescription();
-            //        return Conflict(new { mensagem });
-            //    }
-
-            //    return Ok();
-            //}
-            //catch (Exception ex)
-            //{
-            //    _logger.LogError(ex, "Erro ao deletar categoria.");
-            //    return StatusCode(500, new { mensagem = "Erro interno do servidor." });
-            //}
         }
     }
 }

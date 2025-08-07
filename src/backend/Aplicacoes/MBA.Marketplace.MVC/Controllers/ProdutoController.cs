@@ -199,8 +199,7 @@ namespace MBA.Marketplace.MVC.Controllers
             return BadRequest("Erro ao excluir produto.");
         }
 
-        [AllowAnonymous]
-        [HttpGet("detalhe/{id:Guid}")]
+        [HttpGet("detalhes/{id:Guid}")]
         [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Detalhes(Guid id)
         {
@@ -209,6 +208,14 @@ namespace MBA.Marketplace.MVC.Controllers
 
             var viewModel = _mapper.Map<ProdutoViewModel>(produto);
             return View(viewModel);
+        }
+
+        [HttpPost("trocar-status/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Administrador))]
+        public async Task<IActionResult> TrocarStatus(Guid id)
+        {
+            var _ = await _produtoService.ChangeState(id);
+            return Ok();
         }
     }
 }

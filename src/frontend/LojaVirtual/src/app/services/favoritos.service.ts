@@ -8,7 +8,6 @@ import { ProdutoViewModel } from '../viewmodels/pesquisa-de-produtos/produto.vie
 
 export interface FavoritoViewModel {
   id: string;
-  categoria: CategoriaViewModel;
   produtoId: string;
   produto: ProdutoViewModel
 }

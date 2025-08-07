@@ -18,6 +18,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             var query = _context.Favoritos
                 .Include(f => f.Produto)
+                    .ThenInclude(p => p.Categoria)
                 .Include(f => f.Cliente)
                 .Where(f => f.ClienteId == parametros.ClienteId && f.Produto.Ativo == true)
                 .OrderBy(f => f.CreatedAt)

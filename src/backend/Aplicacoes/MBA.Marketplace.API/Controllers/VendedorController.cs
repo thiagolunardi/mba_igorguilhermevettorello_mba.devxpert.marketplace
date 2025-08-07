@@ -50,5 +50,6 @@ namespace MBA.Marketplace.API.Controllers
 
             return Ok(vendedor);
         }
+                
     }
 }

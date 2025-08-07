@@ -9,17 +9,14 @@ using Microsoft.AspNetCore.Mvc;
 namespace MBA.Marketplace.API.Controllers
 {
     [ApiController]
-    [Route("api/conta")]
-    public class ContaController : ControllerBase
+    [Route("api/clientes")]
+    public class ClienteController : ControllerBase
     {
         private readonly IVendedorRepository _vendedorRepository;
         private readonly IClienteRepository _clienteRepository;
         private readonly IAccountService _accountService;
 
-        private string[] ErrorPassowrd = { "PasswordTooShort", "PasswordRequiresNonAlphanumeric", "PasswordRequiresLower", "PasswordRequiresUpper", "PasswordRequiresDigit" };
-        private string[] ErrorEmail = { "DuplicateUserName" };
-
-        public ContaController(
+        public ClienteController(
             IVendedorRepository vendedorRepository,
             IClienteRepository clienteRepository,
             IAccountService accountService)
@@ -29,7 +26,7 @@ namespace MBA.Marketplace.API.Controllers
             _accountService = accountService;
         }
 
-        [HttpPost("registrar-cliente")]
+        [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> RegisterCliente([FromBody] RegistrarUsuarioDto dto)
@@ -59,13 +56,7 @@ namespace MBA.Marketplace.API.Controllers
             });
 
             //gera o token do usuário
-            var dtoLogin = new LoginDto
-            {
-                Email = dto.Email,
-                Senha = dto.Senha
-            };
-
-            var token = await _accountService.LoginAsync(dtoLogin);
+            var token = await _accountService.LoginAsync(new LoginDto { Email = dto.Email, Senha = dto.Senha });
 
             if (!token.Success)
             {
@@ -90,42 +81,6 @@ namespace MBA.Marketplace.API.Controllers
                 return Unauthorized(new { Errors = errors });
 
             return Ok(new { token = token });
-        }
-
-        [HttpGet("roles/{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetUserRoles(string userId)
-        {
-            var roles = await _accountService.GetUserRolesAsync(userId);
-
-            if (!roles.Any())
-                return NotFound(new { message = "Usuário não encontrado ou sem roles." });
-
-            return Ok(new
-            {
-                UserId = userId,
-                Roles = roles.Select(r => new
-                {
-                    Tipo = r.ToString(),
-                    Descricao = r.GetDescription()
-                })
-            });
-        }
-
-        [HttpGet("verificar-role/{userId}/{tipoUsuario}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> CheckUserRole(string userId, TipoUsuario tipoUsuario)
-        {
-            var hasRole = await _accountService.UserHasRoleAsync(userId, tipoUsuario);
-
-            return Ok(new
-            {
-                UserId = userId,
-                TipoUsuario = tipoUsuario.ToString(),
-                Descricao = tipoUsuario.GetDescription(),
-                HasRole = hasRole
-            });
         }
     }
 }

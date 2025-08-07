@@ -9,7 +9,7 @@ import { jwtDecode } from 'jwt-decode';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly tokenKey = 'access_token';
-  private readonly apiUrl = 'https://localhost:7179/api/conta';
+  private readonly apiUrl = 'https://localhost:7179/api/clientes';
 
   constructor(private http: HttpClient, private router: Router) { }
 

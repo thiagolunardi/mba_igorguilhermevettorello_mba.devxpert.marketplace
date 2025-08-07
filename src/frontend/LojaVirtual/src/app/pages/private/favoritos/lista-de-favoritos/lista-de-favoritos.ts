@@ -1,11 +1,12 @@
 import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.viewmodel';
-import { FavoritoViewModel } from '../../../../services/favoritos.service';
+import { FavoritosService, FavoritoViewModel } from '../../../../services/favoritos.service';
 import { Observable } from 'rxjs';
 import { Router, RouterLink } from '@angular/router';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
 import { CurrencyPipe } from '@angular/common';
 import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
+import { NotificacaoService } from '../../../../services/notificacao.service';
 
 @Component({
   selector: 'app-lista-de-favoritos',
@@ -14,7 +15,9 @@ import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
   styles: ``
 })
 export class ListaDeFavoritos implements OnInit, OnChanges {
-  private router = inject(Router);
+  router = inject(Router);
+  favoritoService = inject(FavoritosService);
+  notificacaoService = inject(NotificacaoService);
   carregando: boolean = true;
   listaPaginada!: ListaPaginada<FavoritoViewModel> | null;
   @Input() listaPaginada$!: Observable<ListaPaginada<FavoritoViewModel> | null>;
@@ -43,6 +46,25 @@ export class ListaDeFavoritos implements OnInit, OnChanges {
         this.carregando = false;
       }
     });
+  }
+
+  remover(id: string) {
+    this.favoritoService.removerFavorito(id)
+      .subscribe({
+        next: (resposta) => {
+          if (!resposta) {
+            this.notificacaoService.exibir("Erro ao remover favorito!");
+            return;
+          }
+
+          this.notificacaoService.exibir("Favorito removido com sucesso!");
+          this.carregarFavoritos();
+        },
+        error: (err) => {
+          this.router.navigate(['/erro']);
+        },
+        complete: () => { }
+      });
   }
 
   imagemSrc(src: string | undefined) {

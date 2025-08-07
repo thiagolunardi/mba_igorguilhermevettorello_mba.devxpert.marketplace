@@ -68,11 +68,10 @@ export class FavoritosService {
   removerFavorito(produtoId: string) {
     const url = this.URL_BASE + produtoId;
 
-    return this.http.delete<any>(url, { observe: 'response' })  //TODO: alterar tipo de retorno de any p/ algo
+    return this.http.delete<any>(url, { observe: 'response' })
       .pipe(
         map(response => {
           if (response.status === 204) {
-            // return response.body;                          //TODO: verificar necessidade de retornar corpo do response
             return true;
           }
           else {

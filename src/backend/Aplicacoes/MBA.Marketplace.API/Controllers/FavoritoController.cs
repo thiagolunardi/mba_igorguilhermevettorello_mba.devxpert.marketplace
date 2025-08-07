@@ -71,11 +71,11 @@ namespace MBA.Marketplace.API.Controllers
             return CreatedAtAction(nameof(Cadastrar), new { favorito = favorito.Id }, favorito);
         }
 
-        [HttpDelete]
+        [HttpDelete("{id:Guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Deletar(Guid id)
+        public async Task<IActionResult> Deletar([FromRoute] Guid id)
         {
             var emailCliente = ObterEmailDoUsuario();
             var cliente = await _clienteRepository.ObterPorEmailAsync(emailCliente);

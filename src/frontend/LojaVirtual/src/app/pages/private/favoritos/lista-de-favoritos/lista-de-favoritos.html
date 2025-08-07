@@ -28,7 +28,7 @@
       <a [routerLink]="['/produto', favorito.produtoId]" class="btn btn-outline-primary btn-md mx-2">
         Ver Detalhes
       </a>
-      <button class="btn btn-outline-danger btn-md">
+      <button class="btn btn-outline-danger btn-md" (click)="remover(favorito.id)">
         Remover
       </button>
     </div>

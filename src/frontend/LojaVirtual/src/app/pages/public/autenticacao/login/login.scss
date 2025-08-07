@@ -1,4 +1,4 @@
-.register-page {
+.login-page {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
   display: flex;
@@ -7,17 +7,17 @@
   padding: 1rem;
 }
 
-.register-container {
+.login-container {
   background: rgba(255, 255, 255, 0.95);
   backdrop-filter: blur(10px);
   border-radius: 1.5rem;
   box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  max-width: 500px;
+  max-width: 450px;
   width: 100%;
 }
 
-.register-header {
+.login-header {
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   padding: 2rem 1.5rem;
@@ -36,7 +36,7 @@
   }
 }
 
-.register-body {
+.login-body {
   padding: 2rem 1.5rem;
 }
 
@@ -153,43 +153,13 @@
   }
 }
 
-.password-requirements {
-  background: #e3f2fd;
-  border: 1px solid #bbdefb;
-  border-radius: 0.75rem;
-  padding: 1rem;
-  margin-bottom: 1rem;
-  font-size: 0.875rem;
-  color: #1976d2;
-
-  h6 {
-    margin-bottom: 0.5rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-
-    i {
-      margin-right: 0.5rem;
-    }
-  }
-
-  ul {
-    margin-bottom: 0;
-    padding-left: 1.25rem;
-
-    li {
-      margin-bottom: 0.25rem;
-    }
-  }
-}
-
 // Responsividade
 @media (max-width: 576px) {
-  .register-container {
+  .login-container {
     margin: 0 1rem;
   }
 
-  .register-header {
+  .login-header {
     padding: 1.5rem 1rem;
 
     i {
@@ -201,7 +171,7 @@
     }
   }
 
-  .register-body {
+  .login-body {
     padding: 1.5rem 1rem;
   }
 }
@@ -228,4 +198,4 @@
 .spinner-border {
   width: 1rem;
   height: 1rem;
-}
+} 

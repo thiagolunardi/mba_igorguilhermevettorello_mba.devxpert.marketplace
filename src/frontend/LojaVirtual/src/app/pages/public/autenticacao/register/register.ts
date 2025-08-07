@@ -10,6 +10,7 @@ import { senhaForteValidator, senhasIguaisValidator } from '../../../../util/com
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './register.html',
+  styleUrls: ['./register.scss']
 })
 export class Register {
   fb = inject(FormBuilder);

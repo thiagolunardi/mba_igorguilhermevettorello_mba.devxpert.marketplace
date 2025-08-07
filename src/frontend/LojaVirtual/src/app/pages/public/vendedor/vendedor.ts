@@ -16,7 +16,7 @@ import { TAMANHO_PADRAO_PAGINA } from '../../../util/constantes';
   templateUrl: './vendedor.html',
   styles: ``
 })
-export class VendedorComponent implements OnInit {
+export class Vendedor implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   private vendedorService = inject(VendedorService);
   private router = inject(Router);

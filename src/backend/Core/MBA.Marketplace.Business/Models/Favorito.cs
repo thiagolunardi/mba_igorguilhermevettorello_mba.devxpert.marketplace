@@ -8,9 +8,15 @@ namespace MBA.Marketplace.Business.Models
     public class Favorito : Entity
     {
         [Required]
-        public Guid Produto { get; set; }
+        public Guid ProdutoId { get; set; }
+        public Produto? Produto { get; set; }
+
 
         [Required]
-        public Guid Cliente { get; set; }
+        public Guid ClienteId { get; set; }
+
+        public Cliente? Cliente { get; set; }
+
+        public DateTime CreatedAt { get; set; }
     }
 }

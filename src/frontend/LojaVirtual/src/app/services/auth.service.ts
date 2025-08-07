@@ -9,12 +9,12 @@ import { jwtDecode } from 'jwt-decode';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly tokenKey = 'access_token';
-  private readonly apiUrl = 'https://localhost:7179/api/conta';
+  private readonly URL_BASE = 'https://localhost:7179/api/clientes';
 
   constructor(private http: HttpClient, private router: Router) { }
 
   login(data: { email: string; senha: string }): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/login`, data)
+    return this.http.post<{ token: string }>(`${this.URL_BASE}/login`, data)
       .pipe(
         tap({
           next: response => this.setToken(response.token),
@@ -24,7 +24,7 @@ export class AuthService {
   }
 
   register(usuario: CadastroViewModel) {
-    return this.http.post<{ token: string }>(`${this.apiUrl}/registrar-cliente`, usuario)
+    return this.http.post<{ token: string }>(this.URL_BASE, usuario)
       .pipe(tap(response => this.setToken(response.token)));
   }
 

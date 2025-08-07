@@ -49,12 +49,13 @@ namespace MBA.Marketplace.API.Configurations
 
         private static void RegisterServices(IServiceCollection service)
         {
-            service.AddScoped<ICategoriaService, CategoriaService>();            
+            service.AddScoped<ICategoriaService, CategoriaService>();
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
             service.AddScoped<IAccountService, AccountService>();
             service.AddScoped<IUser, AspNetUser>();
             service.AddScoped<IFavoritoService, FavoritoService>();
+            service.AddScoped<IClienteService, ClienteService>();
         }
     }
 }

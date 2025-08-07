@@ -1,55 +1,84 @@
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { catchError, map, of } from 'rxjs';
+import { ListaPaginada } from '../viewmodels/shared/lista-paginada.viewmodel';
+import { adicionarParametrosSePossuirValor } from '../util/common-functions';
+import { CategoriaViewModel } from '../viewmodels/pesquisa-de-produtos/categoria.viewmodel';
+import { ProdutoViewModel } from '../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 
-export interface Favorito {
-  id: number;
-  nome: string;
-  categoria: string;
-  preco: number;
-  descricao: string;
-  imagemUrl: string;
+export interface FavoritoViewModel {
+  id: string;
+  produtoId: string;
+  produto: ProdutoViewModel
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoritosService {
+  private http = inject(HttpClient);
+  private readonly URL_BASE = 'https://localhost:7179/api/favoritos/';
 
-   private favoritos: Favorito[] = [
-      {
-        id: 1,
-        nome: 'Smartphone Modelo X',
-        categoria: 'Eletrônicos',
-        preco: 1999.90,
-        descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 2,
-        nome: 'Notebook Pro',
-        categoria: 'Computadores',
-        preco: 4599.00,
-        descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 3,
-        nome: 'Fone de Ouvido Sem Fio',
-        categoria: 'Acessórios',
-        preco: 299.50,
-        descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      }
-    ];
+  obterFavoritos(
+    numeroDaPagina: number | null = null,
+    tamanhoDaPagina: number | null = null
+  ) {
+    const url = this.URL_BASE
 
-  constructor() { }
+    let params = new HttpParams();
+    params = adicionarParametrosSePossuirValor(
+      params,
+      [
+        { nome: 'numeroDaPagina', valor: numeroDaPagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
+      ]);
 
-  adicionarFavorito(produto: any) {
-    if (!this.favoritos.find(item => item.id === produto.id)) {
-      this.favoritos.push(produto);
-    }
+    return this.http.get<ListaPaginada<FavoritoViewModel>>(url, { params, observe: 'response' })
+      .pipe(
+        map(response => {
+          if (response.status === 200) {
+            return response.body;
+          }
+          else {
+            throw new Error(`Erro ao buscar favoritos. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(null))
+      );
   }
 
-  removerFavorito(produto: any) {
-      this.favoritos = this.favoritos.filter(item => item.id !== produto.id);
+  adicionarFavorito(produtoId: string) {
+    const url = this.URL_BASE + produtoId;
+
+    return this.http.post<any>(url, { observe: 'response' })  //TODO: alterar tipo de retorno de any p/ algo
+      .pipe(
+        map(response => {
+          if (response.status === 201) {
+            // return response.body;                          //TODO: verificar necessidade de retornar corpo do response
+            return true;
+          }
+          else {
+            throw new Error(`Erro ao adicionar favorito. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(false)),
+      );
+  }
+
+  removerFavorito(produtoId: string) {
+    const url = this.URL_BASE + produtoId;
+
+    return this.http.delete<any>(url, { observe: 'response' })
+      .pipe(
+        map(response => {
+          if (response.status === 204) {
+            return true;
+          }
+          else {
+            throw new Error(`Erro ao remover favorito. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(false)),
+      );
   }
 }

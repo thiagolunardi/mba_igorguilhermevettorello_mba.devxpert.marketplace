@@ -1,50 +1,73 @@
-<div class="container mt-5" style="max-width: 420px;">
-  <h2 class="mb-4 text-center">Login</h2>
-
-  @if (error) {
-  <div class="alert alert-danger">{{ error }}</div>
-  }
-
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- Email -->
-    <div class="mb-3">
-      <label for="email" class="form-label">Email</label>
-      <input id="email" type="email" formControlName="email" class="form-control"
-        [ngClass]="{ 'is-invalid': f.email.invalid && f.email.touched }" />
-
-      @if (f.email.touched && f.email.invalid) {
-      <div class="invalid-feedback d-block" *ngIf="true">
-        @if (f.email.errors?.['required']) {
-        Email é obrigatório.
-        } @else if (f.email.errors?.['email']) {
-        Email inválido.
-        }
-      </div>
-      }
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-header">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <h4>Entrar</h4>
     </div>
 
-    <!-- Senha -->
-    <div class="mb-3">
-      <label for="senha" class="form-label">Senha</label>
-      <input id="senha" type="password" formControlName="senha" class="form-control"
-        [ngClass]="{ 'is-invalid': f.senha.invalid && f.senha.touched }" />
+    <div class="login-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
 
-      @if (f.senha.touched && f.senha.invalid) {
-      <div class="invalid-feedback d-block" *ngIf="true">
-        @if (f.senha.errors?.['required']) {
-        Senha é obrigatória.
+        @if (error) {
+        <div class="validation-summary-errors" role="alert">{{ error }}</div>
         }
-      </div>
-      }
-    </div>
 
-    <!-- Botão -->
-    <button type="submit" class="btn btn-primary w-100 d-flex align-items-center justify-content-center"
-      [disabled]="form.invalid || loading">
-      <span *ngIf="!loading">
-        <i class="bi bi-box-arrow-in-right"></i> Entrar
-      </span>
-      <span *ngIf="loading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-    </button>
-  </form>
+        <!-- Email -->
+        <div class="form-floating">
+          <input id="email" type="email" formControlName="email" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.email.invalid && f.email.touched }" autocomplete="username"
+            aria-required="true" placeholder="name@example.com">
+          <label for="email">Email</label>
+          @if (f.email.touched && f.email.invalid) {
+          <span class="text-danger">
+            @if (f.email.errors?.['required']) {
+            Email é obrigatório.
+            } @else if (f.email.errors?.['email']) {
+            Email inválido.
+            }
+          </span>
+          }
+        </div>
+
+        <!-- Senha -->
+        <div class="form-floating">
+          <input id="senha" type="password" formControlName="senha" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.senha.invalid && f.senha.touched }" autocomplete="current-password"
+            aria-required="true" placeholder="password">
+          <label for="senha">Senha</label>
+          @if (f.senha.touched && f.senha.invalid) {
+          <span class="text-danger">
+            @if (f.senha.errors?.['required']) {
+            Senha é obrigatória.
+            }
+          </span>
+          }
+        </div>
+
+        <!-- Botão -->
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
+            @if(!loading){
+            <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+            } @else {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Entrando...
+            }
+          </button>
+        </div>
+      </form>
+
+      <div class="links-section">
+        <a [routerLink]="['/cadastro']" class="link-item">
+          <i class="bi bi-person-plus"></i>
+          <span>Não tem uma conta? Cadastre-se</span>
+        </a>
+
+        <a routerLink="/esqueci-senha" class="link-item">
+          <i class="bi bi-question-circle"></i>
+          <span>Esqueceu a senha?</span>
+        </a>
+      </div>
+    </div>
+  </div>
 </div>

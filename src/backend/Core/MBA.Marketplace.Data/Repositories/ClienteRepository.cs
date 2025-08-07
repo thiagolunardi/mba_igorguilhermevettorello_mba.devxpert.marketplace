@@ -33,5 +33,12 @@ namespace MBA.Marketplace.Data.Repositories
                                  .Where(v => v.Id == usuario.NormalizeGuid())
                                  .FirstOrDefaultAsync();
         }
+
+        public async Task<Cliente?> ObterPorEmailAsync(string? email)
+        {
+            return await _context.Clientes
+                                 .Where(v => v.Email == email)
+                                 .FirstOrDefaultAsync();
+        }
     }
 }

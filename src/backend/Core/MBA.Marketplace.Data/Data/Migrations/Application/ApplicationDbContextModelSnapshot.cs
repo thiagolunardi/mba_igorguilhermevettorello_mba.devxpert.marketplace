@@ -76,13 +76,20 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("Cliente")
+                    b.Property<Guid>("ClienteId")
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("Produto")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("ProdutoId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClienteId");
+
+                    b.HasIndex("ProdutoId");
 
                     b.ToTable("Favoritos");
                 });
@@ -164,6 +171,25 @@ namespace MBA.Marketplace.Data.Data.Migrations.Application
                     b.HasKey("Id");
 
                     b.ToTable("Vendedores");
+                });
+
+            modelBuilder.Entity("MBA.Marketplace.Business.Models.Favorito", b =>
+                {
+                    b.HasOne("MBA.Marketplace.Business.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MBA.Marketplace.Business.Models.Produto", "Produto")
+                        .WithMany()
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("MBA.Marketplace.Business.Models.Produto", b =>

@@ -79,5 +79,6 @@ namespace MBA.Marketplace.API.Controllers
             var imagem = System.IO.File.OpenRead(caminho);
             return File(imagem, contentType);
         }
+                
     }
 }

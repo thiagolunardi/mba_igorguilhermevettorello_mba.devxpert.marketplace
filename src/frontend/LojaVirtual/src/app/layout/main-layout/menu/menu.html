@@ -3,43 +3,35 @@
     <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
       <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="align-items: anchor-center;">
+        
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-list-ul" style="color: white;font-size: 22px;margin: 0;"></i> &nbsp; Ver mais
+            <i class="bi bi-list-ul" style="color: white;font-size: 22px;margin: 0;"></i> &nbsp; Categorias
           </a>
-          <ul class="dropdown-menu  text-white">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu" *ngIf="categorias.length > 0">
+            <li *ngFor="let categoria of categorias">
+              <a class="dropdown-item" [routerLink]="['/produtos/categoria', categoria.id]">
+                {{ categoria.nome }}
+              </a>
+            </li>
           </ul>
         </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Celulares
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Móveis
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Eletrodomésticos
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Informática
-          </a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">
-            Esportes
-          </a>
-        </li>
 
+        <li>
+          <a href="#" class="nav-link text-white">Celulares</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">Móveis</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">Eletrodomésticos</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">Informática</a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">Esportes</a>
+        </li>
       </ul>
     </div>
   </div>

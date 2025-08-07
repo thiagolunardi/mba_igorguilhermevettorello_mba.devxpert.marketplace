@@ -33,6 +33,7 @@ namespace MBA.Marketplace.Data.Repositories
                         .ToListAsync();
             }
         }
+
         public async Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string descricao)
         {
             var query = _context.Produtos.AsQueryable();
@@ -49,6 +50,7 @@ namespace MBA.Marketplace.Data.Repositories
 
             return await query.ToListAsync();
         }
+
         public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
         {
             var query = _context.Produtos
@@ -102,6 +104,7 @@ namespace MBA.Marketplace.Data.Repositories
 
             return await ListaPaginada<Produto>.ListarAsync(query, parametros.NumeroDaPagina, parametros.TamanhoDaPagina);
         }
+
         public async Task<IEnumerable<Produto>> ListarPorVendedorIdAsync(Vendedor vendedor)
         {
             return await _context
@@ -111,6 +114,7 @@ namespace MBA.Marketplace.Data.Repositories
                 .Where(p => p.VendedorId == vendedor.Id)
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<Produto>> ListarAsync()
         {
             return await _context
@@ -119,18 +123,34 @@ namespace MBA.Marketplace.Data.Repositories
                     .Include(p => p.Vendedor)
                     .ToListAsync();
         }
+
         public async Task<Produto> CriarAsync(Produto produto)
         {
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
             return produto;
         }
+
         public async Task<bool> AtualizarAsync(Produto produto)
         {
             _context.Produtos.Update(produto);
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> AtualizarAsync(IEnumerable<Produto> produtos)
+        {
+            if (produtos == null || produtos.Any())
+                return false;
+
+            foreach (var produto in produtos)
+            {
+                _context.Produtos.Update(produto);
+            }
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<Produto> ObterPorIdAsync(Guid id)
         {
             return await _context

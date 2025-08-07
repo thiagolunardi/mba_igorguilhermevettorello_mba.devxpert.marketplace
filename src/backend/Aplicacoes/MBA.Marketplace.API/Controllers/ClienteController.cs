@@ -1,7 +1,6 @@
 ﻿using MBA.Marketplace.Business.DTOs;
 using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Business.Extensions;
-using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -12,24 +11,19 @@ namespace MBA.Marketplace.API.Controllers
     [Route("api/clientes")]
     public class ClienteController : ControllerBase
     {
-        private readonly IVendedorRepository _vendedorRepository;
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteService _clienteService;
         private readonly IAccountService _accountService;
 
-        public ClienteController(
-            IVendedorRepository vendedorRepository,
-            IClienteRepository clienteRepository,
-            IAccountService accountService)
+        public ClienteController(IClienteService clienteService, IAccountService accountService)
         {
-            _vendedorRepository = vendedorRepository;
-            _clienteRepository = clienteRepository;
+            _clienteService = clienteService;
             _accountService = accountService;
         }
 
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> RegisterCliente([FromBody] RegistrarUsuarioDto dto)
+        public async Task<IActionResult> CadastrarCliente([FromBody] RegistrarUsuarioDto dto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -47,7 +41,7 @@ namespace MBA.Marketplace.API.Controllers
             }
 
             // Cria o registro do cliente
-            await _clienteRepository.CriarAsync(new Cliente
+            await _clienteService.CriarAsync(new Cliente
             {
                 Id = userId.NormalizeGuid(),
                 Nome = dto.Nome,

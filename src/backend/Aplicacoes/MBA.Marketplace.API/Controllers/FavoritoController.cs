@@ -13,13 +13,13 @@ namespace MBA.Marketplace.API.Controllers
     [Route("api/favoritos")]
     public class FavoritoController : ControllerBase
     {
-        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteService _clienteService;
         private readonly IFavoritoService _favoritoService;
         private readonly IProdutoService _produtoService;
 
-        public FavoritoController(IClienteRepository clienteRepository, IFavoritoService favoritoService, IProdutoService produtoService)
+        public FavoritoController(IClienteService clienteService, IFavoritoService favoritoService, IProdutoService produtoService)
         {
-            _clienteRepository = clienteRepository;
+            _clienteService = clienteService;
             _favoritoService = favoritoService;
             _produtoService = produtoService;
         }
@@ -31,7 +31,7 @@ namespace MBA.Marketplace.API.Controllers
         public async Task<IActionResult> ObterFavoritosDoCliente([FromQuery] int numeroDaPagina, int tamanhoDaPagina)
         {
             var emailCliente = ObterEmailDoUsuario();
-            var cliente = await _clienteRepository.ObterPorEmailAsync(emailCliente);
+            var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
 
             if (cliente == null)
                 return NotFound("Cliente não encontrado");
@@ -49,7 +49,7 @@ namespace MBA.Marketplace.API.Controllers
         public async Task<IActionResult> Cadastrar(Guid produtoId)
         {
             var emailCliente = ObterEmailDoUsuario();
-            var cliente = await _clienteRepository.ObterPorEmailAsync(emailCliente);
+            var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
 
             if (cliente == null)
                 return NotFound("Cliente não encontrado.");
@@ -78,7 +78,7 @@ namespace MBA.Marketplace.API.Controllers
         public async Task<IActionResult> Deletar([FromRoute] Guid id)
         {
             var emailCliente = ObterEmailDoUsuario();
-            var cliente = await _clienteRepository.ObterPorEmailAsync(emailCliente);
+            var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
 
             if (cliente == null)
                 return NotFound("Cliente não encontrado.");

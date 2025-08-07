@@ -112,15 +112,13 @@ else
                                     <td class="px-3 py-3 text-center">
                                         <div class="btn-group" role="group">
 
-                                            <a class="btn btn-outline-info btn-sm" title="Visualizar" 
-                                            href="@Url.Action("detalhes", "produto", new { id = produto.Id })">
+                                            <a class="btn btn-outline-info btn-sm" title="Visualizar" href="@Url.Action("detalhes", "produto", new { id = produto.Id })">
                                                 <i class="bi bi-eye"></i>
                                             </a>
 
                                             @if (isVendedor)
                                             {
-                                                <a class="btn btn-outline-primary btn-sm" title="Editar" 
-                                                href="@Url.Action("editar", "produto", new { id = produto.Id })">
+                                                <a class="btn btn-outline-application btn-sm" title="Editar" href="@Url.Action("editar", "produto", new { id = produto.Id })">
                                                     <i class="bi bi-pencil"></i>
                                                 </a>
                                             }
@@ -174,12 +172,6 @@ else
                     </div>
                     <h5 class="text-muted mb-2">Nenhum produto encontrado</h5>
                     <p class="text-muted small mb-3">Ainda não há produtos cadastrados no sistema.</p>
-                    @if (isVendedor)
-                    {
-                        <a href="@Url.Action("cadastrar", "produto")" class="btn btn-primary">
-                            <i class="bi bi-plus-lg me-1"></i>Cadastrar Primeiro Produto
-                        </a>
-                    }
                 </div>
             }
         </div>
@@ -256,82 +248,6 @@ else
     </style>
 
     <script>
-        let produtoIdAtual = null;
-        let nomeProdutoAtual = null;
-        let precoProdutoAtual = null;
-        let imagemProdutoAtual = null;
-        let acaoAtual = null; // 'inativar', 'ativar' ou 'deletar'
-        
-        const urlInativarProduto = "@Url.Action("Inativar", "Produto")";
-        const urlAtivarProduto = "@Url.Action("Ativar", "Produto")";
-        const urlDeletarProduto = "@Url.Action("deletar", "produto")";
-
-        function inativarProduto(element, event) {
-            event.preventDefault();
-            
-            const tr = $(element).closest('tr');
-            produtoIdAtual = $(element).data('id');
-            nomeProdutoAtual = tr.find('span.fw-semibold').text();
-            precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
-            imagemProdutoAtual = tr.find('.product-image').attr('src');
-            acaoAtual = 'inativar';
-            
-            configurarModalProduto(
-                'Inativar Produto',
-                'Tem certeza que deseja inativar este produto?',
-                'Ativo',
-                'btn-danger',
-                'Inativar'
-            );
-            
-            const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
-            modal.show();
-        }
-
-        function ativarProduto(element, event) {
-            event.preventDefault();
-            
-            const tr = $(element).closest('tr');
-            produtoIdAtual = $(element).data('id');
-            nomeProdutoAtual = tr.find('span.fw-semibold').text();
-            precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
-            imagemProdutoAtual = tr.find('.product-image').attr('src');
-            acaoAtual = 'ativar';
-            
-            configurarModalProduto(
-                'Ativar Produto',
-                'Tem certeza que deseja ativar este produto?',
-                'Inativo',
-                'btn-success',
-                'Ativar'
-            );
-            
-            const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
-            modal.show();
-        }
-
-        function deletarProduto(element, event) {
-            event.preventDefault();
-            
-            const tr = $(element).closest('tr');
-            produtoIdAtual = $(element).data('id');
-            nomeProdutoAtual = tr.find('span.fw-semibold').text();
-            precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
-            imagemProdutoAtual = tr.find('.product-image').attr('src');
-            acaoAtual = 'deletar';
-            
-            configurarModalProduto(
-                'Remover Produto',
-                'Tem certeza que deseja remover este produto permanentemente?',
-                'Será removido',
-                'btn-danger',
-                'Remover'
-            );
-            
-            const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
-            modal.show();
-        }
-
         function configurarModalProduto(titulo, mensagem, statusAtual, classBotao, textoBotao) {
             $('#tituloConfirmacaProduto').text(titulo);
             $('#mensagemConfirmacaProduto').text(mensagem);
@@ -340,113 +256,182 @@ else
             $('#precoProduto').text(precoProdutoAtual);
             $('#imagemProdutoModal').attr('src', imagemProdutoAtual);
             $('#imagemProdutoModal').attr('alt', nomeProdutoAtual);
-            
+
             const btnConfirmar = $('#btnConfirmarAcaoProduto');
             btnConfirmar.removeClass('btn-primary btn-danger btn-success').addClass(classBotao);
             btnConfirmar.html(`<i class="bi bi-check-lg me-1"></i>${textoBotao}`);
-            
+
             // Remover event listeners anteriores e adicionar o novo
             btnConfirmar.off('click').on('click', executarAcaoProduto);
         }
-
-        function executarAcaoProduto() {
-            if (!produtoIdAtual || !acaoAtual) return;
-
-            let url, novoStatus, mensagemSucesso, metodoHttp;
-            
-            switch(acaoAtual) {
-                case 'inativar':
-                    url = urlInativarProduto;
-                    novoStatus = 'Inativo';
-                    mensagemSucesso = 'Produto inativado com sucesso!';
-                    metodoHttp = 'POST';
-                    break;
-                case 'ativar':
-                    url = urlAtivarProduto;
-                    novoStatus = 'Ativo';
-                    mensagemSucesso = 'Produto ativado com sucesso!';
-                    metodoHttp = 'POST';
-                    break;
-                case 'deletar':
-                    url = urlDeletarProduto;
-                    novoStatus = null;
-                    mensagemSucesso = 'Produto removido com sucesso!';
-                    metodoHttp = 'DELETE';
-                    break;
-            }
-
-            // Mostrar spinner e desabilitar botão
-            $('#spinnerProduto').removeClass('d-none');
-            $('#btnConfirmarAcaoProduto').prop('disabled', true);
-
-            $.ajax({
-                url: `${url}/${produtoIdAtual}`,
-                type: metodoHttp,
-                headers: {
-                    'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
-                },
-                success: function (response) {
-                    $('#modalConfirmarProduto').modal('hide');
-                    mostrarResultadoProduto(mensagemSucesso, novoStatus, true);
-                },
-                error: function (xhr, status, error) {
-                    $('#modalConfirmarProduto').modal('hide');
-                    const mensagemErro = xhr.responseJSON?.message || 
-                        `Erro ao ${acaoAtual} produto. Tente novamente.`;
-                    mostrarResultadoProduto(mensagemErro, null, false);
-                },
-                complete: function () {
-                    $('#spinnerProduto').addClass('d-none');
-                    $('#btnConfirmarAcaoProduto').prop('disabled', false);
-                }
-            });
-        }
-
-        function mostrarResultadoProduto(mensagem, novoStatus, sucesso) {
-            const headerResultado = $('#headerResultadoProduto');
-            const iconeResultado = $('#iconeResultadoProduto');
-            const tituloResultado = $('#tituloResultadoProduto');
-            const iconePrincipal = $('#iconePrincipalProduto');
-            const resultadoMensagem = $('#resultadoMensagemProduto');
-            const detalhesProduto = $('#detalhesProduto');
-            const nomeProdutoResultado = $('#nomeProdutoResultado');
-            const novoStatusSpan = $('#novoStatusProduto');
-            const imagemProdutoResultado = $('#imagemProdutoResultado');
-
-            if (sucesso) {
-                headerResultado.removeClass('bg-danger-subtle').addClass('bg-success-subtle');
-                iconeResultado.html('<i class="bi bi-check-circle-fill text-success me-2"></i>');
-                tituloResultado.text('Operação Realizada');
-                iconePrincipal.html('<i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>');
-                resultadoMensagem.html(`<h6 class="text-success mb-2">${mensagem}</h6>`);
-                
-                if (novoStatus && acaoAtual !== 'deletar') {
-                    nomeProdutoResultado.text(nomeProdutoAtual);
-                    novoStatusSpan.html(`<span class="badge ${novoStatus === 'Ativo' ? 'bg-success' : 'bg-danger'}">${novoStatus}</span>`);
-                    imagemProdutoResultado.attr('src', imagemProdutoAtual);
-                    imagemProdutoResultado.attr('alt', nomeProdutoAtual);
-                    detalhesProduto.removeClass('d-none');
-                }
-            } else {
-                headerResultado.removeClass('bg-success-subtle').addClass('bg-danger-subtle');
-                iconeResultado.html('<i class="bi bi-x-circle-fill text-danger me-2"></i>');
-                tituloResultado.text('Erro na Operação');
-                iconePrincipal.html('<i class="bi bi-x-circle text-danger" style="font-size: 3rem;"></i>');
-                resultadoMensagem.html(`<h6 class="text-danger mb-2">${mensagem}</h6>`);
-                detalhesProduto.addClass('d-none');
-            }
-
-            const modalResultado = new bootstrap.Modal(document.getElementById('modalResultadoProduto'));
-            modalResultado.show();
-        }
-
-        // Limpar dados quando o modal for fechado
-        $('#modalConfirmarProduto').on('hidden.bs.modal', function () {
-            produtoIdAtual = null;
-            nomeProdutoAtual = null;
-            precoProdutoAtual = null;
-            imagemProdutoAtual = null;
-            acaoAtual = null;
-        });
     </script>
+    
+    @if (isAdmin)
+    {
+        <script>
+
+            const urlTrocarStatusProduto = "@Url.Action("trocar-status", "Produto")";
+            
+            function inativarProduto(element, event) {
+                event.preventDefault();
+
+                const tr = $(element).closest('tr');
+                produtoIdAtual = $(element).data('id');
+                nomeProdutoAtual = tr.find('span.fw-semibold').text();
+                precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
+                imagemProdutoAtual = tr.find('.product-image').attr('src');
+                acaoAtual = 'inativar';
+
+                configurarModalProduto(
+                    'Inativar Produto',
+                    'Tem certeza que deseja inativar este produto?',
+                    'Ativo',
+                    'btn-danger',
+                    'Inativar'
+                );
+
+                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
+                modal.show();
+            }
+
+            function ativarProduto(element, event) {
+                event.preventDefault();
+
+                const tr = $(element).closest('tr');
+                produtoIdAtual = $(element).data('id');
+                nomeProdutoAtual = tr.find('span.fw-semibold').text();
+                precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
+                imagemProdutoAtual = tr.find('.product-image').attr('src');
+                acaoAtual = 'ativar';
+
+                configurarModalProduto(
+                    'Ativar Produto',
+                    'Tem certeza que deseja ativar este produto?',
+                    'Inativo',
+                    'btn-success',
+                    'Ativar'
+                );
+
+                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
+                modal.show();
+            }
+
+            function executarAcaoProduto() {
+                if (!produtoIdAtual || !acaoAtual) return;
+
+                let url, novoStatus, mensagemSucesso, metodoHttp;
+
+                switch(acaoAtual) {
+                    case 'inativar':
+                        url = urlTrocarStatusProduto;
+                        novoStatus = 'Inativo';
+                        mensagemSucesso = 'Produto inativado com sucesso!';
+                        metodoHttp = 'POST';
+                        break;
+                    case 'ativar':
+                        url = urlTrocarStatusProduto;
+                        novoStatus = 'Ativo';
+                        mensagemSucesso = 'Produto ativado com sucesso!';
+                        metodoHttp = 'POST';
+                        break;
+                }
+
+                // Mostrar spinner e desabilitar botão
+                $('#spinnerProduto').removeClass('d-none');
+                $('#btnConfirmarAcaoProduto').prop('disabled', true);
+
+                $.ajax({
+                    url: `${url}/${produtoIdAtual}`,
+                    type: metodoHttp,
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        $('#modalConfirmarProduto').modal('hide');
+                        mostrarResultadoProduto(mensagemSucesso, novoStatus, true);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#modalConfirmarProduto').modal('hide');
+                        const mensagemErro = xhr.responseJSON?.message ||
+                            `Erro ao ${acaoAtual} produto. Tente novamente.`;
+                        mostrarResultadoProduto(mensagemErro, null, false);
+                    },
+                    complete: function () {
+                        $('#spinnerProduto').addClass('d-none');
+                        $('#btnConfirmarAcaoProduto').prop('disabled', false);
+                    }
+                });
+            }
+        </script>
+    }
+
+    @if (isVendedor)
+    {
+        <script>
+            const urlDeletarProduto = "@Url.Action("deletar", "produto")";
+            function deletarProduto(element, event) {
+                event.preventDefault();
+
+                const tr = $(element).closest('tr');
+                produtoIdAtual = $(element).data('id');
+                nomeProdutoAtual = tr.find('span.fw-semibold').text();
+                precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
+                imagemProdutoAtual = tr.find('.product-image').attr('src');
+                acaoAtual = 'deletar';
+
+                configurarModalProduto(
+                    'Remover Produto',
+                    'Tem certeza que deseja remover este produto permanentemente?',
+                    'Será removido',
+                    'btn-danger',
+                    'Remover'
+                );
+
+                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
+                modal.show();
+            }
+
+            function executarAcaoProduto() {
+                if (!produtoIdAtual || !acaoAtual) return;
+
+                let url, novoStatus, mensagemSucesso, metodoHttp;
+
+                switch(acaoAtual) {
+                    case 'deletar':
+                        url = urlDeletarProduto;
+                        novoStatus = null;
+                        mensagemSucesso = 'Produto removido com sucesso!';
+                        metodoHttp = 'DELETE';
+                        break;
+                }
+
+                // Mostrar spinner e desabilitar botão
+                $('#spinnerProduto').removeClass('d-none');
+                $('#btnConfirmarAcaoProduto').prop('disabled', true);
+
+                $.ajax({
+                    url: `${url}/${produtoIdAtual}`,
+                    type: metodoHttp,
+                    headers: {
+                        'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                    },
+                    success: function (response) {
+                        $('#modalConfirmarProduto').modal('hide');
+                        mostrarResultadoProduto(mensagemSucesso, novoStatus, true);
+                    },
+                    error: function (xhr, status, error) {
+                        $('#modalConfirmarProduto').modal('hide');
+                        const mensagemErro = xhr.responseJSON?.message ||
+                            `Erro ao ${acaoAtual} produto. Tente novamente.`;
+                        mostrarResultadoProduto(mensagemErro, null, false);
+                    },
+                    complete: function () {
+                        $('#spinnerProduto').addClass('d-none');
+                        $('#btnConfirmarAcaoProduto').prop('disabled', false);
+                    }
+                });
+            }
+        </script>
+    }
+
 }

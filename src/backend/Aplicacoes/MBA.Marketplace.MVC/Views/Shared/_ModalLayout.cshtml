@@ -283,23 +283,23 @@
             <div class="modal-header bg-warning-subtle border-0">
                 <h5 class="modal-title d-flex align-items-center" id="confirmarProdutoLabel">
                     <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
-                    <span id="tituloConfirmacaProduto">Confirmar alteração</span>
+                    <span id="tituloConfirmacaProduto"></span>
                 </h5>
             </div>
             <div class="modal-body">
-                <p class="mb-3" id="mensagemConfirmacaProduto">Tem certeza que deseja alterar o status deste produto?</p>
-                <div id="produtoInfo" class="p-3 bg-light rounded-3 mb-3">
-                    <div class="d-flex align-items-center">
-                        <div class="product-image-container-small me-3">
-                            <img id="imagemProdutoModal" class="product-image-small" src="" alt="" />
-                        </div>
-                        <div>
-                            <strong id="nomeProduto"></strong>
-                            <div class="small text-muted">Status atual: <span id="statusAtualProduto"></span></div>
-                            <div class="small text-muted">Preço: <span id="precoProduto"></span></div>
-                        </div>
-                    </div>
-                </div>
+                <p class="mb-3" id="mensagemConfirmacaProduto"></p>
+                @* <div id="produtoInfo" class="p-3 bg-light rounded-3 mb-3"> *@
+                @*     <div class="d-flex align-items-center"> *@
+                @*         <div class="product-image-container-small me-3"> *@
+                @*             <img id="imagemProdutoModal" class="product-image-small" src="" alt="" /> *@
+                @*         </div> *@
+                @*         <div> *@
+                @*             <strong id="nomeProduto"></strong> *@
+                @*             <div class="small text-muted">Status atual: <span id="statusAtualProduto"></span></div> *@
+                @*             <div class="small text-muted">Preço: <span id="precoProduto"></span></div> *@
+                @*         </div> *@
+                @*     </div> *@
+                @* </div> *@
                 <div id="spinnerProduto" class="text-center mt-3 d-none">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Processando...</span>
@@ -308,10 +308,10 @@
                 </div>
             </div>
             <div class="modal-footer border-0">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">
                     <i class="bi bi-x-lg me-1"></i>Cancelar
                 </button>
-                <button type="button" id="btnConfirmarAcaoProduto" class="btn btn-primary">
+                <button type="button" id="btnConfirmarAcaoProduto" class="btn btn-outline-aplication btn-sm">
                     <i class="bi bi-check-lg me-1"></i>Confirmar
                 </button>
             </div>
@@ -345,8 +345,8 @@
                 </div>
             </div>
             <div class="modal-footer border-0 justify-content-center">
-                <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal" onclick="location.reload()">
-                    <i class="bi bi-arrow-clockwise me-1"></i>Atualizar página
+                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-dismiss="modal" onclick="location.reload()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>Ok
                 </button>
             </div>
         </div>

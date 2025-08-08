@@ -41,7 +41,6 @@ namespace MBA.Marketplace.Business.Models
         [JsonIgnore]
         [Required]
         public bool Ativo { get; set; }
-        [JsonIgnore]    
         [NotMapped]
         public string Src { get; set; }
     }

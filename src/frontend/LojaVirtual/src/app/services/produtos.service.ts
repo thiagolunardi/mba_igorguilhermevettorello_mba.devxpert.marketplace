@@ -68,4 +68,21 @@ export class ProdutosService {
         catchError(() => of(null))
       );
   }
+
+  obterProdutoPorId(id: string): Observable<ProdutoViewModel | null> {
+    const url = this.URL_BASE + id;
+
+    return this.http.get<ProdutoViewModel>(url).pipe(
+      catchError(error => {
+        if (error.status === 404) {
+          console.warn(`Produto com ID ${id} não encontrado. Retornando null.`);
+        } else {
+          console.error('Ocorreu um erro ao buscar o produto.', error);
+        }
+
+        return of(null);
+      })
+    );
+  }
+
 }

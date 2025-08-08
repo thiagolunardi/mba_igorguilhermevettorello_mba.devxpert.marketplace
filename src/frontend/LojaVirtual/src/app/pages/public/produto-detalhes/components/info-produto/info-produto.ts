@@ -1,15 +1,20 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { ProdutoViewModel } from '../../../../../services/produto.viewmodel';
 import { RouterLink } from '@angular/router';
+import { ProdutoViewModel } from '../../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
+import { IMAGEM_PLACEHOLDER } from '../../../../../util/constantes';
 
 @Component({
-  selector: 'app-info-produto', // O seletor foi mantido por ser descritivo
+  selector: 'app-info-produto',
   standalone: true,
   imports: [CommonModule, CurrencyPipe, RouterLink],
-  templateUrl: './info-produto.html', // Caminho do template atualizado
+  templateUrl: './info-produto.html',
   styleUrls: ['./info-produto.scss']
 })
-export class InfoProdutoComponent { // Nome da classe atualizado
+export class InfoProdutoComponent {
   @Input() produto!: ProdutoViewModel;
+
+  get imagemSrc(): string {
+    return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;
+  }
 }

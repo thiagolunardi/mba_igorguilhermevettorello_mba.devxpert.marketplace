@@ -128,7 +128,14 @@ namespace MBA.Marketplace.Business.Services
 
         public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)
         {
-            return await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
+            var produto = await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
+
+            if (produto != null)
+            {
+                produto.Src = ConverterImagemEmBase64(produto);
+            }
+
+            return produto;
         }
 
         public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)

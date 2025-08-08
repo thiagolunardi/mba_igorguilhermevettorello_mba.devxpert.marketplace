@@ -96,6 +96,23 @@
                     </ul>
                 </div>
 
+                @if (isAdmin) 
+                {
+                    <!-- Vendedores -->
+                    <div class="admin-menu-section">
+                        <div class="admin-menu-section-title">Vendedores</div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")"
+                                   href="@Url.Action("Index", "Vendedor")">
+                                    <i class="bi bi-box-seam admin-menu-icon"></i>
+                                    Listar Vendedores
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                
                 <!-- Configurações -->
                 <div class="admin-menu-divider"></div>
                 <div class="admin-menu-section">
@@ -153,52 +170,6 @@
                         </li>
                     </ul>
                 </div>
-
-                <!-- Administração (Apenas para Administradores) -->
-                @if (isAdmin)
-                {
-                    <div class="admin-menu-divider"></div>
-                    <div class="admin-menu-section">
-                        <div class="admin-menu-section-title">Administração</div>
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" href="#">
-                                    <i class="bi bi-people admin-menu-icon"></i>
-                                    Gerenciar Usuários
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" href="#">
-                                    <i class="bi bi-gear admin-menu-icon"></i>
-                                    Configurações do Sistema
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                }
-
-                <!-- Vendedor (Apenas para Vendedores) -->
-                @if (isVendedor)
-                {
-                    <div class="admin-menu-divider"></div>
-                    <div class="admin-menu-section">
-                        <div class="admin-menu-section-title">Vendedor</div>
-                        <ul class="nav flex-column">
-                            <li class="nav-item">
-                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" href="#">
-                                    <i class="bi bi-graph-up admin-menu-icon"></i>
-                                    Minhas Vendas
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" href="#">
-                                    <i class="bi bi-cash-coin admin-menu-icon"></i>
-                                    Relatórios
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                }
             </div>
 
             <div class="p-3 border-top">

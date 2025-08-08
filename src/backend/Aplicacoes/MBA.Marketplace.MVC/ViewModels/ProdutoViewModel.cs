@@ -13,5 +13,7 @@
         public Guid VendedorId { get; set; }
         public VendedorViewModel Vendedor { get; set; }
         public string Src { get; set; }
+
+        public bool Ativo { get; set; }
     }
 }

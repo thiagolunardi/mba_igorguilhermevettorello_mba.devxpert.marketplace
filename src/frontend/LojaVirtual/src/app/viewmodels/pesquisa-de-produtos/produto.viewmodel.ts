@@ -11,5 +11,6 @@ export interface ProdutoViewModel {
   categoriaId: string;
   categoria: CategoriaViewModel;
   src: string;
+  vendedorId: string;
   vendedor: VendedorViewModel;
 }

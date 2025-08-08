@@ -714,7 +714,7 @@ body {
 
 .btn-outline-aplication {
   color: var(--bs-aplication);
-  border: 1px solid var(--bs-aplication);
+  border: 1px solid var(--bs-aplication) !important;
   background-color: transparent;
 }
 

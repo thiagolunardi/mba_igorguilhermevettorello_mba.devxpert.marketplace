@@ -122,100 +122,28 @@
             reader.readAsDataURL(file);
         });
     </script>
-}
+    
+    @if (ViewBag.RegistroSucesso == true)
+    {
+        <script>
+            var meuModal = new bootstrap.Modal(document.getElementById('modalSucessoEditarProduto'));
+            meuModal.show();
+        </script>
+    }
 
-@if (ViewBag.RegistroSucesso == true)
-{
-    <div class="modal fade show" id="modalSucesso" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-0 rounded-top-3">
-                    <h5 class="modal-title text-success fw-semibold">
-                        <i class="bi bi-check-circle me-2"></i> Atualização
-                    </h5>
-                </div>
-                <div class="modal-body text-secondary small">
-                    Seu produto foi atualizado com sucesso.
-                </div>
-                <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                    <a href="@Url.Action("index", "produto")" class="btn btn-success btn-sm px-4">
-                        Ok
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
+    @if (ViewBag.RegistroErro == true)
+    {
+        <script>
+            var meuModal = new bootstrap.Modal(document.getElementById('modalErroEditarProduto'));
+            meuModal.show();
+        </script>
+    }
 
-    <!-- Backdrop manual -->
-    <div class="modal-backdrop fade show"></div>
-
-    <script>
-        // Impede que o modal feche com tecla ESC ou clique fora
-        document.body.classList.add('modal-open');
-        document.body.style.paddingRight = '0px';
-    </script>
-}
-
-@if (ViewBag.RegistroErro == true)
-{
-    <div class="modal fade show" id="modalSucesso" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-0 rounded-top-3">
-                    <h5 class="modal-title text-danger fw-semibold">
-                        <i class="bi bi-x-circle me-2"></i> Falha ao realizar atualização
-                    </h5>
-                </div>
-                <div class="modal-body text-secondary small">
-                    Ocorreu um erro ao realizar a atualização do produto. Tente novamente mais tarde!
-                </div>
-                <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                    <a href="@Url.Action("index", "produto")" class="btn btn-danger btn-sm px-4">
-                        Ok
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Backdrop manual -->
-    <div class="modal-backdrop fade show"></div>
-
-    <script>
-        // Impede que o modal feche com tecla ESC ou clique fora
-        document.body.classList.add('modal-open');
-        document.body.style.paddingRight = '0px';
-    </script>
-}
-
-@if (ViewBag.RegistroNaoEncontrado == true)
-{
-    <div class="modal fade show" id="modalSucesso" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content shadow-sm border-0 rounded-3">
-                <div class="modal-header bg-light border-0 rounded-top-3">
-                    <h5 class="modal-title text-danger fw-semibold">
-                        <i class="bi bi-x-circle me-2"></i> Falha ao localizar produto
-                    </h5>
-                </div>
-                <div class="modal-body text-secondary small">
-                    Produto não encontrada.
-                </div>
-                <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                    <a href="@Url.Action("index", "produto")" class="btn btn-danger btn-sm px-4">
-                        Ok
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Backdrop manual -->
-    <div class="modal-backdrop fade show"></div>
-
-    <script>
-        // Impede que o modal feche com tecla ESC ou clique fora
-        document.body.classList.add('modal-open');
-        document.body.style.paddingRight = '0px';
-    </script>
+    @if (ViewBag.RegistroNaoEncontrado == true)
+    {
+        <script>
+            var meuModal = new bootstrap.Modal(document.getElementById('modalErroEncontrarProduto'));
+            meuModal.show();
+        </script>
+    }
 }

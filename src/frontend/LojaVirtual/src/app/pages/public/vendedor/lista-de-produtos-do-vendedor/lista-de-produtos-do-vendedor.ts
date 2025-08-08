@@ -4,11 +4,11 @@ import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.view
 import { Observable } from 'rxjs';
 import { ProdutoViewModel } from '../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
-import { ResumoProduto } from '../../pesquisa-produtos/resumo-produto/resumo-produto';
+import { CardProduto } from '../../../../layout/shared/card-produto/card-produto';
 
 @Component({
   selector: 'app-lista-de-produtos-do-vendedor',
-  imports: [NgbProgressbar, ResumoProduto],
+  imports: [NgbProgressbar, CardProduto],
   templateUrl: './lista-de-produtos-do-vendedor.html',
   styles: ``
 })

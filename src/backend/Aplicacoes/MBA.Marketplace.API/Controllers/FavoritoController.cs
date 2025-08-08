@@ -41,12 +41,12 @@ namespace MBA.Marketplace.API.Controllers
             return Ok(pesquisaPaginada);
         }
 
-        [HttpPost]
+        [HttpPost("{id:Guid}")]
         [ProducesResponseType(typeof(Favorito), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Cadastrar(Guid produtoId)
+        public async Task<IActionResult> Cadastrar([FromRoute] Guid id)
         {
             var emailCliente = ObterEmailDoUsuario();
             var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
@@ -54,7 +54,7 @@ namespace MBA.Marketplace.API.Controllers
             if (cliente == null)
                 return NotFound("Cliente não encontrado.");
 
-            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(produtoId);
+            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(id);
 
             if (produto == null)
                 return NotFound("Produto não encontrado.");

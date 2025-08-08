@@ -1,9 +1,8 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { catchError, map, of } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { ListaPaginada } from '../viewmodels/shared/lista-paginada.viewmodel';
 import { adicionarParametrosSePossuirValor } from '../util/common-functions';
-import { CategoriaViewModel } from '../viewmodels/pesquisa-de-produtos/categoria.viewmodel';
 import { ProdutoViewModel } from '../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 
 export interface FavoritoViewModel {
@@ -12,9 +11,15 @@ export interface FavoritoViewModel {
   produto: ProdutoViewModel
 }
 
+export interface ApiResponse {
+  success: boolean;
+  message?: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
+
 export class FavoritosService {
   private http = inject(HttpClient);
   private readonly URL_BASE = 'https://localhost:7179/api/favoritos/';
@@ -47,38 +52,44 @@ export class FavoritosService {
       );
   }
 
-  adicionarFavorito(produtoId: string) {
+  adicionarFavorito(produtoId: string): Observable<ApiResponse> {
     const url = this.URL_BASE + produtoId;
 
-    return this.http.post<any>(url, { observe: 'response' })  //TODO: alterar tipo de retorno de any p/ algo
-      .pipe(
-        map(response => {
-          if (response.status === 201) {
-            // return response.body;                          //TODO: verificar necessidade de retornar corpo do response
-            return true;
-          }
-          else {
-            throw new Error(`Erro ao adicionar favorito. Status: ${response.status}`);
-          }
-        }),
-        catchError(() => of(false)),
-      );
+    return this.http.post<any>(url, {}).pipe(
+      map(() => ({
+        success: true,
+        message: 'Produto adicionado aos favoritos!'
+      })),
+      catchError((error: HttpErrorResponse) => { 
+        return of({
+          success: false,
+          message: error.error || 'Ocorreu um erro ao adicionar.'
+        });
+      })
+    );
   }
 
-  removerFavorito(produtoId: string) {
+  removerFavorito(produtoId: string): Observable<ApiResponse> {
     const url = this.URL_BASE + produtoId;
 
-    return this.http.delete<any>(url, { observe: 'response' })
-      .pipe(
-        map(response => {
-          if (response.status === 204) {
-            return true;
-          }
-          else {
-            throw new Error(`Erro ao remover favorito. Status: ${response.status}`);
-          }
-        }),
-        catchError(() => of(false)),
-      );
+    return this.http.delete(url).pipe(
+      map(() => ({
+        success: true,
+        message: 'Produto removido dos favoritos.'
+      })),
+      catchError((error: HttpErrorResponse) => {
+        return of({
+          success: false,
+          message: error.error || 'Ocorreu um erro ao remover.'
+        });
+      })
+    );
+  }
+
+  verificarSeFavorito(produtoId: string): Observable<boolean> {
+    const url = `${this.URL_BASE}verificar/${produtoId}`;
+    return this.http.get<boolean>(url).pipe(
+      catchError(() => of(false))
+    );
   }
 }

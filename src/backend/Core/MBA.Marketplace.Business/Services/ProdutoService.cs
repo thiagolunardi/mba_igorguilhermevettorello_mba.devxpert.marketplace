@@ -123,7 +123,12 @@ namespace MBA.Marketplace.Business.Services
 
         public async Task<Produto> ObterPorIdAsync(Guid id)
         {
-            return await _produtoRepository.ObterPorIdAsync(id);
+            var produto = await _produtoRepository.ObterPorIdAsync(id);
+            if (produto != null)
+            {
+                produto.Src = ConverterImagemEmBase64(produto);
+            }
+            return produto;
         }
 
         public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)

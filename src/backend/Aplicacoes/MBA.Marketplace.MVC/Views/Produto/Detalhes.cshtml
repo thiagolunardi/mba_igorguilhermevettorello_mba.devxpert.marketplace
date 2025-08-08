@@ -3,14 +3,8 @@
 @model ProdutoViewModel
 @{
     ViewData["Title"] = "Detalhes do Produto";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
-
-<div class="page-header">
-    <div class="container">
-        <h2><i class="bi bi-info-circle me-3"></i>Detalhes do Produto</h2>
-        <p class="mb-0">Confira todas as informações sobre este produto</p>
-    </div>
-</div>
 
 <div class="container py-5">
     <div class="row">
@@ -41,7 +35,7 @@
                             <strong>Estoque:</strong>
                         </div>
                         <div class="info-value">
-                            @Model.Estoque unidades disponíveis
+                            @(Model.Estoque?.ToString() ?? "0") unidades disponíveis
                         </div>
                     </div>
                     
@@ -51,18 +45,9 @@
                             <strong>Categoria:</strong>
                         </div>
                         <div class="info-value">
-                            @Model.Categoria.Nome
+                            @(Model.Categoria?.Nome ?? "Categoria não informada")
                         </div>
                     </div>
-                </div>
-
-                <div class="product-actions">
-                    <a href="@Url.Action("index", "home")" class="btn btn-outline-primary me-3">
-                        <i class="bi bi-arrow-left me-2"></i> Voltar à listagem
-                    </a>
-                    <button class="btn btn-success" onclick="alert('Funcionalidade de compra em desenvolvimento!')">
-                        <i class="bi bi-cart-plus me-2"></i> Adicionar ao Carrinho
-                    </button>
                 </div>
             </div>
         </div>

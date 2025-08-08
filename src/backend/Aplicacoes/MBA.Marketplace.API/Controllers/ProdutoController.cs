@@ -33,7 +33,7 @@ namespace MBA.Marketplace.API.Controllers
             };
         }
 
-        [HttpGet]
+        [HttpGet("destaques")]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ObterItensEmDestaque([FromQuery] string? ordenarPor, [FromQuery] int? limit)
         {
@@ -41,7 +41,7 @@ namespace MBA.Marketplace.API.Controllers
             return Ok(produtos);
         }
 
-        [HttpGet("pesquisar")]
+        [HttpGet()]
         [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> Pesquisar([FromQuery] PesquisaDeProdutos parametros)
         {
@@ -61,24 +61,6 @@ namespace MBA.Marketplace.API.Controllers
                 return NotFound();
 
             return Ok(produto);
-        }
-
-        [HttpGet("imagem/{nome}")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        public IActionResult ObterImagem(string nome)
-        {
-            var pasta = _config["SharedFiles:ImagensPath"];
-            string caminhoPasta = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, pasta);
-            var caminho = Path.Combine(caminhoPasta, nome);
-
-            if (!System.IO.File.Exists(caminho))
-                return NotFound("Imagem não encontrada.");
-
-            var contentType = GetContentType(caminho);
-
-            var imagem = System.IO.File.OpenRead(caminho);
-            return File(imagem, contentType);
-        }
-                
+        }                
     }
 }

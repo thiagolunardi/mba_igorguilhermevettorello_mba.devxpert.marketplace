@@ -20,7 +20,7 @@ export class ProdutosService {
     tamanhoDaPagina: number | null = null,
     orderBy: string | null = null
   ) {
-    let url = this.URL_BASE + 'pesquisar';
+    let url = this.URL_BASE;
     let params = new HttpParams();
 
     //adicionar parâmetros ao request somente se eles tiverem valor
@@ -49,9 +49,10 @@ export class ProdutosService {
   }
 
   obterItensEmDestaque(): Observable<ItemEmDestaqueViewModel[] | null> {
+    const url = this.URL_BASE + 'destaques';
     const params = new HttpParams().set('ordenarPor', 'dataCadastro').set('limit', 6);
 
-    return this.http.get<ItemEmDestaqueViewModel[]>(this.URL_BASE, {
+    return this.http.get<ItemEmDestaqueViewModel[]>(url, {
       params: params,
       observe: 'response'
     })

@@ -82,29 +82,29 @@ namespace MBA.Marketplace.Business.Services
 
         public async Task<Produto> CriarAsync(ProdutoDto dto, Vendedor vendedor)
         {
-            string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(dto.Imagem.FileName);
-            var pasta = _config["SharedFiles:ImagensPath"];
-            string caminhoPasta = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, pasta);
+            //string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(dto.Imagem.FileName);
+            //var pasta = _config["SharedFiles:ImagensPath"];
+            //string caminhoPasta = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, pasta);
 
-            if (!Directory.Exists(caminhoPasta))
-                Directory.CreateDirectory(caminhoPasta);
+            //if (!Directory.Exists(caminhoPasta))
+            //    Directory.CreateDirectory(caminhoPasta);
 
-            string caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
+            //string caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
 
-            using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
-            {
-                await dto.Imagem.CopyToAsync(stream);
-            }
+            //using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
+            //{
+            //    await dto.Imagem.CopyToAsync(stream);
+            //}
 
             var produto = await _produtoRepository.CriarAsync(new Produto
             {
                 Nome = dto.Nome,
                 Descricao = dto.Descricao,
-                Preco = (decimal)dto.Preco,
-                Estoque = (int)dto.Estoque,
-                CategoriaId = (Guid)dto.CategoriaId,
+                Preco = dto.Preco.GetValueOrDefault(0),
+                Estoque = dto.Estoque.GetValueOrDefault(0),
+                CategoriaId = dto.CategoriaId.GetValueOrDefault(),
                 VendedorId = vendedor.Id,
-                Imagem = nomeArquivo,
+                Imagem = dto.ImageFileName,
                 Ativo = true
             });
 

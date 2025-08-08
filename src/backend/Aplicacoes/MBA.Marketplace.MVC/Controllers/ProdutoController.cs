@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Humanizer;
 using MBA.Marketplace.Business.DTOs;
 using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Business.Interfaces.Services;
@@ -15,14 +16,21 @@ namespace MBA.Marketplace.MVC.Controllers
     [Authorize]
     public class ProdutoController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly ICategoriaService _categoriaService;
         private readonly IProdutoService _produtoService;
         private readonly IVendedorService _vendedorService;
         private readonly ILogger<ProdutoController> _logger;
         private readonly IMapper _mapper;
 
-        public ProdutoController(ICategoriaService categoriaService, IProdutoService produtoService, IVendedorService vendedorService, ILogger<ProdutoController> logger, IMapper mapper)
+        public ProdutoController(IConfiguration config,
+            ICategoriaService categoriaService,
+            IProdutoService produtoService,
+            IVendedorService vendedorService,
+            ILogger<ProdutoController> logger,
+            IMapper mapper)
         {
+            _config = config;
             _categoriaService = categoriaService;
             _produtoService = produtoService;
             _vendedorService = vendedorService;
@@ -104,6 +112,7 @@ namespace MBA.Marketplace.MVC.Controllers
 
             try
             {
+                string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(model.Imagem.FileName);
                 var _ = await _produtoService.CriarAsync(new ProdutoDto
                 {
                     Nome = model.Nome,
@@ -111,10 +120,17 @@ namespace MBA.Marketplace.MVC.Controllers
                     Preco = model.Preco,
                     Estoque = model.Estoque,
                     CategoriaId = model.CategoriaId,
-                    Imagem = model.Imagem
+                    Imagem = model.Imagem,
+                    ImageFileName = nomeArquivo
                 }, vendedor);
 
+                if (model.Imagem != null)
+                {
+                   await CopiarArquivo(nomeArquivo, model.Imagem);
+                }
+
                 ViewBag.RegistroSucesso = true;
+
             }
             catch (Exception ex)
             {
@@ -209,6 +225,40 @@ namespace MBA.Marketplace.MVC.Controllers
 
             var viewModel = _mapper.Map<ProdutoViewModel>(produto);
             return View(viewModel);
+        }
+
+        private async Task<bool> CopiarArquivo(string nomeArquivo, IFormFile imagem)
+        {
+            try
+            {
+                var pasta = _config["SharedFiles:ImagensPath"];
+
+                var parentDir = Directory.GetParent(Directory.GetCurrentDirectory());
+                if (parentDir == null || string.IsNullOrEmpty(pasta))
+                {
+                    _logger.LogError("Parent directory or image path configuration is null.");
+                    return false;
+                }
+
+                string caminhoPasta = Path.Combine(parentDir.FullName, pasta);
+
+                if (!Directory.Exists(caminhoPasta))
+                    Directory.CreateDirectory(caminhoPasta);
+
+                string caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
+
+                using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
+                {
+                    await imagem.CopyToAsync(stream);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao copiar arquivo.");
+                return false;
+            }
         }
     }
 }

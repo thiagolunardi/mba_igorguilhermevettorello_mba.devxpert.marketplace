@@ -26,5 +26,6 @@ namespace MBA.Marketplace.Business.DTOs
         [Required(ErrorMessage = "A Imagem é obrigatória.")]
         //[Imagem(ErrorMessage = "Envie uma imagem válida (jpeg, png, gif, webp).")]
         public IFormFile Imagem { get; set; } // Arquivo enviado
+        public string ImageFileName { get; set; }
     }
 }

@@ -121,4 +121,9 @@ https://localhost:7179/swagger
 
 - Este projeto é parte de um curso acadêmico e não aceita contribuições externas. 
 - Para feedbacks ou dúvidas utilize o recurso de Issues
+<<<<<<< HEAD
 - O arquivo `FEEDBACK.md` é um resumo das avaliações do instrutor e deverá ser modificado apenas por ele.
+=======
+
+- O arquivo `FEEDBACK.md` é um resumo das avaliações do instrutor e deverá ser modificado apenas por ele.
+>>>>>>> 5898b03912da1ddac3824c5ce2181b87300b5e42

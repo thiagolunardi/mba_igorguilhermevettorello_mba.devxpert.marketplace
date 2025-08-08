@@ -1,6 +1,7 @@
 ﻿using MBA.Marketplace.Business.Models.Base;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace MBA.Marketplace.Business.Models
 {
@@ -13,9 +14,9 @@ namespace MBA.Marketplace.Business.Models
 
         [Required]
         public string Email { get; set; }
-
+        [JsonIgnore]
         public DateTime CreatedAt { get; set; }
-
+        [JsonIgnore]
         public DateTime UpdatedAt { get; set; }
     }
 }

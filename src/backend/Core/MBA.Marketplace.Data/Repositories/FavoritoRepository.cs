@@ -42,7 +42,7 @@ namespace MBA.Marketplace.Data.Repositories
 
         public async Task<Favorito?> ObterPorIdAsync(Guid? id)
         {
-            return await _context.Favoritos.FindAsync(id);
+            return await _context.Favoritos.FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public async Task<Favorito?> ObterPorProdutoIdEClienteIdAsync(Guid? produtoId, Guid? clienteId)

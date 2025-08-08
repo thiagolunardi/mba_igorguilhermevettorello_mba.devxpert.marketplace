@@ -11,8 +11,17 @@
       <button class="btn btn-sm btn-primary action-btn" [routerLink]="['/produto', produto.id]" title="Ver detalhes">
         <i class="bi bi-eye"></i>
       </button>
-      <button class="btn btn-sm btn-outline-primary action-btn" title="Adicionar aos favoritos">
-        <i class="bi bi-heart"></i>
+      <button class="btn btn-sm btn-outline-primary action-btn"
+        title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" [class.text-danger]="isFavorito"
+        [class.text-muted]="!isFavorito" [disabled]="carregandoFavorito" (click)="toggleFavorito()">
+
+
+        @if(carregandoFavorito) {
+        <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+        }
+        @else {
+        <i style="font-size: 18px;" class="bi" [class.bi-heart-fill]="isFavorito" [class.bi-heart]="!isFavorito"></i>
+        }
       </button>
     </div>
 

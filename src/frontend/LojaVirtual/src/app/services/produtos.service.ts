@@ -1,15 +1,17 @@
 import { inject, Injectable } from "@angular/core";
 import { ProdutoViewModel } from "../viewmodels/pesquisa-de-produtos/produto.viewmodel";
-import { catchError, map, of } from "rxjs";
+import { catchError, map, Observable, of } from "rxjs";
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { ListaPaginada } from "../viewmodels/shared/lista-paginada.viewmodel";
 import { adicionarParametrosSePossuirValor } from "../util/common-functions";
+import { ItemEmDestaqueViewModel } from "../pages/public/home/item-destaque/item-em-destaque.viewmodel";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutosService {
   private http = inject(HttpClient);
+  private readonly URL_BASE = 'https://localhost:7179/api/produtos/'
 
   public obterProdutos(
     termoPesquisado: string | null = null,
@@ -18,7 +20,7 @@ export class ProdutosService {
     tamanhoDaPagina: number | null = null,
     orderBy: string | null = null
   ) {
-    let url = 'https://localhost:7179/api/produtos/pesquisar';
+    let url = this.URL_BASE + 'pesquisar';
     let params = new HttpParams();
 
     //adicionar parâmetros ao request somente se eles tiverem valor
@@ -43,6 +45,26 @@ export class ProdutosService {
           }
         }),
         catchError(() => of(null)) // retorna null em caso de erro
+      );
+  }
+
+  obterItensEmDestaque(): Observable<ItemEmDestaqueViewModel[] | null> {
+    const params = new HttpParams().set('ordenarPor', 'dataCadastro').set('limit', 6);
+
+    return this.http.get<ItemEmDestaqueViewModel[]>(this.URL_BASE, {
+      params: params,
+      observe: 'response'
+    })
+      .pipe(
+        map(response => {
+          if (response.status === 200) {
+            return response.body;
+          }
+          else {
+            throw new Error(`Erro ao buscar produtos. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(null))
       );
   }
 }

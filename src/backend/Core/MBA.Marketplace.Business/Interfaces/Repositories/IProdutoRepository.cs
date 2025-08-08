@@ -5,7 +5,7 @@ namespace MBA.Marketplace.Business.Interfaces.Repositories
 {
     public interface IProdutoRepository
     {
-        Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit);
+        Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit);
         Task<IEnumerable<Produto>> ListarPorCategoriaIdAsync(Guid categoriaId, bool include);
         Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string descricao);
         Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros);

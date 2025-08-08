@@ -14,13 +14,13 @@ import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
 export class ItemDestaqueComponent {
   @Input() item!: ItemEmDestaqueViewModel;
 
-    get imagemSrc(): string {
+  get imagemSrc(): string {
 
     if (this.item?.src) {
-      return `data:image/jpeg;base64,${this.item.src}`;
+      return this.item.src;
     }
 
     return IMAGEM_PLACEHOLDER;
   }
-  
+
 }

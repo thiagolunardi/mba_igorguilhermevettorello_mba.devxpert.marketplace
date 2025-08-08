@@ -35,9 +35,9 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ListarProdutosFiltro([FromQuery] string? ordenarPor, [FromQuery] int? limit)
+        public async Task<IActionResult> ObterItensEmDestaque([FromQuery] string? ordenarPor, [FromQuery] int? limit)
         {
-            var produtos = await _produtoService.ListarProdutosFiltroAsync(ordenarPor, limit);
+            var produtos = await _produtoService.ObterItensEmDestaque(ordenarPor, limit);
             return Ok(produtos);
         }
 

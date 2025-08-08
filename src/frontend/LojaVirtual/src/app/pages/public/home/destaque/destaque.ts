@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ItemEmDestaqueViewModel } from '../item-destaque/item-em-destaque.viewmodel';
-import { ItensEmDestaqueService } from '../../../../services/itens-em-destaque.service';
 import { ItemDestaqueComponent } from '../item-destaque/item-destaque';
+import { ProdutosService } from '../../../../services/produtos.service';
 
 @Component({
   selector: 'app-destaque',
@@ -13,12 +13,10 @@ import { ItemDestaqueComponent } from '../item-destaque/item-destaque';
   styleUrls: ['./destaque.scss']
 })
 export class DestaqueComponent implements OnInit {
-
+  produtoService = inject(ProdutosService);
   public itensEmDestaque$!: Observable<ItemEmDestaqueViewModel[] | null>;
 
-  constructor(private itensEmDestaqueService: ItensEmDestaqueService) { }
-
   ngOnInit(): void {
-    this.itensEmDestaque$ = this.itensEmDestaqueService.obterItensEmDestaque();
+    this.itensEmDestaque$ = this.produtoService.obterItensEmDestaque();
   }
 }

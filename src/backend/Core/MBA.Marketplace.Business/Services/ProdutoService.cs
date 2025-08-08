@@ -175,9 +175,9 @@ namespace MBA.Marketplace.Business.Services
             return await _produtoRepository.RemoverAsync(produto);
         }
 
-        public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
+        public async Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit)
         {
-            var produtos = await _produtoRepository.ListarProdutosFiltroAsync(ordenarPor, limit);
+            var produtos = await _produtoRepository.ObterItensEmDestaque(ordenarPor, limit);
 
             foreach (var produto in produtos)
             {

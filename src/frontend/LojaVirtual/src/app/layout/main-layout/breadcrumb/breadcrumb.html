@@ -1,18 +1,11 @@
 <nav class="breadcrumb-nav" *ngIf="breadcrumbs.length > 0">
   <div class="container">
     <ol class="breadcrumb-list">
-      <li class="breadcrumb-item">
-        <a routerLink="/" class="breadcrumb-link home-link">
-          <i class="bi bi-house"></i>
-          <span>Início</span>
-        </a>
-      </li>
-      
+
       @for (item of breadcrumbs; let ultimo = $last; track item) {
       <li class="breadcrumb-item" [class.active]="ultimo">
         <ng-container *ngIf="!ultimo">
           <a [routerLink]="item.url" class="breadcrumb-link">
-            <i class="bi bi-chevron-right separator"></i>
             <span>{{ item.titulo }}</span>
           </a>
         </ng-container>

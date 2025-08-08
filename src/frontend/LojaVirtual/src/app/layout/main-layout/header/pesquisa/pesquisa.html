@@ -1,7 +1,7 @@
 <div class="search-container">
   <!-- Logo -->
   <div class="logo-section">
-    <a routerLink="/" class="logo-link">
+    <a [routerLink]="['/']" class="logo-link">
       <i class="bi bi-shop logo-icon"></i>
       <span class="logo-text">LojaVirtual</span>
     </a>
@@ -11,13 +11,8 @@
   <div class="search-section">
     <form class="search-form" role="search" (ngSubmit)="pesquisar()">
       <div class="search-input-group">
-        <input 
-          type="text" 
-          class="form-control search-input" 
-          placeholder="O que você está procurando?" 
-          [(ngModel)]="termo"
-          [ngModelOptions]="{standalone: true}"
-          (keyup.enter)="pesquisar()">
+        <input type="text" class="form-control search-input" placeholder="O que você está procurando?"
+          [(ngModel)]="termo" [ngModelOptions]="{standalone: true}" (keyup.enter)="pesquisar()">
         <button class="btn btn-primary search-btn" type="submit">
           <i class="bi bi-search"></i>
         </button>

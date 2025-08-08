@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-favoritos',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './favoritos.html',
   styleUrls: ['./favoritos.scss']
 })

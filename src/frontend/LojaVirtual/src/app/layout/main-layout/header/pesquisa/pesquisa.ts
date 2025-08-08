@@ -1,10 +1,10 @@
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pesquisa',
-  imports: [FormsModule],
+  imports: [FormsModule, RouterLink],
   templateUrl: './pesquisa.html',
   styleUrls: ['./pesquisa.scss'],
   standalone: true

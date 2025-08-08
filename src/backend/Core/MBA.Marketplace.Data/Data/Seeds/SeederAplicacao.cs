@@ -171,12 +171,20 @@ namespace MBA.Marketplace.Data.Data.Seeds
             Guid eletronicoId = Guid.NewGuid();
             Guid roupaId = Guid.NewGuid();
             Guid livroId = Guid.NewGuid();
+
             if (!context.Categorias.Any())
             {
                 context.Categorias.AddRange(
                     new Categoria { Id = eletronicoId, Nome = "Eletrônicos", Descricao = "Eletrônicos em geral", CreatedAt = DateTime.Now },
                     new Categoria { Id = roupaId, Nome = "Roupas", Descricao = "Roupas em geral", CreatedAt = DateTime.Now },
-                    new Categoria { Id = livroId, Nome = "Livros", Descricao = "Livros em geral", CreatedAt = DateTime.Now }
+                    new Categoria { Id = livroId, Nome = "Livros", Descricao = "Livros em geral", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Beleza", Descricao = "Produtos de beleza e cuidados pessoais", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Esportes", Descricao = "Artigos esportivos e equipamentos", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Móveis", Descricao = "Móveis para casa e escritório", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Alimentos", Descricao = "Comidas, bebidas e mantimentos diversos", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Jardinagem", Descricao = "Ferramentas e itens para jardinagem", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Automobilismo", Descricao = "Acessórios e peças automotivas", CreatedAt = DateTime.Now },
+                    new Categoria { Id = Guid.NewGuid(), Nome = "Música", Descricao = "Instrumentos musicais e acessórios", CreatedAt = DateTime.Now }
                 );
             }
 

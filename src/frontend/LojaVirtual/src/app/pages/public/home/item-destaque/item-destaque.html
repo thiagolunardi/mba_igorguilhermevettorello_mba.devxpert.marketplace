@@ -27,9 +27,25 @@
           <a [routerLink]="['/produto', item.id]" class="text-color-dark text-color-hover-primary">{{ item.categoria.nome }}</a>
         </h3>
       </div>
-      <a href="#" class="text-decoration-none text-color-default text-color-hover-dark text-4">
-        <i class="far fa-heart"></i>
-      </a>
+              <button 
+                type="button" 
+                class="btn btn-link" 
+                [class.text-danger]="isFavorito"
+                [class.text-muted]="!isFavorito"
+                [disabled]="carregandoFavorito"
+                (click)="toggleFavorito()"
+                style="float: right;"
+                title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}">
+                <i 
+                  style="font-size: 18px;" 
+                  class="bi"
+                  [class.bi-heart-fill]="isFavorito"
+                  [class.bi-heart]="!isFavorito">
+                </i>
+                @if(carregandoFavorito) {
+                  <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                }
+              </button>
     </div>
 
     <p class="price text-5 mb-3">

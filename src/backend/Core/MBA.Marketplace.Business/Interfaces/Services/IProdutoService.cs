@@ -16,7 +16,10 @@ namespace MBA.Marketplace.Business.Interfaces.Services
         Task<Produto> CriarAsync(ProdutoDto dto, Vendedor vendedor);
         Task<Produto> ObterPorIdAsync(Guid id, Vendedor vendedor);
         Task<Produto> ObterPorIdAsync(Guid id);
+        Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id);
         Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem);
         Task<bool> RemoverAsync(Guid id, Vendedor vendedor);
+        Task<Produto> ChangeState(Guid id);
+        Task<bool> ChangeStatePorVendedor(Vendedor vendedor);
     }
 }

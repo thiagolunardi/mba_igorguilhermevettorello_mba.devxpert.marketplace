@@ -5,10 +5,11 @@ import { CurrencyPipe } from '@angular/common';
 import { NotificacaoService } from '../../../../services/notificacao.service';
 import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
 import { AuthService } from '../../../../services/auth.service';
+import { BotaoFavoritos } from '../../../../layout/shared/botao-favoritos/botao-favoritos';
 
 @Component({
   selector: 'app-resumo-produto',
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, BotaoFavoritos],
   templateUrl: './resumo-produto.html',
   styleUrl: './resumo-produto.scss'
 })

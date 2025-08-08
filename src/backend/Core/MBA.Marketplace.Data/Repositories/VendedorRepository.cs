@@ -20,6 +20,13 @@ namespace MBA.Marketplace.Data.Repositories
             return true;
         }
 
+        public async Task<bool> AtualizarAsync(Vendedor vendedor)
+        {
+            _context.Vendedores.Update(vendedor);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<IEnumerable<Vendedor>> ListarAsync()
         {
             return await _context.Vendedores.AsNoTracking().ToListAsync();
@@ -29,6 +36,13 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context.Vendedores
                                  .Where(v => v.Id == usuario.NormalizeGuid())
+                                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<Vendedor?> ObterVendedorAtivoPorUsuarioIdAsync(string usuario)
+        {
+            return await _context.Vendedores
+                                 .Where(v => v.Id == usuario.NormalizeGuid() && v.Ativo == true)
                                  .FirstOrDefaultAsync();
         }
     }

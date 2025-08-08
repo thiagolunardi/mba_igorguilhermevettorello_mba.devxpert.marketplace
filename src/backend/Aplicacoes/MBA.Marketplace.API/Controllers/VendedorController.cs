@@ -43,12 +43,13 @@ namespace MBA.Marketplace.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterVendedorPorId(Guid id)
         {
-            var vendedor = await _vendedorService.ObterPorIdAsync(id.ToString());
+            var vendedor = await _vendedorService.ObterVendedorAtivoPorIdAsync(id.ToString());
 
             if (vendedor == null)
                 return NotFound();
 
             return Ok(vendedor);
         }
+                
     }
 }

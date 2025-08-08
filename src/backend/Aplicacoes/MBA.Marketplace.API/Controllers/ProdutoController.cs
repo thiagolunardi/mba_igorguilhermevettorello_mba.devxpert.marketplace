@@ -35,7 +35,7 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ListarProdutosFiltro([FromQuery] string? ordenarPor,[FromQuery] int? limit)
+        public async Task<IActionResult> ListarProdutosFiltro([FromQuery] string? ordenarPor, [FromQuery] int? limit)
         {
             var produtos = await _produtoService.ListarProdutosFiltroAsync(ordenarPor, limit);
             return Ok(produtos);
@@ -55,7 +55,7 @@ namespace MBA.Marketplace.API.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> ObterPorId(Guid id)
         {
-            var produto = await _produtoService.ObterPorIdAsync(id);
+            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(id);
 
             if (produto == null)
                 return NotFound();
@@ -79,5 +79,6 @@ namespace MBA.Marketplace.API.Controllers
             var imagem = System.IO.File.OpenRead(caminho);
             return File(imagem, contentType);
         }
+                
     }
 }

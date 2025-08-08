@@ -1,83 +1,95 @@
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { adicionarParametrosSePossuirValor } from '../util/common-functions';
+import { catchError, map, Observable, of } from 'rxjs';
 import { ListaPaginada } from '../viewmodels/shared/lista-paginada.viewmodel';
+import { adicionarParametrosSePossuirValor } from '../util/common-functions';
 import { ProdutoViewModel } from '../viewmodels/pesquisa-de-produtos/produto.viewmodel';
-import { catchError, map, of } from 'rxjs';
 
-export interface Favorito {
-  id: number;
-  nome: string;
-  categoria: string;
-  preco: number;
-  descricao: string;
-  imagemUrl: string;
+export interface FavoritoViewModel {
+  id: string;
+  produtoId: string;
+  produto: ProdutoViewModel
+}
+
+export interface ApiResponse {
+  success: boolean;
+  message?: string;
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
+
 export class FavoritosService {
   private http = inject(HttpClient);
+  private readonly URL_BASE = 'https://localhost:7179/api/favoritos/';
 
-  public obterProdutos(
-    termoPesquisado: string | null = null,
-    categoriaId: string | null = null,
+  obterFavoritos(
     numeroDaPagina: number | null = null,
-    tamanhoDaPagina: number | null = null,
-    orderBy: string | null = null
+    tamanhoDaPagina: number | null = null
   ) {
-    let url = 'https://localhost:7179/api/produtos/pesquisar';
+    const url = this.URL_BASE
+
     let params = new HttpParams();
+    params = adicionarParametrosSePossuirValor(
+      params,
+      [
+        { nome: 'numeroDaPagina', valor: numeroDaPagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
+      ]);
 
-    //adicionar parâmetros ao request somente se eles tiverem valor
-    params = adicionarParametrosSePossuirValor(params, [
-      { nome: 'termoPesquisado', valor: termoPesquisado },
-      { nome: 'categoriaId', valor: categoriaId },
-      { nome: 'numeroDaPagina', valor: numeroDaPagina },
-      { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
-      { nome: 'orderBy', valor: orderBy },
-    ]);
-
-    return this.http
-      .get<ListaPaginada<ProdutoViewModel>>(url, {
-        params,
-        observe: 'response',
-      })
+    return this.http.get<ListaPaginada<FavoritoViewModel>>(url, { params, observe: 'response' })
       .pipe(
-        map((response) => {
+        map(response => {
           if (response.status === 200) {
             return response.body;
-          } else {
-            throw new Error(
-              `Erro ao buscar produtos. Status: ${response.status}`
-            );
+          }
+          else {
+            throw new Error(`Erro ao buscar favoritos. Status: ${response.status}`);
           }
         }),
-        catchError(() => of(null)) // retorna null em caso de erro
+        catchError(() => of(null))
       );
   }
 
-  // adicionarFavorito(produto: any) {
-  //   if (!this.favoritos.find(item => item.id === produto.id)) {
-  //     this.favoritos.push(produto);
-  //   }
-  // }
+  adicionarFavorito(produtoId: string): Observable<ApiResponse> {
+    const url = this.URL_BASE + produtoId;
 
-  removerFavorito(id: string) {
-    let url = 'https://localhost:7179/api/favoritos/' + id;
+    return this.http.post<any>(url, {}).pipe(
+      map(() => ({
+        success: true,
+        message: 'Produto adicionado aos favoritos!'
+      })),
+      catchError((error: HttpErrorResponse) => { 
+        return of({
+          success: false,
+          message: error.error || 'Ocorreu um erro ao adicionar.'
+        });
+      })
+    );
+  }
 
-    return this.http.delete<any>(url, { observe: 'response' }).pipe(
-      map((response) => {
-        if (response.status === 204) {
-          return response.body;
-        } else {
-          throw new Error(
-            `Erro ao buscar produtos. Status: ${response.status}`
-          );
-        }
-      }),
-      catchError(() => of(null)) // retorna null em caso de erro
+  removerFavorito(produtoId: string): Observable<ApiResponse> {
+    const url = this.URL_BASE + produtoId;
+
+    return this.http.delete(url).pipe(
+      map(() => ({
+        success: true,
+        message: 'Produto removido dos favoritos.'
+      })),
+      catchError((error: HttpErrorResponse) => {
+        return of({
+          success: false,
+          message: error.error || 'Ocorreu um erro ao remover.'
+        });
+      })
+    );
+  }
+
+  verificarSeFavorito(produtoId: string): Observable<boolean> {
+    const url = `${this.URL_BASE}verificar/${produtoId}`;
+    return this.http.get<boolean>(url).pipe(
+      catchError(() => of(false))
     );
   }
 }

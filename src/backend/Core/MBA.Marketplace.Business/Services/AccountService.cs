@@ -18,14 +18,16 @@ namespace MBA.Marketplace.Business.Services
     {
         private readonly IConfiguration _configuration;
         private readonly IUserRepository<IdentityUser> _userRepository;
+        private readonly IClienteRepository _clienteRepository;
 
         private readonly UserManager<IdentityUser> _userManager;
 
-        public AccountService(UserManager<IdentityUser> userManager, IConfiguration configuration, IUserRepository<IdentityUser> userRepository)
+        public AccountService(UserManager<IdentityUser> userManager, IConfiguration configuration, IUserRepository<IdentityUser> userRepository, IClienteRepository clienteRepository)
         {
             _userManager = userManager;
             _configuration = configuration;
             _userRepository = userRepository;
+            _clienteRepository = clienteRepository;
         }
 
         public async Task<(bool Success, string Token, IEnumerable<string> Errors)> LoginAsync(LoginDto dto)
@@ -37,11 +39,13 @@ namespace MBA.Marketplace.Business.Services
                 return (false, null, new[] { "E-mail ou senha inválidos." });
             }
 
+            var cliente = await _clienteRepository.ObterPorUsuarioIdAsync(usuario.Id);
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, usuario.Id),
                 new Claim(ClaimTypes.Email, usuario.Email),
-                new Claim(ClaimTypes.Name, usuario.UserName)
+                new Claim(ClaimTypes.Name, cliente?.Nome?? usuario.UserName)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));

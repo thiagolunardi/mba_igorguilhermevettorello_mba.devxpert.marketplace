@@ -231,7 +231,7 @@ namespace MBA.Marketplace.MVC.Controllers
         {
             try
             {
-                var pasta = _config["SharedFiles:ImagensPath"];
+                var pasta = $"wwwroot/{_config["SharedFiles:ImagensPath"]}";
 
                 var parentDir = Directory.GetParent(Directory.GetCurrentDirectory());
                 if (parentDir == null || string.IsNullOrEmpty(pasta))

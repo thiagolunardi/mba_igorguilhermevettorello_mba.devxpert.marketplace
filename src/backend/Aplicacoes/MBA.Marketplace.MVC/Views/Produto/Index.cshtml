@@ -123,28 +123,25 @@ else
                                                 </a>
                                             }
 
-                                            @if (isAdmin)
+                                            @if (produto.Ativo)
                                             {
-                                                @if (produto.Ativo)
-                                                {
-                                                    <button type="button"
-                                                            class="btn btn-outline-danger btn-sm"
-                                                            data-id="@produto.Id"
-                                                            onclick="inativarProduto(this, event)"
-                                                            title="Inativar produto">
-                                                        <i class="bi bi-eye-slash"></i>
-                                                    </button>
-                                                }
-                                                else
-                                                {
-                                                    <button type="button"
-                                                            class="btn btn-outline-success btn-sm"
-                                                            data-id="@produto.Id"
-                                                            onclick="ativarProduto(this, event)"
-                                                            title="Ativar produto">
-                                                        <i class="bi bi-eye"></i>
-                                                    </button>
-                                                }
+                                                <button type="button"
+                                                        class="btn btn-outline-danger btn-sm"
+                                                        data-id="@produto.Id"
+                                                        onclick="inativarProduto(this, event)"
+                                                        title="Inativar produto">
+                                                    <i class="bi bi-eye-slash"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button"
+                                                        class="btn btn-outline-success btn-sm"
+                                                        data-id="@produto.Id"
+                                                        onclick="ativarProduto(this, event)"
+                                                        title="Ativar produto">
+                                                    <i class="bi bi-eye"></i>
+                                                </button>
                                             }
                                              
                                             @if (isVendedor)
@@ -254,56 +251,34 @@ else
             $('#nomeProduto').text(nomeProdutoAtual);
             $('#statusAtualProduto').text(statusAtual);
             $('#precoProduto').text(precoProdutoAtual);
-            // $('#imagemProdutoModal').attr('src', imagemProdutoAtual);
-            // $('#imagemProdutoModal').attr('alt', nomeProdutoAtual);
-
+            
             const btnConfirmar = $('#btnConfirmarAcaoProduto');
-            // btnConfirmar.removeClass('btn-primary btn-danger btn-success').addClass(classBotao);
             btnConfirmar.html(`<i class="bi bi-check-lg me-1"></i>${textoBotao}`);
-
-            // Remover event listeners anteriores e adicionar o novo
             btnConfirmar.off('click').on('click', executarAcaoProduto);
         }
 
         function mostrarResultadoProduto(mensagem, novoStatus, sucesso) {
-            // Configurar o modal de resultado
             const headerResultado = $('#headerResultadoProduto');
             const iconeResultado = $('#iconeResultadoProduto');
             const tituloResultado = $('#tituloResultadoProduto');
             const iconePrincipal = $('#iconePrincipalProduto');
             const resultadoMensagem = $('#resultadoMensagemProduto');
-            const detalhesProduto = $('#detalhesProduto');
-            const nomeProdutoResultado = $('#nomeProdutoResultado');
-            const novoStatusProduto = $('#novoStatusProduto');
-            const imagemProdutoResultado = $('#imagemProdutoResultado');
-
+            const modalBtnResultadoProduto = $('#modalBtnResultadoProduto');modalBtnResultadoVendedor
+            
             if (sucesso) {
-                // Sucesso
                 headerResultado.removeClass('bg-danger-subtle').addClass('bg-success-subtle');
+                modalBtnResultadoProduto.removeClass('btn-outline-danger').removeClass('btn-outline-aplication').addClass('btn-outline-aplication');
                 iconeResultado.html('<i class="bi bi-check-circle-fill text-success me-2"></i>');
                 tituloResultado.text('Sucesso');
                 iconePrincipal.html('<i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>');
                 resultadoMensagem.html(`<h5 class="text-success mb-2">${mensagem}</h5>`);
-                
-                // Se há novo status, mostrar detalhes do produto
-                if (novoStatus) {
-                    detalhesProduto.removeClass('d-none');
-                    nomeProdutoResultado.text(nomeProdutoAtual);
-                    novoStatusProduto.text(novoStatus);
-                    imagemProdutoResultado.attr('src', imagemProdutoAtual);
-                    imagemProdutoResultado.attr('alt', nomeProdutoAtual);
-                } else {
-                    // Caso de remoção bem-sucedida
-                    detalhesProduto.addClass('d-none');
-                }
             } else {
-                // Erro
                 headerResultado.removeClass('bg-success-subtle').addClass('bg-danger-subtle');
+                modalBtnResultadoProduto.removeClass('btn-outline-danger').removeClass('btn-outline-aplication').addClass('btn-outline-danger');
                 iconeResultado.html('<i class="bi bi-exclamation-triangle-fill text-danger me-2"></i>');
                 tituloResultado.text('Erro');
                 iconePrincipal.html('<i class="bi bi-exclamation-triangle-fill text-danger" style="font-size: 3rem;"></i>');
                 resultadoMensagem.html(`<h5 class="text-danger mb-2">${mensagem}</h5>`);
-                detalhesProduto.addClass('d-none');
             }
 
             // Mostrar o modal
@@ -311,55 +286,56 @@ else
             modal.show();
         }
     </script>
-    
+
+    <script>
+        const urlTrocarStatusProduto = "@Url.Action("trocar-status", "Produto")";
+
+        function inativarProduto(element, event) {
+            event.preventDefault();
+
+            const tr = $(element).closest('tr');
+            produtoIdAtual = $(element).data('id');
+            nomeProdutoAtual = tr.find('span.fw-semibold').text();
+            precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
+            imagemProdutoAtual = tr.find('.product-image').attr('src');
+            acaoAtual = 'inativar';
+
+            configurarModalProduto(
+                'Inativar Produto',
+                'Tem certeza que deseja inativar este produto?',
+                'Ativo',
+                'Inativar'
+            );
+
+            const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
+            modal.show();
+        }
+
+        function ativarProduto(element, event) {
+            event.preventDefault();
+
+            const tr = $(element).closest('tr');
+            produtoIdAtual = $(element).data('id');
+            nomeProdutoAtual = tr.find('span.fw-semibold').text();
+            precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
+            imagemProdutoAtual = tr.find('.product-image').attr('src');
+            acaoAtual = 'ativar';
+
+            configurarModalProduto(
+                'Ativar Produto',
+                'Tem certeza que deseja ativar este produto?',
+                'Inativo',
+                'Ativar'
+            );
+
+            const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
+            modal.show();
+        }
+    </script>
+
     @if (isAdmin)
     {
-        <script>
-
-            const urlTrocarStatusProduto = "@Url.Action("trocar-status", "Produto")";
-            
-            function inativarProduto(element, event) {
-                event.preventDefault();
-
-                const tr = $(element).closest('tr');
-                produtoIdAtual = $(element).data('id');
-                nomeProdutoAtual = tr.find('span.fw-semibold').text();
-                precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
-                imagemProdutoAtual = tr.find('.product-image').attr('src');
-                acaoAtual = 'inativar';
-
-                configurarModalProduto(
-                    'Inativar Produto',
-                    'Tem certeza que deseja inativar este produto?',
-                    'Ativo',
-                    'Inativar'
-                );
-
-                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
-                modal.show();
-            }
-
-            function ativarProduto(element, event) {
-                event.preventDefault();
-
-                const tr = $(element).closest('tr');
-                produtoIdAtual = $(element).data('id');
-                nomeProdutoAtual = tr.find('span.fw-semibold').text();
-                precoProdutoAtual = tr.find('span.fw-semibold.text-success').text();
-                imagemProdutoAtual = tr.find('.product-image').attr('src');
-                acaoAtual = 'ativar';
-
-                configurarModalProduto(
-                    'Ativar Produto',
-                    'Tem certeza que deseja ativar este produto?',
-                    'Inativo',
-                    'Ativar'
-                );
-
-                const modal = new bootstrap.Modal(document.getElementById('modalConfirmarProduto'));
-                modal.show();
-            }
-
+        <script>            
             function executarAcaoProduto() {
                 if (!produtoIdAtual || !acaoAtual) return;
 
@@ -446,6 +422,18 @@ else
                         mensagemSucesso = 'Produto removido com sucesso!';
                         metodoHttp = 'DELETE';
                         break;
+                    case 'inativar':
+                        url = urlTrocarStatusProduto;
+                        novoStatus = 'Inativo';
+                        mensagemSucesso = 'Produto inativado com sucesso!';
+                        metodoHttp = 'POST';
+                        break;
+                    case 'ativar':
+                        url = urlTrocarStatusProduto;
+                        novoStatus = 'Ativo';
+                        mensagemSucesso = 'Produto ativado com sucesso!';
+                        metodoHttp = 'POST';
+                        break;
                 }
 
                 // Mostrar spinner e desabilitar botão
@@ -476,5 +464,4 @@ else
             }
         </script>
     }
-
 }

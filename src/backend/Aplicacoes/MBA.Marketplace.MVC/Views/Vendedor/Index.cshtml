@@ -167,12 +167,10 @@ else
     <script>
         let vendedorIdAtual = null;
         let nomeVendedorAtual = null;
-        let acaoAtual = null; // 'inativar' ou 'ativar'
+        let acaoAtual = null; 
 
         const url = "@Url.Action("trocar-status", "Vendedor")";
-        //const urlInativar = "@Url.Action("Inativar", "Vendedor")";
-        //const urlAtivar = "@Url.Action("Ativar", "Vendedor")";
-
+        
         function inativarVendedor(element, event) {
             event.preventDefault();
             
@@ -183,8 +181,6 @@ else
             configurarModal(
                 'Inativar Vendedor',
                 'Tem certeza que deseja inativar este vendedor?',
-                'Ativo',
-                'btn-danger',
                 'Inativar'
             );
             
@@ -202,8 +198,6 @@ else
             configurarModal(
                 'Ativar Vendedor',
                 'Tem certeza que deseja ativar este vendedor?',
-                'Inativo',
-                'btn-success',
                 'Ativar'
             );
             
@@ -211,14 +205,12 @@ else
             modal.show();
         }
 
-        function configurarModal(titulo, mensagem, statusAtual, classBotao, textoBotao) {
+        function configurarModal(titulo, mensagem, textoBotao) {
             $('#tituloConfirmacao').text(titulo);
             $('#mensagemConfirmacao').text(mensagem);
-            $('#nomeVendedor').text(nomeVendedorAtual);
-            $('#statusAtual').text(statusAtual);
-            
-            const btnConfirmar = $('#btnConfirmarAcao');
-            btnConfirmar.removeClass('btn-primary btn-danger btn-success').addClass(classBotao);
+
+            const btnConfirmar = $('#btnConfirmarAcaoVendedor');
+            //btnConfirmar.removeClass('btn-primary btn-danger btn-success').addClass(classBotao);
             btnConfirmar.html(`<i class="bi bi-check-lg me-1"></i>${textoBotao}`);
             
             // Remover event listeners anteriores e adicionar o novo
@@ -262,29 +254,22 @@ else
         }
 
         function mostrarResultado(mensagem, novoStatus, sucesso) {
-            const headerResultado = $('#headerResultado');
-            const iconeResultado = $('#iconeResultado');
-            const tituloResultado = $('#tituloResultado');
-            const iconePrincipal = $('#iconePrincipal');
-            const resultadoMensagem = $('#resultadoMensagem');
+            const headerResultado = $('#headerResultadoVendedor');
+            const iconeResultado = $('#iconeResultadoVendedor');
+            const tituloResultado = $('#tituloResultadoVendedor');
+            const iconePrincipal = $('#iconePrincipalVendedor');
+            const resultadoMensagem = $('#resultadoMensagemVendedor');
             const detalhesVendedor = $('#detalhesVendedor');
-            const nomeVendedorResultado = $('#nomeVendedorResultado');
-            const novoStatusSpan = $('#novoStatus');
+            const modalBtnResultadoVendedor = $('#modalBtnResultadoVendedor');
 
             if (sucesso) {
-                headerResultado.removeClass('bg-danger-subtle').addClass('bg-success-subtle');
+                modalBtnResultadoVendedor.removeClass('btn-outline-danger').removeClass('btn-outline-aplication').addClass('btn-outline-aplication');
                 iconeResultado.html('<i class="bi bi-check-circle-fill text-success me-2"></i>');
                 tituloResultado.text('Operação Realizada');
                 iconePrincipal.html('<i class="bi bi-check-circle text-success" style="font-size: 3rem;"></i>');
                 resultadoMensagem.html(`<h6 class="text-success mb-2">${mensagem}</h6>`);
-                
-                if (novoStatus) {
-                    nomeVendedorResultado.text(nomeVendedorAtual);
-                    novoStatusSpan.html(`<span class="badge ${novoStatus === 'Ativo' ? 'bg-success' : 'bg-danger'}">${novoStatus}</span>`);
-                    detalhesVendedor.removeClass('d-none');
-                }
             } else {
-                headerResultado.removeClass('bg-success-subtle').addClass('bg-danger-subtle');
+                modalBtnResultadoVendedor.removeClass('btn-outline-danger').removeClass('btn-outline-aplication').addClass('btn-outline-danger');
                 iconeResultado.html('<i class="bi bi-x-circle-fill text-danger me-2"></i>');
                 tituloResultado.text('Erro na Operação');
                 iconePrincipal.html('<i class="bi bi-x-circle text-danger" style="font-size: 3rem;"></i>');

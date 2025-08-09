@@ -103,7 +103,7 @@
                         <div class="admin-menu-section-title">Vendedores</div>
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")"
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Vendedor" ? "active" : "")"
                                    href="@Url.Action("Index", "Vendedor")">
                                     <i class="bi bi-box-seam admin-menu-icon"></i>
                                     Listar Vendedores

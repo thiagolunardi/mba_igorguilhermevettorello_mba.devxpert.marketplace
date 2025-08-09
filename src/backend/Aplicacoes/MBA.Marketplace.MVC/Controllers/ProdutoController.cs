@@ -99,7 +99,6 @@ namespace MBA.Marketplace.MVC.Controllers
         public async Task<IActionResult> Criar(ProdutoFormViewModel model)
         {
             ViewBag.Categorias = await BuscarCategorias();
-
             ModelState.Remove("Imagem");
             ModelState.Remove("Src");
             if (model.Imagem == null)
@@ -245,7 +244,7 @@ namespace MBA.Marketplace.MVC.Controllers
         }
 
         [HttpPost("trocar-status/{id:Guid}")]
-        [Authorize(Roles = nameof(TipoUsuario.Administrador))]
+        [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> TrocarStatus(Guid id)
         {
             var _ = await _produtoService.ChangeState(id);

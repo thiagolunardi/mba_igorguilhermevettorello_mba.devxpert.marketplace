@@ -2,15 +2,15 @@ import { Component, Input, OnInit, inject } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { ItemEmDestaqueViewModel } from '../item-destaque/item-em-destaque.viewmodel';
-import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
 import { FavoritosService } from '../../../../services/favoritos.service';
 import { AuthService } from '../../../../services/auth.service';
 import { NotificacaoService } from '../../../../services/notificacao.service';
+import { ImagemSrcPipe } from '../../../../pipes/imagem-src.pipe';
 
 @Component({
   selector: 'app-item-destaque',
   standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyPipe],
+  imports: [CommonModule, RouterModule, ImagemSrcPipe],
   templateUrl: './item-destaque.html',
   styleUrls: ['./item-destaque.scss']
 })
@@ -27,13 +27,6 @@ export class ItemDestaqueComponent implements OnInit {
     if (this.authService.isAuthenticated() && this.item?.id) {
       this.verificarStatusFavorito();
     }
-  }
-
-  get imagemSrc(): string {
-    if (this.item?.src) {
-      return this.item.src;
-    }
-    return IMAGEM_PLACEHOLDER;
   }
 
   toggleFavorito(): void {

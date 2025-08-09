@@ -5,7 +5,7 @@
   <div role="main" class="main shop pt-4">
     <div class="row">
       <div class="col-md-5 mb-5 mb-md-0">
-        <img [src]="imagemSrc" class="img-fluid" [alt]="produto.nome" style="object-fit: cover;" />
+        <img [src]="produto.imagem | imagemSrc" class="img-fluid" [alt]="produto.nome" style="object-fit: cover;" />
       </div>
 
       <div class="col-md-7">

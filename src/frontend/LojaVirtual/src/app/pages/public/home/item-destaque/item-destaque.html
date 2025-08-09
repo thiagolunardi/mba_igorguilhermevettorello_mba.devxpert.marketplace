@@ -3,7 +3,7 @@
     <div class="product-badges">
       <span class="badge badge-success">NOVO</span>
     </div>
-    
+
     <div class="product-actions">
       <button class="btn btn-sm btn-primary action-btn" [routerLink]="['/produto', item.id]" title="Ver detalhes">
         <i class="bi bi-eye"></i>
@@ -12,9 +12,9 @@
         <i class="bi bi-heart"></i>
       </button>
     </div>
-    
+
     <a [routerLink]="['/produto', item.id]" class="product-link">
-      <img [src]="imagemSrc" class="product-image" [alt]="item.nome">
+      <img [src]="item.imagem | imagemSrc" class="product-image" [alt]="item.nome">
     </a>
   </div>
 
@@ -25,34 +25,26 @@
 
     <div class="d-flex justify-content-between">
       <div>
-        <a [routerLink]="['/produto', item.id]" class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">
+        <a [routerLink]="['/produto', item.id]"
+          class="d-block text-uppercase text-decoration-none text-color-default text-color-hover-primary line-height-1 text-0 mb-1">
           {{ item.nome }}
         </a>
         <h3 class="fontForce text-3-5 font-weight-medium font-alternative text-transform-none line-height-3 mb-0">
-          <a [routerLink]="['/produto', item.id]" class="text-color-dark text-color-hover-primary">{{ item.categoria.nome }}</a>
+          <a [routerLink]="['/produto', item.id]" class="text-color-dark text-color-hover-primary">{{
+            item.categoria.nome }}</a>
         </h3>
       </div>
-              <button 
-                type="button" 
-                class="btn btn-link" 
-                [class.text-danger]="isFavorito"
-                [class.text-muted]="!isFavorito"
-                [disabled]="carregandoFavorito"
-                (click)="toggleFavorito()"
-                style="float: right;"
-                title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}">
-                <i 
-                  style="font-size: 18px;" 
-                  class="bi"
-                  [class.bi-heart-fill]="isFavorito"
-                  [class.bi-heart]="!isFavorito">
-                </i>
-                @if(carregandoFavorito) {
-                  <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
-                }
-              </button>
+      <button type="button" class="btn btn-link" [class.text-danger]="isFavorito" [class.text-muted]="!isFavorito"
+        [disabled]="carregandoFavorito" (click)="toggleFavorito()" style="float: right;"
+        title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}">
+        <i style="font-size: 18px;" class="bi" [class.bi-heart-fill]="isFavorito" [class.bi-heart]="!isFavorito">
+        </i>
+        @if(carregandoFavorito) {
+        <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+        }
+      </button>
     </div>
-    
+
     <div class="product-actions-bottom">
       <button class="btn btn-sm btn-primary" [routerLink]="['/produto', item.id]">
         <i class="bi bi-eye me-1"></i> Ver produto

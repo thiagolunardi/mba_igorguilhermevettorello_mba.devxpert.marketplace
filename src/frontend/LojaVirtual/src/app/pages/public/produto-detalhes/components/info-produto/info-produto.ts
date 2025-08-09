@@ -6,12 +6,12 @@ import { AuthService } from '../../../../../services/auth.service';
 import { NotificacaoService } from '../../../../../services/notificacao.service';
 import { inject } from '@angular/core';
 import { ProdutoViewModel } from '../../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
-import { IMAGEM_PLACEHOLDER } from '../../../../../util/constantes';
+import { ImagemSrcPipe } from '../../../../../pipes/imagem-src.pipe';
 
 @Component({
   selector: 'app-info-produto',
   standalone: true,
-  imports: [CommonModule, CurrencyPipe, RouterLink],
+  imports: [CommonModule, CurrencyPipe, RouterLink, ImagemSrcPipe],
   templateUrl: './info-produto.html',
   styleUrls: ['./info-produto.scss']
 })
@@ -24,10 +24,6 @@ export class InfoProdutoComponent implements OnInit { // Nome da classe atualiza
 
   isFavorito: boolean = false;
   carregandoFavorito: boolean = false;
-
-  get imagemSrc() {
-    return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;
-  }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated() && this.produto?.id) {

@@ -2,15 +2,15 @@ import { Component, inject, Input, OnChanges, OnInit, SimpleChanges } from '@ang
 import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.viewmodel';
 import { FavoritosService, FavoritoViewModel } from '../../../../services/favoritos.service';
 import { Observable } from 'rxjs';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
-import { CurrencyPipe } from '@angular/common';
 import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
 import { NotificacaoService } from '../../../../services/notificacao.service';
+import { CardFavorito } from "../card-favorito/card-favorito";
 
 @Component({
   selector: 'app-lista-de-favoritos',
-  imports: [NgbProgressbar, RouterLink, CurrencyPipe],
+  imports: [NgbProgressbar, CardFavorito],
   templateUrl: './lista-de-favoritos.html',
   styles: ``
 })

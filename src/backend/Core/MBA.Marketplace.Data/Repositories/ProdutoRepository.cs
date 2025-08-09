@@ -140,7 +140,7 @@ namespace MBA.Marketplace.Data.Repositories
 
         public async Task<bool> AtualizarAsync(IEnumerable<Produto> produtos)
         {
-            if (produtos == null || produtos.Any())
+            if (produtos == null || !produtos.Any())
                 return false;
 
             foreach (var produto in produtos)

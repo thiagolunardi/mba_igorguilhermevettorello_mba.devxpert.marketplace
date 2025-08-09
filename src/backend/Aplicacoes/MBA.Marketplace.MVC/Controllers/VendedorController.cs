@@ -12,12 +12,16 @@ namespace MBA.Marketplace.MVC.Controllers
     public class VendedorController : Controller
     {
         private readonly IVendedorService _vendedorService;
+        private readonly IProdutoService _produtoService;
         private readonly ILogger<VendedorController> _logger;
         private readonly IMapper _mapper;
 
-        public VendedorController(IVendedorService vendedorSevice, ILogger<VendedorController> logger, IMapper mapper)
+        public VendedorController(IVendedorService vendedorSevice, 
+            IProdutoService produtoService,
+            ILogger<VendedorController> logger, IMapper mapper)
         {
             _vendedorService = vendedorSevice;
+            _produtoService = produtoService;
             _logger = logger;
             _mapper = mapper;
         }
@@ -33,7 +37,13 @@ namespace MBA.Marketplace.MVC.Controllers
         [Authorize(Roles = nameof(TipoUsuario.Administrador))]
         public async Task<IActionResult> TrocarStatus(Guid id)
         {
-            var _ = await _vendedorService.ChangeState(id);
+            var vendedor = await _vendedorService.ChangeState(id);
+
+            if (vendedor == null)
+                return NotFound();
+
+            _ = await _produtoService.ChangeStatePorVendedor(vendedor);
+
             return Ok();
         }
     }

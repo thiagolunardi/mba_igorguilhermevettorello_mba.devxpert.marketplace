@@ -1,7 +1,8 @@
-import { Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NotificacaoService } from '../../../services/notificacao.service';
 import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
+import { ActivatedRoute, Router } from '@angular/router';
 
 
 @Component({
@@ -12,9 +13,11 @@ import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmod
 })
 export class Paginacao implements OnInit, OnChanges {
   notificacaoService = inject(NotificacaoService);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
   paginacao!: ListaPaginada<any> | null;
   @Input() listaPaginada$!: Observable<ListaPaginada<any> | null>;
-  @Output() trocarPagina = new EventEmitter<number | null>();
 
   ngOnInit(): void {
     this.carregarPaginacao();
@@ -56,10 +59,10 @@ export class Paginacao implements OnInit, OnChanges {
   }
 
   navegarParaPagina(numeroDaPagina: number | null) {
-    if (numeroDaPagina) {
-      this.trocarPagina.emit(numeroDaPagina);
-    } else {
-      this.notificacaoService.exibir('Número de página inválido!');
-    }
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { pagina: numeroDaPagina },
+      queryParamsHandling: 'merge',
+    });
   }
 }

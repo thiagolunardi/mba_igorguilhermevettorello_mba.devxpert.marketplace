@@ -5,6 +5,7 @@ import { TAMANHO_PADRAO_PAGINA } from '../../../util/constantes';
 import { ListaDeFavoritos } from "./lista-de-favoritos/lista-de-favoritos";
 import { Observable } from 'rxjs';
 import { Paginacao } from "../../../layout/shared/paginacao/paginacao";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-favoritos',
@@ -14,12 +15,17 @@ import { Paginacao } from "../../../layout/shared/paginacao/paginacao";
 })
 export class Favoritos {
   private favoritosService = inject(FavoritosService);
+  private activatedRoute = inject(ActivatedRoute);
 
   carregando: boolean = true;
+  pagina!: number;
   listaPaginada$!: Observable<ListaPaginada<FavoritoViewModel> | null>;
 
   ngOnInit(): void {
-    this.obterFavoritos(1, TAMANHO_PADRAO_PAGINA);
+    this.activatedRoute.queryParams.subscribe(params => {
+      this.pagina = params['pagina'] || 1;
+      this.obterFavoritos(this.pagina, TAMANHO_PADRAO_PAGINA);
+    });
   }
 
   private obterFavoritos(
@@ -27,9 +33,5 @@ export class Favoritos {
     tamanhoDaPagina: number | null = null
   ) {
     this.listaPaginada$ = this.favoritosService.obterFavoritos(numeroDaPagina, tamanhoDaPagina);
-  }
-
-  trocarPagina(numeroDaPagina: number | null) {
-    this.obterFavoritos(numeroDaPagina, TAMANHO_PADRAO_PAGINA);
   }
 }

@@ -20,13 +20,16 @@ export class PesquisaProdutos implements OnInit {
   private activatedRoute = inject(ActivatedRoute);
   termo: string | null = null;
   categoriaId: string | null = null;
+  pagina: number | null = null;
   listaDeProdutos$!: Observable<ListaPaginada<ProdutoViewModel> | null>;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.termo = params['termo'];
       this.categoriaId = params['categoriaId'];
-      this.obterProdutos(this.termo, this.categoriaId, 1, TAMANHO_PADRAO_PAGINA);
+      this.pagina = params['pagina'] || 1;
+
+      this.obterProdutos(this.termo, this.categoriaId, this.pagina, TAMANHO_PADRAO_PAGINA);
     });
   }
 
@@ -38,14 +41,5 @@ export class PesquisaProdutos implements OnInit {
     orderBy: string | null = null
   ) {
     this.listaDeProdutos$ = this.produtoService.obterProdutos(termo, categoriaId, numeroDaPagina, tamanhoDaPagina, orderBy);
-  }
-
-  filtrarPorCategoria(id: string | null) {
-    this.categoriaId = id;
-    this.obterProdutos(this.termo, this.categoriaId);
-  }
-
-  trocarPagina(numeroDaPagina: number | null) {
-    this.obterProdutos(this.termo, this.categoriaId, numeroDaPagina, TAMANHO_PADRAO_PAGINA);
   }
 }

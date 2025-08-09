@@ -68,6 +68,13 @@ namespace MBA.Marketplace.API.Controllers
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
+            
+            var cliente = await _clienteService.ObterPorEmailAsync(dto.Email);
+
+            if(cliente == null)
+            {
+                return Unauthorized(new { Errors = new List<string> { "Credenciais inválidas." } });
+            }
 
             var (success, token, errors) = await _accountService.LoginAsync(dto);
 

@@ -31,7 +31,7 @@ export class ItemDestaqueComponent implements OnInit {
 
   get imagemSrc(): string {
     if (this.item?.src) {
-      return `data:image/jpeg;base64,${this.item.src}`;
+      return this.item.src;
     }
     return IMAGEM_PLACEHOLDER;
   }

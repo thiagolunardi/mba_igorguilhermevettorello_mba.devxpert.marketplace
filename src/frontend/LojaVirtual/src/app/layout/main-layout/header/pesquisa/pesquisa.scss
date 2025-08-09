@@ -1,0 +1,168 @@
+// Variáveis de cores
+$primary-color: #764ba2;
+$secondary-color: #764ba2;
+$gradient-primary: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+$text-dark: #2c3e50;
+$text-light: #6c757d;
+$border-color: #e9ecef;
+
+// Container principal
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+}
+
+// Seção do logo
+.logo-section {
+  flex-shrink: 0;
+}
+
+.logo-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  text-decoration: none;
+  color: $text-dark;
+  font-weight: 700;
+  font-size: 1.25rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: $primary-color;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+}
+
+.logo-icon {
+  font-size: 2rem;
+  color: $primary-color;
+}
+
+.logo-text {
+  font-weight: 700;
+  background: $gradient-primary;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+// Seção de pesquisa
+.search-section {
+  flex: 1;
+  max-width: 500px;
+}
+
+.search-form {
+  width: 100%;
+}
+
+.search-input-group {
+  display: flex;
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  
+  &:focus-within {
+    box-shadow: 0 4px 20px rgba(118, 75, 162, 0.2);
+    transform: translateY(-1px);
+  }
+}
+
+.search-input {
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background: white;
+  
+  &:focus {
+    box-shadow: none;
+    border: none;
+    outline: none;
+  }
+  
+  &::placeholder {
+    color: $text-light;
+    font-style: italic;
+  }
+}
+
+.search-btn {
+  background: $gradient-primary;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #6a4190 0%, #5a6fd8 100%);
+    transform: translateX(2px);
+  }
+  
+  &:focus {
+    box-shadow: none;
+  }
+  
+  i {
+    font-size: 1.1rem;
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .search-container {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .logo-section {
+    text-align: center;
+  }
+  
+  .search-section {
+    max-width: none;
+  }
+  
+  .search-input-group {
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo-text {
+    font-size: 1rem;
+  }
+  
+  .logo-icon {
+    font-size: 1.5rem;
+  }
+  
+  .search-input {
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .search-btn {
+    padding: 0.5rem 1rem;
+  }
+}
+
+// Animações suaves
+.search-container,
+.logo-link,
+.search-input-group,
+.search-btn {
+  transition: all 0.3s ease;
+}
+
+// Melhorias de acessibilidade
+.search-input:focus,
+.search-btn:focus {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+} 

@@ -1,0 +1,50 @@
+<div class="product-card">
+  <div class="product-image-container">
+
+    @if(exibirBadge){
+    <div class="product-badges">
+      <span class="badge badge-success">NOVO</span>
+    </div>
+    }
+
+    <div class="product-actions">
+      <button class="btn btn-sm btn-primary action-btn" [routerLink]="['/produto', produto.id]" title="Ver detalhes">
+        <i class="bi bi-eye"></i>
+      </button>
+      <button class="btn btn-sm btn-outline-primary action-btn"
+        title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}" [class.text-danger]="isFavorito"
+        [class.text-muted]="!isFavorito" [disabled]="carregandoFavorito" (click)="toggleFavorito()">
+        @if(carregandoFavorito) {
+        <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+        }
+        @else {
+        <i style="font-size: 18px;" class="bi" [class.bi-heart-fill]="isFavorito" [class.bi-heart]="!isFavorito"></i>
+        }
+      </button>
+    </div>
+
+    <a [routerLink]="['/produto', produto.id]" class="product-link">
+      <img [src]="imagemSrc" class="product-image" [alt]="produto.nome">
+    </a>
+  </div>
+
+  <div class="product-info">
+    <div class="product-category">
+      <span class="category-tag">{{ produto.categoria.nome }}</span>
+    </div>
+
+    <h3 class="product-title">
+      <a [routerLink]="['/produto', produto.id]">{{ produto.nome }}</a>
+    </h3>
+
+    <div class="product-price">
+      <span class="price-amount">{{ produto.preco | currency:'BRL' }}</span>
+    </div>
+
+    <div class="product-actions-bottom">
+      <button class="btn btn-sm btn-primary" [routerLink]="['/produto', produto.id]">
+        <i class="bi bi-eye me-1"></i> Ver produto
+      </button>
+    </div>
+  </div>
+</div>

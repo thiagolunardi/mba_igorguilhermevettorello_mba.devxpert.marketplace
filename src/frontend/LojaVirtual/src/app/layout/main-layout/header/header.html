@@ -1,25 +1,23 @@
-<header>
+<header class="main-header">
+  <div class="header-top">
+    <div class="container">
+      <div class="header-content">
+        
+        <!-- Logo e Pesquisa -->
+        <div class="header-left">
+          <app-pesquisa></app-pesquisa>
+        </div>
 
-  <div class="px-3 py-2 border-bottom mb-2 bg-light">
-    <div class="row col-8" style="margin: 0 auto;">
+        <!-- Ações do Usuário -->
+        <div class="header-right">
+          <app-favoritos></app-favoritos>
+          <app-autenticacao></app-autenticacao>
+        </div>
 
-      <!-- pesquisa -->
-      <div class="col-7">
-        <app-pesquisa></app-pesquisa>
       </div>
-
-      <!-- favoritos -->
-      <div class="col-2">
-        <app-favoritos></app-favoritos>
-      </div>
-
-      <!-- autenticaco -->
-      <div class="col-3">
-        <app-autenticacao></app-autenticacao>
-      </div>
-
     </div>
   </div>
-  <!-- menu -->
+
+  <!-- Menu de Navegação -->
   <app-menu></app-menu>
 </header>

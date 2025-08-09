@@ -1,8 +1,4 @@
 ﻿using MBA.Marketplace.API.Controllers.Base;
-using MBA.Marketplace.API.Extensions;
-using MBA.Marketplace.Business.DTOs;
-using MBA.Marketplace.Business.Enums;
-using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Business.Interfaces.Identity;
 using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Interfaces.Services;
@@ -26,23 +22,6 @@ namespace MBA.Marketplace.API.Controllers
             _categoriaService = categoriaService;
         }
 
-        [HttpPost]
-        [ProducesResponseType(typeof(Categoria), StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> Criar(CategoriaDto dto)
-        {
-            if (!ModelState.IsValid)
-                return CustomResponse(ModelState);
-
-            var categoria = await _categoriaService.CriarAsync(dto);
-            
-            if (OperacaoValida())
-                return CreatedAtAction(null, new { id = categoria.Id }, categoria);
-            
-            return CustomResponse();
-        }
-
         [HttpGet]
         [AllowAnonymous]
         [ProducesResponseType(typeof(IEnumerable<Categoria>), StatusCodes.Status200OK)]
@@ -61,54 +40,6 @@ namespace MBA.Marketplace.API.Controllers
             var categoria = await _categoriaService.ObterPorIdAsync(id);
             if (categoria == null) return NotFound();
             return Ok(categoria);
-        }
-
-        [HttpPut("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> Atualizar(Guid id, CategoriaDto dto)
-        {
-            if (!ModelState.IsValid)
-                return CustomResponse(ModelState);
-
-            var sucesso = await _categoriaService.AtualizarAsync(id, dto);
-            
-            if (OperacaoValida())
-            {
-                if (!sucesso)
-                    return NotFound();
-                return NoContent();
-            }
-            
-            return CustomResponse();
-        }
-
-        [HttpDelete("{id:guid}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status409Conflict)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        public async Task<IActionResult> Remover(Guid id)
-        {
-            var status = await _categoriaService.RemoverAsync(id);
-            
-            if (OperacaoValida())
-            {
-                if (status == StatusRemocaoEnum.NaoEncontrado)
-                    return NotFound();
-
-                if (status == StatusRemocaoEnum.VinculacaoProduto)
-                {
-                    var mensagem = status.GetDescription();
-                    return Conflict(new { mensagem });
-                }
-
-                return NoContent();
-            }
-            
-            return CustomResponse();
         }
     }
 }

@@ -5,8 +5,7 @@
   <div role="main" class="main shop pt-4">
     <div class="row">
       <div class="col-md-5 mb-5 mb-md-0">
-        <img [src]="produto.imagem || 'https://png.pngtree.com/template/20220419/ourmid/pngtree-photo-coming-soon-abstract-admin-banner-image_1262901.jpg'" class="img-fluid"
-          [alt]="produto.nome" style="object-fit: cover;" />
+        <img [src]="imagemSrc" class="img-fluid" [alt]="produto.nome" style="object-fit: cover;" />
       </div>
 
       <div class="col-md-7">
@@ -14,7 +13,7 @@
           <h1 class="mb-0 font-weight-bold text-7">{{ produto.nome }}</h1>
 
           <div class="d-block text-4 my-2">
-            <span>{{ produto.categoria.nome }}</span>
+            <span>Categoria: {{ produto.categoria.nome }}</span>
           </div>
 
           <div class="d-block text-4 my-2">
@@ -40,31 +39,16 @@
           <form enctype="multipart/form-data" method="post" class="cart" action="#">
             <hr>
             <div style="display: flex;">
-              <button 
-                type="button" 
-                class="btn btn-link" 
-                [class.text-danger]="isFavorito"
-                [class.text-muted]="!isFavorito"
-                [disabled]="carregandoFavorito"
-                (click)="toggleFavorito()"
-                style="float: right;"
-                title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}">
-                <i 
-                  style="font-size: 18px;" 
-                  class="bi"
-                  [class.bi-heart-fill]="isFavorito"
+              <button type="button" class="btn btn-link" [class.text-danger]="isFavorito"
+                [class.text-muted]="!isFavorito" [disabled]="carregandoFavorito" (click)="toggleFavorito()"
+                style="float: right;" title="{{ isFavorito ? 'Remover dos favoritos' : 'Adicionar aos favoritos' }}">
+                <i style="font-size: 18px;" class="bi" [class.bi-heart-fill]="isFavorito"
                   [class.bi-heart]="!isFavorito">
                 </i>
                 @if(carregandoFavorito) {
-                  <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
+                <span class="spinner-border spinner-border-sm ms-1" role="status" aria-hidden="true"></span>
                 }
               </button>
-              <div class="quantity quantity-lg" style="margin:0 !important">
-                <input type="button" class="minus" value="-">
-                <input type="text" class="input-text qty text" title="Qty" value="1" name="quantity" min="1" step="1">
-                <input type="button" class="plus" value="+">
-              </div>
-              <button type="submit" class="btn btn-dark btn-modern text-uppercase">Adicionar ao carrinho</button>
             </div>
             <hr>
           </form>

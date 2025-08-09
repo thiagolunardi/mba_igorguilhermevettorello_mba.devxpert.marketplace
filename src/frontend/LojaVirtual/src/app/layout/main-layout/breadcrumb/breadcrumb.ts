@@ -8,7 +8,7 @@ import { BreadcrumbViewModel } from '../../../viewmodels/breadcrumb/breadcrumb.v
   selector: 'app-breadcrumb',
   imports: [CommonModule, RouterLink],
   templateUrl: './breadcrumb.html',
-  styles: ``
+  styleUrls: ['./breadcrumb.scss']
 })
 export class Breadcrumb {
   breadcrumbs: BreadcrumbViewModel[] = [];

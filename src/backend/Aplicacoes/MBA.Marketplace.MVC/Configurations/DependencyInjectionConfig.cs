@@ -38,6 +38,7 @@ namespace MBA.Marketplace.MVC.Configurations
             service.AddScoped<ICategoriaService, CategoriaService>();
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
+            service.AddScoped<IImagemService, ImagemService>();
 
         }
     }

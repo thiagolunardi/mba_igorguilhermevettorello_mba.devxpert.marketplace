@@ -1,24 +1,22 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ItemEmDestaqueViewModel } from '../item-destaque/item-em-destaque.viewmodel';
-import { ItensEmDestaqueService } from '../../../../services/itens-em-destaque.service';
-import { ItemDestaqueComponent } from '../item-destaque/item-destaque';
+import { ProdutosService } from '../../../../services/produtos.service';
+import { CardProduto } from '../../../../layout/shared/card-produto/card-produto';
 
 @Component({
   selector: 'app-destaque',
   standalone: true,
-  imports: [CommonModule, ItemDestaqueComponent],
+  imports: [CommonModule, CardProduto],
   templateUrl: './destaque.html',
   styleUrls: ['./destaque.scss']
 })
 export class DestaqueComponent implements OnInit {
-
+  produtoService = inject(ProdutosService);
   public itensEmDestaque$!: Observable<ItemEmDestaqueViewModel[] | null>;
 
-  constructor(private itensEmDestaqueService: ItensEmDestaqueService) { }
-
   ngOnInit(): void {
-    this.itensEmDestaque$ = this.itensEmDestaqueService.obterItensEmDestaque();
+    this.itensEmDestaque$ = this.produtoService.obterItensEmDestaque();
   }
 }

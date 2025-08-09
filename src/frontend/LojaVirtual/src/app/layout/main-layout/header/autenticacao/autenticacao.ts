@@ -7,7 +7,8 @@ import { AuthService } from '../../../../services/auth.service';
   selector: 'app-autenticacao',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  templateUrl: './autenticacao.html'
+  templateUrl: './autenticacao.html',
+  styleUrls: ['./autenticacao.scss']
 })
 export class Autenticacao {
   public auth = inject(AuthService);

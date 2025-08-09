@@ -140,7 +140,7 @@ namespace MBA.Marketplace.Data.Repositories
 
         public async Task<bool> AtualizarAsync(IEnumerable<Produto> produtos)
         {
-            if (produtos == null || produtos.Any())
+            if (produtos == null || !produtos.Any())
                 return false;
 
             foreach (var produto in produtos)
@@ -180,7 +180,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context.Produtos.Where(p => p.Id == id && p.VendedorId == vendedor.Id).FirstOrDefaultAsync();
         }
-        public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
+        public async Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit)
         {
             var query = _context.Produtos
                                 .Include(p => p.Categoria)

@@ -14,7 +14,8 @@ import { Autenticacao } from './autenticacao/autenticacao';
     Favoritos,
     Menu
   ],
-  templateUrl: './header.html'
+  templateUrl: './header.html',
+  styleUrls: ['./header.scss']
 })
 export class Header {
 

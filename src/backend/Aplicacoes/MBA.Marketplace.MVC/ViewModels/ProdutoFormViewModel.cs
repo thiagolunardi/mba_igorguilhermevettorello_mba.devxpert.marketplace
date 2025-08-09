@@ -27,6 +27,7 @@ namespace MBA.Marketplace.MVC.ViewModels
         public IFormFile Imagem { get; set; }
         
         public string Src { get; set; }
+        public bool Ativo { get; set; }
 
     }
 }

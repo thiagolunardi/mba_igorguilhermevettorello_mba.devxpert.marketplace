@@ -1,28 +1,33 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { ProdutoViewModel } from '../../../../../services/produto.viewmodel';
 import { RouterLink } from '@angular/router';
 import { FavoritosService } from '../../../../../services/favoritos.service';
 import { AuthService } from '../../../../../services/auth.service';
 import { NotificacaoService } from '../../../../../services/notificacao.service';
 import { inject } from '@angular/core';
+import { ProdutoViewModel } from '../../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
+import { IMAGEM_PLACEHOLDER } from '../../../../../util/constantes';
 
 @Component({
-  selector: 'app-info-produto', // O seletor foi mantido por ser descritivo
+  selector: 'app-info-produto',
   standalone: true,
   imports: [CommonModule, CurrencyPipe, RouterLink],
-  templateUrl: './info-produto.html', // Caminho do template atualizado
+  templateUrl: './info-produto.html',
   styleUrls: ['./info-produto.scss']
 })
 export class InfoProdutoComponent implements OnInit { // Nome da classe atualizado
   @Input() produto!: ProdutoViewModel;
-  
+
   private favoritosService = inject(FavoritosService);
   private authService = inject(AuthService);
   private notificacaoService = inject(NotificacaoService);
-  
+
   isFavorito: boolean = false;
   carregandoFavorito: boolean = false;
+
+  get imagemSrc() {
+    return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;
+  }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated() && this.produto?.id) {

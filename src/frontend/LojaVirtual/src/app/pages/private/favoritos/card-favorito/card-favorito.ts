@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { FavoritosService } from '../../../../services/favoritos.service';
 import { AuthService } from '../../../../services/auth.service';
 import { NotificacaoService } from '../../../../services/notificacao.service';
@@ -20,6 +20,7 @@ export class CardFavorito implements OnInit {
 
   @Input() produto!: ItemEmDestaqueViewModel;
   @Input() exibirBadge: boolean = false;
+  @Output() favoritoRemovido = new EventEmitter<string>();
   isFavorito = false;
   carregandoFavorito = false;
 
@@ -43,8 +44,7 @@ export class CardFavorito implements OnInit {
       next: (response) => {
         if (response.success) {
           this.notificacaoService.exibir(response.message || 'Operação realizada com sucesso!', 'success');
-          window.location.reload();
-
+          this.favoritoRemovido.emit(this.produto.id); // emite evento para o pai
         } else {
           this.notificacaoService.exibir(response.message || 'Ocorreu um erro.', 'danger');
         }

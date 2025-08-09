@@ -380,7 +380,7 @@
             <div class="modal-body text-center py-4">
                 <div class="mb-3" id="iconePrincipalProduto"></div>
                 <div id="resultadoMensagemProduto" class="mb-3"></div>
-                <div id="detalhesProduto" class="p-3 bg-light rounded-3 d-none">
+                @* <div id="detalhesProduto" class="p-3 bg-light rounded-3 d-none">
                     <div class="d-flex align-items-center justify-content-center">
                         <div class="product-image-container-small me-3">
                             <img id="imagemProdutoResultado" class="product-image-small" src="" alt="" />
@@ -390,10 +390,10 @@
                             <div class="small text-muted">Novo status: <span id="novoStatusProduto"></span></div>
                         </div>
                     </div>
-                </div>
+                </div> *@
             </div>
             <div class="modal-footer border-0 justify-content-center">
-                <button type="button" class="btn btn-outline-danger btn-sm px-4" data-bs-dismiss="modal" onclick="location.reload()">
+                <button type="button" id="modalBtnResultadoProduto" class="btn btn-outline-danger btn-sm px-4" data-bs-dismiss="modal" onclick="location.reload()">
                     <i class="bi bi-arrow-clockwise me-1"></i>Ok
                 </button>
             </div>

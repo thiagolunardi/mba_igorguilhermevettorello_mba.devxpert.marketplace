@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
+using MBA.Marketplace.Business.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -84,6 +85,11 @@ namespace MBA.Marketplace.MVC.Areas.Identity.Pages.Account
                     {
                         var roles = await _userManager.GetRolesAsync(user);
                         var tipoUsuario = roles.FirstOrDefault();
+                        if (tipoUsuario == TipoUsuario.Cliente.ToString()) 
+                        {
+                            ModelState.AddModelError("Input.Password", "Tentativa de login inválida.");
+                            return Page();
+                        }
 
                         var claims = new List<Claim>
                         {

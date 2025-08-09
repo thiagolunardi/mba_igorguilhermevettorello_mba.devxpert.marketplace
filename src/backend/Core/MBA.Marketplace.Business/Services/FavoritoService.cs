@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace MBA.Marketplace.Business.Services
 {
-    public class FavoritoService(IFavoritoRepository repository, IImagemService imagemService) : IFavoritoService
+    public class FavoritoService(IFavoritoRepository repository) : IFavoritoService
     {
         public async Task<Favorito?> Buscar(Guid cliente)
         {
@@ -30,7 +30,7 @@ namespace MBA.Marketplace.Business.Services
 
             foreach (var produto in produtos)
             {
-                produto.Src = imagemService.ConverterImagemEmBase64(produto.Imagem);
+                produto.Src = produto.Imagem;
             }
 
             return favoritos;

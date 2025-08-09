@@ -7,9 +7,14 @@ namespace MBA.Marketplace.MVC.Extensions
     {
         public static string CheckImage(this IHtmlHelper html, string imageSrc)
         {
+            var pathImagens = "/images/produtos";
             var resultDefault = "/images/foto-indisponivel.png";
 
-            return string.IsNullOrEmpty(imageSrc) ? resultDefault : imageSrc;
+            var result = string.IsNullOrEmpty(imageSrc) ? resultDefault : $"{pathImagens}/{imageSrc}";
+
+            return result;
         }
     }
+
+
 }

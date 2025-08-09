@@ -26,12 +26,13 @@ namespace MBA.Marketplace.API.Controllers
 
         [HttpGet("{id:guid}/produtos")]
         [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ObterProdutosDoVendedor([FromRoute] Guid id, [FromQuery] int numeroDaPagina = 1)
+        public async Task<IActionResult> ObterProdutosDoVendedor([FromRoute] Guid id, [FromQuery] int numeroDaPagina = 1, [FromQuery] int tamanhoDaPagina = 10)
         {
             var parametros = new PesquisaDeProdutos()
             {
                 VendedorId = id,
-                NumeroDaPagina = numeroDaPagina
+                NumeroDaPagina = numeroDaPagina,
+                TamanhoDaPagina = tamanhoDaPagina
             };
 
             var produtosDoVendedor = await _produtoService.PesquisarAsync(parametros);
@@ -50,6 +51,6 @@ namespace MBA.Marketplace.API.Controllers
 
             return Ok(vendedor);
         }
-                
+
     }
 }

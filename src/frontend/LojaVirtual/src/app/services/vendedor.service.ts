@@ -46,6 +46,7 @@ export class VendedorService {
       [
         { nome: 'id', valor: id },
         { nome: 'numeroDaPagina', valor: pagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
       ]);
 
     return this.http.get<ListaPaginada<ProdutoViewModel>>(url, { params, observe: 'response' })

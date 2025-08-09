@@ -6,7 +6,7 @@ import { VendedorService } from '../../../services/vendedor.service';
 import { VendedorViewModel } from '../../../viewmodels/vendedor-detalhes/vendedor-viewmodel';
 import { DatePipe } from '@angular/common';
 import { Paginacao } from '../../../layout/shared/paginacao/paginacao';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { ListaDeProdutosDoVendedor } from './lista-de-produtos-do-vendedor/lista-de-produtos-do-vendedor';
 import { TAMANHO_PADRAO_PAGINA } from '../../../util/constantes';
 
@@ -22,14 +22,22 @@ export class Vendedor implements OnInit {
   private router = inject(Router);
 
   id!: string;
+  pagina!: number;
   carregando: boolean = true;
   vendedor: VendedorViewModel | null = null;
   listaPaginada$!: Observable<ListaPaginada<ProdutoViewModel> | null>;
 
   ngOnInit(): void {
-    this.id = this.activatedRoute.snapshot.params['id']
-    this.obterDadosDoVendedor(this.id);
-    this.obterProdutos(this.id);
+    combineLatest([
+      this.activatedRoute.paramMap,
+      this.activatedRoute.queryParamMap
+    ]).subscribe(([params, qparams]) => {
+      this.id = params.get('id')!;
+      this.pagina = +(qparams.get('pagina') || '1');
+
+      this.obterDadosDoVendedor(this.id);
+      this.obterProdutos(this.id, this.pagina, TAMANHO_PADRAO_PAGINA);
+    });
   }
 
   private obterDadosDoVendedor(id: string) {
@@ -54,9 +62,5 @@ export class Vendedor implements OnInit {
     tamanhoDaPagina: number | null = null
   ) {
     this.listaPaginada$ = this.vendedorService.obterProdutosDoVendedor(id, numeroDaPagina, tamanhoDaPagina)
-  }
-
-  trocarPagina(numeroDaPagina: number | null) {
-    this.obterProdutos(this.id, numeroDaPagina, TAMANHO_PADRAO_PAGINA);
   }
 }

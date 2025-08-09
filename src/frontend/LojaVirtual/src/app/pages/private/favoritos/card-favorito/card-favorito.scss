@@ -159,6 +159,12 @@ $success-color: #28a745;
   font-weight: 600;
   line-height: 1.4;
 
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+
   a {
     color: $text-dark;
     text-decoration: none;

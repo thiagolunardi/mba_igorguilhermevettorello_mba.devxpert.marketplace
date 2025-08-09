@@ -14,7 +14,7 @@
   }
   @else {
   @for(favorito of listaPaginada?.itens; track favorito.id) {
-  <app-card-favorito [produto]="favorito.produto"></app-card-favorito>  
+  <app-card-favorito [produto]="favorito.produto" (favoritoRemovido)="carregarFavoritos()"></app-card-favorito>
   }
   }
 

@@ -16,7 +16,8 @@ $success-color: #28a745;
   box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   border: 1px solid $border-color;
-  height: 100%;
+  /*height: 420px; // Tamanho fixo do card*/
+  width: 300px; // Tamanho fixo do card
   display: flex;
   flex-direction: column;
 
@@ -40,16 +41,21 @@ $success-color: #28a745;
 .product-image-container {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 1;
+  width: 100%;
+  height: 220px; // Altura fixa para a imagem
   background: $bg-light;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 // Imagem do produto
 .product-image {
-  width: 100%;
-  height: 280px !important;
-  object-fit: cover;
+  width: 90%;
+  height: 90%;
+  object-fit: contain; // Mantém proporção da imagem
   transition: transform 0.3s ease;
+  background: white;
 }
 
 // Link da imagem

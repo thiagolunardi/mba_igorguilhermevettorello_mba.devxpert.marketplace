@@ -1,15 +1,15 @@
 import { Component, inject, Input, OnInit } from '@angular/core';
-import { IMAGEM_PLACEHOLDER } from '../../../util/constantes';
 import { ItemEmDestaqueViewModel } from '../../../pages/public/home/item-destaque/item-em-destaque.viewmodel';
 import { RouterLink } from '@angular/router';
 import { CurrencyPipe } from '@angular/common';
 import { FavoritosService } from '../../../services/favoritos.service';
 import { AuthService } from '../../../services/auth.service';
 import { NotificacaoService } from '../../../services/notificacao.service';
+import { ImagemSrcPipe } from '../../../pipes/imagem-src.pipe';
 
 @Component({
   selector: 'app-card-produto',
-  imports: [RouterLink, CurrencyPipe],
+  imports: [RouterLink, CurrencyPipe, ImagemSrcPipe],
   templateUrl: './card-produto.html',
   styleUrls: ['./card-produto.scss']
 })
@@ -22,10 +22,6 @@ export class CardProduto implements OnInit {
   @Input() exibirBadge: boolean = false;
   isFavorito = false;
   carregandoFavorito = false;
-
-  get imagemSrc(): string {
-    return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;
-  }
 
   ngOnInit(): void {
     if (this.authService.isAuthenticated() && this.produto?.id) {

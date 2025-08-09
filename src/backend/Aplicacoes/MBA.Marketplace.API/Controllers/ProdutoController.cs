@@ -20,19 +20,6 @@ namespace MBA.Marketplace.API.Controllers
             _config = config;
         }
 
-        private string GetContentType(string path)
-        {
-            var ext = Path.GetExtension(path).ToLowerInvariant();
-
-            return ext switch
-            {
-                ".jpg" or ".jpeg" => "image/jpeg",
-                ".png" => "image/png",
-                ".gif" => "image/gif",
-                _ => "application/octet-stream"
-            };
-        }
-
         [HttpGet("destaques")]
         [ProducesResponseType(typeof(IEnumerable<Produto>), StatusCodes.Status200OK)]
         public async Task<IActionResult> ObterItensEmDestaque([FromQuery] string? ordenarPor, [FromQuery] int? limit)

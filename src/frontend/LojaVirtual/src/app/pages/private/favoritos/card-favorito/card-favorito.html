@@ -24,7 +24,7 @@
     </div>
 
     <a [routerLink]="['/produto', produto.id]" class="product-link">
-      <img [src]="imagemSrc" class="product-image" [alt]="produto.nome">
+      <img [src]="produto.imagem | imagemSrc" class="product-image" [alt]="produto.nome">
     </a>
   </div>
 

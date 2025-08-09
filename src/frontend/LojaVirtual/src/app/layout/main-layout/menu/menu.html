@@ -16,7 +16,7 @@
           <li class="dropdown-divider"></li>
           @for(categoria of categorias; track categoria.id){
           <li>
-            <a class="dropdown-item" [routerLink]="['/produtos/categoria', categoria.id]">
+            <a class="dropdown-item" [routerLink]="['/pesquisa']" [queryParams]="{ categoriaId: categoria.id }">
               <i class="bi bi-tag"></i>
               <span>{{ categoria.nome }}</span>
             </a>
@@ -29,7 +29,7 @@
       <!-- Categorias dinâmicas -->
       <div class="nav-links">
         @for(categoria of categoriasEmDestaque; track categoria.id){
-        <a [routerLink]="['/produtos/categoria/', categoria.id]" class="nav-link">
+        <a [routerLink]="['/pesquisa']" [queryParams]="{ categoriaId: categoria.id }" class="nav-link">
           <span>{{categoria.nome}}</span>
         </a>
         }
@@ -50,8 +50,8 @@
     <div class="container">
       <div class="mobile-nav-links">
         @for(categoria of categoriasEmDestaque; track categoria.id){
-        <a [routerLink]="['/produtos/categoria/', categoria.id]" class="mobile-nav-link">
-          <span>{{categoria.nome}}</span>
+        <a [routerLink]="['/pesquisa']" [queryParams]="{ categoriaId: categoria.id }" class="mobile-nav-link">
+          <span>{{ categoria.nome }}</span>
         </a>
         }
       </div>

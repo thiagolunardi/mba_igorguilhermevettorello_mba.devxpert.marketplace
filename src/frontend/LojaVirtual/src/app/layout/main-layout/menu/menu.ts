@@ -29,12 +29,17 @@ export class Menu implements OnInit {
     this.categoriaService.obterCategorias().subscribe({
       next: (dadosRecebidos) => {
         if (dadosRecebidos) {
-          this.categorias = dadosRecebidos;
+          this.categorias = this.ordenarCategoriasPorNome(dadosRecebidos);
         }
       },
       error: (erro) => {
         console.error('Falha ao buscar categorias:', erro);
       }
     });
+  }
+
+  private ordenarCategoriasPorNome(categorias: CategoriaViewModel[]) {
+    categorias = categorias || [];
+    return categorias.sort((a, b) => a.nome.localeCompare(b.nome));
   }
 }

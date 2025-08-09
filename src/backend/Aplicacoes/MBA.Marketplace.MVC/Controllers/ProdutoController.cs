@@ -99,8 +99,6 @@ namespace MBA.Marketplace.MVC.Controllers
         public async Task<IActionResult> Criar(ProdutoFormViewModel model)
         {
             ViewBag.Categorias = await BuscarCategorias();
-
-            ModelState.Remove("ImagemSrc");
             ModelState.Remove("Imagem");
             ModelState.Remove("Src");
             if (model.Imagem == null)

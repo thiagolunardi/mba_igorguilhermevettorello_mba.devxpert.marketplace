@@ -234,9 +234,6 @@
     </div>
 </div>
 
-
-
-<!-- Modal de confirmação para ativar/inativar produto -->
 <div class="modal fade" id="modalConfirmarProduto" tabindex="-1" aria-labelledby="confirmarProdutoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm border-0">
@@ -248,18 +245,6 @@
             </div>
             <div class="modal-body">
                 <p class="mb-3" id="mensagemConfirmacaProduto"></p>
-                @* <div id="produtoInfo" class="p-3 bg-light rounded-3 mb-3"> *@
-                @*     <div class="d-flex align-items-center"> *@
-                @*         <div class="product-image-container-small me-3"> *@
-                @*             <img id="imagemProdutoModal" class="product-image-small" src="" alt="" /> *@
-                @*         </div> *@
-                @*         <div> *@
-                @*             <strong id="nomeProduto"></strong> *@
-                @*             <div class="small text-muted">Status atual: <span id="statusAtualProduto"></span></div> *@
-                @*             <div class="small text-muted">Preço: <span id="precoProduto"></span></div> *@
-                @*         </div> *@
-                @*     </div> *@
-                @* </div> *@
                 <div id="spinnerProduto" class="text-center mt-3 d-none">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Processando...</span>
@@ -294,7 +279,7 @@
 </div>
 
 
-
+<!-- vendedor -->
 <div class="modal fade" id="modalConfirmarAtivarInativarVendedor" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm border-0">
@@ -306,17 +291,6 @@
             </div>
             <div class="modal-body">
                 <p class="mb-3" id="mensagemConfirmacao">Tem certeza que deseja alterar o status deste vendedor?</p>
-                <div id="vendedorInfo" class="p-3 bg-light rounded-3 mb-3">
-                    <div class="d-flex align-items-center">
-                        <div class="avatar-circle me-3">
-                            <i class="bi bi-person-fill text-white"></i>
-                        </div>
-                        <div>
-                            <strong id="nomeVendedor"></strong>
-                            <div class="small text-muted">Status atual: <span id="statusAtual"></span></div>
-                        </div>
-                    </div>
-                </div>
                 <div id="spinner" class="text-center mt-3 d-none">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Processando...</span>
@@ -328,7 +302,7 @@
                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">
                     <i class="bi bi-x-lg me-1"></i>Cancelar
                 </button>
-                <button type="button" id="btnConfirmarAcao" class="btn btn-outline-aplication btn-sm">
+                <button type="button" id="btnConfirmarAcaoVendedor" class="btn btn-outline-aplication btn-sm">
                     <i class="bi bi-check-lg me-1"></i>Confirmar
                 </button>
             </div>
@@ -340,24 +314,17 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm border-0 rounded-3">
             <div class="modal-header bg-light border-0 rounded-top-3">
-                <h5 class="modal-title fw-semibold">
-                    <span id="iconeResultado"></span>
-                    <span id="tituloResultado">Resultado</span>
+                <h5 class="modal-title fw-semibold" id="headerResultadoVendedor">
+                    <span id="iconeResultadoVendedor"></span>
+                    <span id="tituloResultadoVendedor">Resultado</span>
                 </h5>
             </div>
             <div class="modal-body text-secondary small">
-                <div id="resultadoMensagem" class="mb-3"></div>
-                <div id="detalhesVendedor" class="p-3 bg-light rounded-3 d-none">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div class="text-start">
-                            <strong id="nomeVendedorResultado"></strong>
-                            <div class="small text-muted">Novo status: <span id="novoStatus"></span></div>
-                        </div>
-                    </div>
-                </div>
+                <div id="iconePrincipalVendedor" class="mb-3"></div>
+                <div id="resultadoMensagemVendedor" class="mb-3"></div>
             </div>
             <div class="modal-footer bg-light border-0 rounded-bottom-3">
-                <a href="@Url.Action("index", "vendedor")" class="btn btn-outline-aplication btn-sm">
+                <a href="@Url.Action("index", "vendedor")" id="modalBtnResultadoVendedor" class="btn btn-outline-aplication btn-sm">
                     Ok
                 </a>
             </div>
@@ -365,9 +332,6 @@
     </div>
 </div>
 
-
-
-<!-- Modal de resultado para produtos -->
 <div class="modal fade" id="modalResultadoProduto" tabindex="-1" aria-hidden="true" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content shadow-sm border-0">
@@ -380,17 +344,6 @@
             <div class="modal-body text-center py-4">
                 <div class="mb-3" id="iconePrincipalProduto"></div>
                 <div id="resultadoMensagemProduto" class="mb-3"></div>
-                @* <div id="detalhesProduto" class="p-3 bg-light rounded-3 d-none">
-                    <div class="d-flex align-items-center justify-content-center">
-                        <div class="product-image-container-small me-3">
-                            <img id="imagemProdutoResultado" class="product-image-small" src="" alt="" />
-                        </div>
-                        <div class="text-start">
-                            <strong id="nomeProdutoResultado"></strong>
-                            <div class="small text-muted">Novo status: <span id="novoStatusProduto"></span></div>
-                        </div>
-                    </div>
-                </div> *@
             </div>
             <div class="modal-footer border-0 justify-content-center">
                 <button type="button" id="modalBtnResultadoProduto" class="btn btn-outline-danger btn-sm px-4" data-bs-dismiss="modal" onclick="location.reload()">

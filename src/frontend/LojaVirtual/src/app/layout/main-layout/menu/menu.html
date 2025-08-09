@@ -1,7 +1,7 @@
 <nav class="main-nav">
   <div class="container">
     <div class="nav-content">
-      
+
       <!-- Menu de Categorias -->
       <div class="nav-item dropdown">
         <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -14,41 +14,25 @@
             <span>Todas as Categorias</span>
           </li>
           <li class="dropdown-divider"></li>
-          <li *ngFor="let categoria of categorias">
+          @for(categoria of categorias; track categoria.id){
+          <li>
             <a class="dropdown-item" [routerLink]="['/produtos/categoria', categoria.id]">
               <i class="bi bi-tag"></i>
               <span>{{ categoria.nome }}</span>
             </a>
           </li>
+          }
+
         </ul>
       </div>
 
-      <!-- Links de Navegação -->
+      <!-- Categorias dinâmicas -->
       <div class="nav-links">
-        <a routerLink="/produtos/categoria/1" class="nav-link">
-          <i class="bi bi-phone"></i>
-          <span>Celulares</span>
+        @for(categoria of categoriasEmDestaque; track categoria.id){
+        <a [routerLink]="['/produtos/categoria/', categoria.id]" class="nav-link">
+          <span>{{categoria.nome}}</span>
         </a>
-        
-        <a routerLink="/produtos/categoria/2" class="nav-link">
-          <i class="bi bi-house"></i>
-          <span>Móveis</span>
-        </a>
-        
-        <a routerLink="/produtos/categoria/3" class="nav-link">
-          <i class="bi bi-lightning"></i>
-          <span>Eletrodomésticos</span>
-        </a>
-        
-        <a routerLink="/produtos/categoria/4" class="nav-link">
-          <i class="bi bi-laptop"></i>
-          <span>Informática</span>
-        </a>
-        
-        <a routerLink="/produtos/categoria/5" class="nav-link">
-          <i class="bi bi-trophy"></i>
-          <span>Esportes</span>
-        </a>
+        }
       </div>
 
       <!-- Menu Mobile -->
@@ -65,30 +49,11 @@
   <div class="collapse mobile-menu" id="mobileMenu">
     <div class="container">
       <div class="mobile-nav-links">
-        <a routerLink="/produtos/categoria/1" class="mobile-nav-link">
-          <i class="bi bi-phone"></i>
-          <span>Celulares</span>
+        @for(categoria of categoriasEmDestaque; track categoria.id){
+        <a [routerLink]="['/produtos/categoria/', categoria.id]" class="mobile-nav-link">
+          <span>{{categoria.nome}}</span>
         </a>
-        
-        <a routerLink="/produtos/categoria/2" class="mobile-nav-link">
-          <i class="bi bi-house"></i>
-          <span>Móveis</span>
-        </a>
-        
-        <a routerLink="/produtos/categoria/3" class="mobile-nav-link">
-          <i class="bi bi-lightning"></i>
-          <span>Eletrodomésticos</span>
-        </a>
-        
-        <a routerLink="/produtos/categoria/4" class="mobile-nav-link">
-          <i class="bi bi-laptop"></i>
-          <span>Informática</span>
-        </a>
-        
-        <a routerLink="/produtos/categoria/5" class="mobile-nav-link">
-          <i class="bi bi-trophy"></i>
-          <span>Esportes</span>
-        </a>
+        }
       </div>
     </div>
   </div>

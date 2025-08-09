@@ -71,4 +71,4 @@ Imagens
 /src/backend/Core/MBA.Marketplace.Data/dev.db-wal
 /src/frontend/LojaVirtual/.angular/cache/
 /src/backend/Aplicacoes/images
-/src/backend/Aplicacoes/MBA.Marketplace.MVC/wwwroot/images/produtos
+#/src/backend/Aplicacoes/MBA.Marketplace.MVC/wwwroot/images/produtos

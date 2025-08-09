@@ -12,23 +12,16 @@ namespace MBA.Marketplace.Business.Services
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IConfiguration _config;
-        private readonly IImagemService _imagemService;
 
-        public ProdutoService(IProdutoRepository produtoRepository, IConfiguration config, IImagemService imagemService)
+        public ProdutoService(IProdutoRepository produtoRepository, IConfiguration config)
         {
             _produtoRepository = produtoRepository;
             _config = config;
-            _imagemService = imagemService;
         }
 
         public async Task<IEnumerable<Produto>> ListarAllAsync()
         {
             var produtos = await _produtoRepository.ListarAsync();
-
-            foreach (var produto in produtos)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
 
             return produtos;
         }
@@ -37,22 +30,12 @@ namespace MBA.Marketplace.Business.Services
         {
             var produtos = await _produtoRepository.ListarPorCategoriaIdAsync(categoriaId, true);
 
-            foreach (var produto in produtos)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
-
             return produtos;
         }
 
         public async Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string descricao)
         {
             var produtos = await _produtoRepository.ListarProdutosPorCategoriaOuNomeDescricaoAsync(categoriaId, descricao);
-
-            foreach (var produto in produtos)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
 
             return produtos;
         }
@@ -61,11 +44,6 @@ namespace MBA.Marketplace.Business.Services
         {
             var produtos = await _produtoRepository.PesquisarAsync(parametros);
 
-            foreach (var produto in produtos.Itens)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
-
             return produtos;
         }
 
@@ -73,30 +51,11 @@ namespace MBA.Marketplace.Business.Services
         {
             var produtos = await _produtoRepository.ListarPorVendedorIdAsync(vendedor);
 
-            foreach (var produto in produtos)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
-
             return produtos;
         }
 
         public async Task<Produto> CriarAsync(ProdutoDto dto, Vendedor vendedor)
         {
-            //string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(dto.Imagem.FileName);
-            //var pasta = _config["SharedFiles:ImagensPath"];
-            //string caminhoPasta = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, pasta);
-
-            //if (!Directory.Exists(caminhoPasta))
-            //    Directory.CreateDirectory(caminhoPasta);
-
-            //string caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
-
-            //using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
-            //{
-            //    await dto.Imagem.CopyToAsync(stream);
-            //}
-
             var produto = await _produtoRepository.CriarAsync(new Produto
             {
                 Nome = dto.Nome,
@@ -117,7 +76,7 @@ namespace MBA.Marketplace.Business.Services
             var produto = await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);
 
             if (produto != null)
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
+                produto.Src = produto.Imagem;
 
             return produto;
         }
@@ -125,10 +84,7 @@ namespace MBA.Marketplace.Business.Services
         public async Task<Produto> ObterPorIdAsync(Guid id)
         {
             var produto = await _produtoRepository.ObterPorIdAsync(id);
-            if (produto != null)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
+            
             return produto;
         }
 
@@ -136,46 +92,24 @@ namespace MBA.Marketplace.Business.Services
         {
             var produto = await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
 
-            if (produto != null)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
-
             return produto;
         }
 
-        public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)
+        public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor)
         {
             var produto = await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);
             if (produto == null)
                 return false;
 
-            if (imagem != null)
-            {
-                string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(imagem.FileName);
-                var pasta = _config["SharedFiles:ImagensPath"];
-                string caminhoPasta = Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, pasta);
-
-                if (!Directory.Exists(caminhoPasta))
-                    Directory.CreateDirectory(caminhoPasta);
-
-                string caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
-
-                using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
-                {
-                    await imagem.CopyToAsync(stream);
-                }
-
-                produto.Imagem = nomeArquivo;
-            }
-
             produto.Nome = dto.Nome;
             produto.Descricao = dto.Descricao;
-            produto.Preco = (decimal)dto.Preco;
-            produto.Estoque = (int)dto.Estoque;
-            produto.CategoriaId = (Guid)dto.CategoriaId;
+            produto.Preco = dto.Preco.GetValueOrDefault(0);
+            produto.Estoque = dto.Estoque.GetValueOrDefault(0);
+            produto.CategoriaId = dto.CategoriaId.GetValueOrDefault();
             produto.VendedorId = vendedor.Id;
             produto.UpdatedAt = DateTime.Now;
+            produto.Imagem = dto.ImageFileName;
+
             return await _produtoRepository.AtualizarAsync(produto);
         }
 
@@ -191,11 +125,6 @@ namespace MBA.Marketplace.Business.Services
         public async Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit)
         {
             var produtos = await _produtoRepository.ObterItensEmDestaque(ordenarPor, limit);
-
-            foreach (var produto in produtos)
-            {
-                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
-            }
 
             return produtos;
         }

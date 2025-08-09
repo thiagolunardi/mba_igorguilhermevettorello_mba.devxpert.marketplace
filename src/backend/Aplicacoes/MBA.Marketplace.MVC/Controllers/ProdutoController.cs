@@ -113,7 +113,7 @@ namespace MBA.Marketplace.MVC.Controllers
             try
             {
                 string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(model.Imagem.FileName);
-                var _ = await _produtoService.CriarAsync(new ProdutoDto
+                _ = await _produtoService.CriarAsync(new ProdutoDto
                 {
                     Nome = model.Nome,
                     Descricao = model.Descricao,
@@ -126,7 +126,7 @@ namespace MBA.Marketplace.MVC.Controllers
 
                 if (model.Imagem != null)
                 {
-                   await CopiarArquivo(nomeArquivo, model.Imagem);
+                    await CopiarArquivo(nomeArquivo, model.Imagem);
                 }
 
                 ViewBag.RegistroSucesso = true;
@@ -173,6 +173,7 @@ namespace MBA.Marketplace.MVC.Controllers
                 if (!ModelState.IsValid)
                     return View(model);
 
+                string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(model.Imagem.FileName);
                 var vendedor = await BuscarVendedorLogado();
                 var response = await _produtoService.AtualizarAsync(id, new ProdutoEditDto
                 {
@@ -180,11 +181,16 @@ namespace MBA.Marketplace.MVC.Controllers
                     Descricao = model.Descricao,
                     Preco = model.Preco,
                     Estoque = model.Estoque,
-                    CategoriaId = model.CategoriaId
-                }, vendedor, model.Imagem);
+                    CategoriaId = model.CategoriaId,
+                    ImageFileName = nomeArquivo
+                }, vendedor);
 
                 if (response)
                 {
+                    if (model.Imagem != null)
+                    {
+                        await CopiarArquivo(nomeArquivo, model.Imagem);
+                    }
                     ViewBag.RegistroSucesso = true;
                     return View(new ProdutoFormViewModel());
                 }
@@ -222,7 +228,7 @@ namespace MBA.Marketplace.MVC.Controllers
             try
             {
                 var produto = await _produtoService.ObterPorIdAsync(id);
-                if (produto == null) 
+                if (produto == null)
                 {
                     _logger.LogWarning("Produto com ID {Id} não encontrado", id);
                     return NotFound();
@@ -250,21 +256,13 @@ namespace MBA.Marketplace.MVC.Controllers
         {
             try
             {
-                var pasta = $"wwwroot/{_config["SharedFiles:ImagensPath"]}";
+                var pasta = "wwwroot/images/produtos";
+                if (imagem.Length <= 0) return false;
 
-                var parentDir = Directory.GetParent(Directory.GetCurrentDirectory());
-                if (parentDir == null || string.IsNullOrEmpty(pasta))
-                {
-                    _logger.LogError("Parent directory or image path configuration is null.");
-                    return false;
-                }
+                if (!Directory.Exists(pasta))
+                    Directory.CreateDirectory(pasta);
 
-                string caminhoPasta = Path.Combine(parentDir.FullName, pasta);
-
-                if (!Directory.Exists(caminhoPasta))
-                    Directory.CreateDirectory(caminhoPasta);
-
-                string caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
+                string caminhoArquivo = Path.Combine(pasta, nomeArquivo);
 
                 using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
                 {

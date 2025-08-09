@@ -1,59 +1,54 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ItemEmDestaqueViewModel } from '../item-destaque/item-em-destaque.viewmodel';
-import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { FavoritosService } from '../../../../services/favoritos.service';
 import { AuthService } from '../../../../services/auth.service';
 import { NotificacaoService } from '../../../../services/notificacao.service';
+import { ItemEmDestaqueViewModel } from '../../../public/home/item-destaque/item-em-destaque.viewmodel';
+import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
+import { RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-item-destaque',
-  standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyPipe],
-  templateUrl: './item-destaque.html',
-  styleUrls: ['./item-destaque.scss']
+  selector: 'app-card-favorito',
+  imports: [RouterLink, CurrencyPipe],
+  templateUrl: './card-favorito.html',
+  styleUrls: ['./card-favorito.scss']
 })
-export class ItemDestaqueComponent implements OnInit {
-  @Input() item!: ItemEmDestaqueViewModel;
+export class CardFavorito implements OnInit {
   private favoritosService = inject(FavoritosService);
   private authService = inject(AuthService);
   private notificacaoService = inject(NotificacaoService);
 
+  @Input() produto!: ItemEmDestaqueViewModel;
+  @Input() exibirBadge: boolean = false;
   isFavorito = false;
   carregandoFavorito = false;
 
+  get imagemSrc(): string {
+    return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;
+  }
+
   ngOnInit(): void {
-    if (this.authService.isAuthenticated() && this.item?.id) {
+    if (this.authService.isAuthenticated() && this.produto?.id) {
       this.verificarStatusFavorito();
     }
   }
 
-  get imagemSrc(): string {
-    if (this.item?.src) {
-      return this.item.src;
-    }
-    return IMAGEM_PLACEHOLDER;
-  }
-
-  toggleFavorito(): void {
+  removerFavorito(): void {
     if (this.carregandoFavorito) return;
 
     if (!this.authService.isAuthenticated()) {
-      this.notificacaoService.exibir('Faça login para adicionar favoritos.', 'warning');
+      this.notificacaoService.exibir('Faça login para remover favoritos.', 'warning');
       return;
     }
 
     this.carregandoFavorito = true;
-    const acao = this.isFavorito
-      ? this.favoritosService.removerFavorito(this.item.id)
-      : this.favoritosService.adicionarFavorito(this.item.id);
 
-    acao.subscribe({
+    this.favoritosService.removerFavorito(this.produto.id).subscribe({
       next: (response) => {
         if (response.success) {
-          this.isFavorito = !this.isFavorito;
           this.notificacaoService.exibir(response.message || 'Operação realizada com sucesso!', 'success');
+          window.location.reload();
+
         } else {
           this.notificacaoService.exibir(response.message || 'Ocorreu um erro.', 'danger');
         }
@@ -68,7 +63,7 @@ export class ItemDestaqueComponent implements OnInit {
   }
 
   private verificarStatusFavorito(): void {
-    this.favoritosService.verificarSeFavorito(this.item.id).subscribe({
+    this.favoritosService.verificarSeFavorito(this.produto.id).subscribe({
       next: (isFavorito) => {
         this.isFavorito = isFavorito;
       },

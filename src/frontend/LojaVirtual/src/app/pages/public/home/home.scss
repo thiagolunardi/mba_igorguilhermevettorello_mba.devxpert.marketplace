@@ -1,0 +1,301 @@
+// Variáveis de cores
+$primary-color: #764ba2;
+$secondary-color: #764ba2;
+$gradient-primary: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+$text-dark: #2c3e50;
+$text-light: #6c757d;
+$bg-light: #f8f9fa;
+$border-color: #e9ecef;
+
+// Hero Section
+.hero-section {
+  margin-bottom: 3rem;
+  
+  ngb-carousel {
+    border-radius: 1rem;
+    overflow: hidden;
+    box-shadow: 0 0.5rem 1.5rem rgba(118, 75, 162, 0.15);
+  }
+}
+
+// Seções gerais
+section {
+  padding: 3rem 0;
+  
+  &:nth-child(even) {
+    background-color: $bg-light;
+  }
+}
+
+// Headers das seções
+.section-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  
+  .section-title {
+    color: $text-dark;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4rem;
+      height: 0.25rem;
+      background: $gradient-primary;
+      border-radius: 0.125rem;
+    }
+  }
+  
+  .section-subtitle {
+    color: $text-light;
+    font-size: 1.1rem;
+    margin: 0;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+// Seção de Destaques
+.featured-section {
+  .container {
+    max-width: 1200px;
+  }
+}
+
+// Seção de Categorias
+.categories-section {
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .category-card {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    border: 1px solid $border-color;
+    
+    &:hover {
+      transform: translateY(-0.5rem);
+      box-shadow: 0 0.5rem 2rem rgba(118, 75, 162, 0.2);
+      border-color: $primary-color;
+    }
+    
+    .category-icon {
+      width: 4rem;
+      height: 4rem;
+      background: $gradient-primary;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.5rem;
+      
+      i {
+        font-size: 1.5rem;
+        color: white;
+      }
+    }
+    
+    h3 {
+      color: $text-dark;
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      color: $text-light;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .btn {
+      border-radius: 0.5rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0.25rem 0.75rem rgba(118, 75, 162, 0.3);
+      }
+    }
+  }
+}
+
+// Seção de Newsletter
+.newsletter-section {
+  background: $gradient-primary;
+  color: white;
+  
+  .newsletter-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+  
+  .newsletter-text {
+    flex: 1;
+    
+    h3 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+  }
+  
+  .newsletter-form {
+    flex: 0 0 auto;
+    
+    .input-group {
+      max-width: 400px;
+      
+      .form-control {
+        border: none;
+        border-radius: 0.5rem 0 0 0.5rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.875rem;
+        
+        &:focus {
+          box-shadow: none;
+          border-color: transparent;
+        }
+      }
+      
+      .btn {
+        border-radius: 0 0.5rem 0.5rem 0;
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        font-weight: 500;
+        
+        &:hover {
+          background: rgba(255, 255, 255, 0.3);
+          border-color: rgba(255, 255, 255, 0.4);
+        }
+      }
+    }
+  }
+}
+
+// Botões personalizados
+.btn-primary {
+  background: $gradient-primary;
+  border: none;
+  color: white;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background: linear-gradient(135deg, #6a4190 0%, #5a6fd8 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 0.25rem 0.75rem rgba(118, 75, 162, 0.3);
+  }
+  
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.25);
+  }
+}
+
+.btn-sm {
+  padding: 0.375rem 0.75rem;
+  font-size: 0.875rem;
+  border-radius: 0.375rem;
+}
+
+// Inputs personalizados
+.form-control-sm {
+  height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  border: 1px solid $border-color;
+  transition: all 0.3s ease;
+  
+  &:focus {
+    border-color: $primary-color;
+    box-shadow: 0 0 0 0.2rem rgba(118, 75, 162, 0.25);
+  }
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .section-title {
+    font-size: 2rem !important;
+  }
+  
+  .categories-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+  }
+  
+  .category-card {
+    padding: 1.5rem;
+  }
+  
+  .newsletter-content {
+    gap: 1.5rem;
+  }
+  
+  .newsletter-text h3 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  section {
+    padding: 2rem 0;
+  }
+  
+  .categories-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .newsletter-form .input-group {
+    max-width: 100%;
+  }
+}
+
+// Animações suaves
+.category-card,
+.btn,
+.form-control {
+  transition: all 0.3s ease;
+}
+
+// Melhorias de acessibilidade
+.btn:focus,
+.form-control:focus {
+  outline: none;
+}
+
+// Estados de loading (se necessário)
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none !important;
+}

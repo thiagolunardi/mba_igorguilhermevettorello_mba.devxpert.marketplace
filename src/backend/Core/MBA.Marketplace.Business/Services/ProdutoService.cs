@@ -5,7 +5,6 @@ using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
-using System;
 
 namespace MBA.Marketplace.Business.Services
 {
@@ -13,11 +12,13 @@ namespace MBA.Marketplace.Business.Services
     {
         private readonly IProdutoRepository _produtoRepository;
         private readonly IConfiguration _config;
+        private readonly IImagemService _imagemService;
 
-        public ProdutoService(IProdutoRepository produtoRepository, IConfiguration config)
+        public ProdutoService(IProdutoRepository produtoRepository, IConfiguration config, IImagemService imagemService)
         {
             _produtoRepository = produtoRepository;
             _config = config;
+            _imagemService = imagemService;
         }
 
         public async Task<IEnumerable<Produto>> ListarAllAsync()
@@ -26,7 +27,7 @@ namespace MBA.Marketplace.Business.Services
 
             foreach (var produto in produtos)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
 
             return produtos;
@@ -38,7 +39,7 @@ namespace MBA.Marketplace.Business.Services
 
             foreach (var produto in produtos)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
 
             return produtos;
@@ -50,7 +51,7 @@ namespace MBA.Marketplace.Business.Services
 
             foreach (var produto in produtos)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
 
             return produtos;
@@ -62,7 +63,7 @@ namespace MBA.Marketplace.Business.Services
 
             foreach (var produto in produtos.Itens)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
 
             return produtos;
@@ -74,7 +75,7 @@ namespace MBA.Marketplace.Business.Services
 
             foreach (var produto in produtos)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
 
             return produtos;
@@ -116,7 +117,7 @@ namespace MBA.Marketplace.Business.Services
             var produto = await _produtoRepository.ObterPorIdPorVendedorIdAsync(id, vendedor);
 
             if (produto != null)
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
 
             return produto;
         }
@@ -126,14 +127,21 @@ namespace MBA.Marketplace.Business.Services
             var produto = await _produtoRepository.ObterPorIdAsync(id);
             if (produto != null)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
             return produto;
         }
 
         public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)
         {
-            return await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
+            var produto = await _produtoRepository.ObterProdutoAtivoPorIdAsync(id);
+
+            if (produto != null)
+            {
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
+            }
+
+            return produto;
         }
 
         public async Task<bool> AtualizarAsync(Guid id, ProdutoEditDto dto, Vendedor vendedor, IFormFile? imagem)
@@ -180,13 +188,13 @@ namespace MBA.Marketplace.Business.Services
             return await _produtoRepository.RemoverAsync(produto);
         }
 
-        public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
+        public async Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit)
         {
-            var produtos = await _produtoRepository.ListarProdutosFiltroAsync(ordenarPor, limit);
+            var produtos = await _produtoRepository.ObterItensEmDestaque(ordenarPor, limit);
 
             foreach (var produto in produtos)
             {
-                produto.Src = ConverterImagemEmBase64(produto);
+                produto.Src = _imagemService.ConverterImagemEmBase64(produto.Imagem);
             }
 
             return produtos;
@@ -219,35 +227,6 @@ namespace MBA.Marketplace.Business.Services
             await _produtoRepository.AtualizarAsync(produtos);
 
             return true;
-        }
-
-        private string? ConverterImagemEmBase64(Produto produto)
-        {
-            var caminhoImagemBase = @$"{Path.Combine(Directory.GetParent(Directory.GetCurrentDirectory()).FullName, _config["SharedFiles:ImagensPath"])}";
-            var caminhoImagemCompleto = Path.Combine(caminhoImagemBase, produto.Imagem);
-
-            if (!File.Exists(caminhoImagemCompleto))
-            {
-                return null;
-            }
-
-            var bytesImagem = System.IO.File.ReadAllBytes(caminhoImagemCompleto);
-            var base64 = Convert.ToBase64String(bytesImagem);
-            var mimeType = ObterMimeType(Path.GetExtension(caminhoImagemCompleto));
-
-            return $"data:{mimeType};base64,{base64}";
-        }
-
-        private string ObterMimeType(string extensao)
-        {
-            return extensao switch
-            {
-                ".jpg" => "image/jpeg",
-                ".jpeg" => "image/jpeg",
-                ".png" => "image/png",
-                ".gif" => "image/gif",
-                _ => throw new NotSupportedException("Tipo de imagem não suportado.")
-            };
         }
     }
 }

@@ -14,7 +14,7 @@
   }
   @else {
   @for(produto of produtos?.itens; track produto) {
-  <app-resumo-produto [produto]="produto"></app-resumo-produto>
+  <app-card-produto [produto]="produto" [exibirBadge]="true"></app-card-produto>
   }
   }
 

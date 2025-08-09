@@ -53,24 +53,25 @@ export class FavoritosService {
   }
 
   adicionarFavorito(produtoId: string): Observable<ApiResponse> {
-    const url = this.URL_BASE + produtoId;
+    const payload = JSON.stringify(produtoId);
 
-    return this.http.post<any>(url, {}).pipe(
+    return this.http.post<any>(this.URL_BASE, payload, {
+      headers: { 'Content-Type': 'application/json' },
+      observe: 'response'
+    }).pipe(
       map(() => ({
         success: true,
         message: 'Produto adicionado aos favoritos!'
       })),
-      catchError((error: HttpErrorResponse) => { 
-        return of({
-          success: false,
-          message: error.error || 'Ocorreu um erro ao adicionar.'
-        });
-      })
+      catchError((error: HttpErrorResponse) => of({
+        success: false,
+        message: error.error || 'Ocorreu um erro ao adicionar.'
+      }))
     );
   }
 
   removerFavorito(produtoId: string): Observable<ApiResponse> {
-    const url = this.URL_BASE + produtoId;
+    const url = this.URL_BASE + `produtos/${produtoId}`
 
     return this.http.delete(url).pipe(
       map(() => ({
@@ -87,7 +88,7 @@ export class FavoritosService {
   }
 
   verificarSeFavorito(produtoId: string): Observable<boolean> {
-    const url = `${this.URL_BASE}verificar/${produtoId}`;
+    const url = this.URL_BASE + `produtos/${produtoId}/existe`;
     return this.http.get<boolean>(url).pipe(
       catchError(() => of(false))
     );

@@ -1,17 +1,22 @@
-<div class="row">
-  <!-- logotipo -->
-  <a href="/" class="col-1 fs-3 d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-    <strong>
-      <i class="bi bi-shop" style="color:black;font-size: 30px;"></i>
-    </strong>
-  </a>
-  <form class="col-11" role="search">
-    <div class="input-group mb-3" style="margin:0 !important">
-      <input type="text" class="form-control" placeholder="Pesquisar..." (keyup.enter)="pesquisar()" [(ngModel)]="termo"
-        [ngModelOptions]="{standalone: true}">
-      <button class="btn btn-outline-secondary" type="button" (click)="pesquisar()">
-        <i class="bi bi-search"></i>
-      </button>
-    </div>
-  </form>
+<div class="search-container">
+  <!-- Logo -->
+  <div class="logo-section">
+    <a [routerLink]="['/']" class="logo-link">
+      <i class="bi bi-shop logo-icon"></i>
+      <span class="logo-text">LojaVirtual</span>
+    </a>
+  </div>
+
+  <!-- Formulário de Pesquisa -->
+  <div class="search-section">
+    <form class="search-form" role="search" (ngSubmit)="pesquisar()">
+      <div class="search-input-group">
+        <input type="text" class="form-control search-input" placeholder="O que você está procurando?"
+          [(ngModel)]="termo" [ngModelOptions]="{standalone: true}" (keyup.enter)="pesquisar()">
+        <button class="btn btn-primary search-btn" type="submit">
+          <i class="bi bi-search"></i>
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

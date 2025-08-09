@@ -3,12 +3,12 @@ import { Observable } from 'rxjs';
 import { ListaPaginada } from '../../../../viewmodels/shared/lista-paginada.viewmodel';
 import { ProdutoViewModel } from '../../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 import { NgbProgressbar } from '@ng-bootstrap/ng-bootstrap';
-import { ResumoProduto } from '../resumo-produto/resumo-produto';
 import { Router } from '@angular/router';
+import { CardProduto } from '../../../../layout/shared/card-produto/card-produto';
 
 @Component({
   selector: 'app-lista-de-produtos',
-  imports: [NgbProgressbar, ResumoProduto,],
+  imports: [NgbProgressbar, CardProduto,],
   templateUrl: './lista-de-produtos.html',
   styles: ``
 })

@@ -1,0 +1,191 @@
+// Variáveis de cores
+$primary-color: #764ba2;
+$secondary-color: #764ba2;
+$gradient-primary: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+$text-dark: #2c3e50;
+$text-light: #6c757d;
+$bg-light: #f8f9fa;
+$border-color: #e9ecef;
+
+// Navegação do breadcrumb
+.breadcrumb-nav {
+  background: $bg-light;
+  border-bottom: 1px solid $border-color;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+}
+
+// Lista do breadcrumb
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+// Item do breadcrumb
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  
+  &.active {
+    .breadcrumb-current {
+      color: $primary-color;
+      font-weight: 600;
+    }
+  }
+}
+
+// Links do breadcrumb
+.breadcrumb-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: $text-light;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border-radius: 1.5rem;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    color: $primary-color;
+    background: rgba(118, 75, 162, 0.1);
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+  
+  &:focus {
+    outline: 2px solid $primary-color;
+    outline-offset: 2px;
+  }
+}
+
+// Link da home
+.home-link {
+  color: $primary-color;
+  background: rgba(118, 75, 162, 0.1);
+  
+  &:hover {
+    background: rgba(118, 75, 162, 0.2);
+    transform: translateY(-1px);
+  }
+  
+  i {
+    font-size: 1rem;
+  }
+}
+
+// Item atual
+.breadcrumb-current {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: $text-dark;
+  font-weight: 600;
+  font-size: 0.9rem;
+  background: white;
+  border-radius: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+// Separador
+.separator {
+  font-size: 0.75rem;
+  color: $text-light;
+  margin: 0 0.25rem;
+}
+
+// Responsividade
+@media (max-width: 768px) {
+  .breadcrumb-nav {
+    padding: 0.75rem 0;
+    margin-bottom: 1.5rem;
+  }
+  
+  .breadcrumb-list {
+    gap: 0.25rem;
+  }
+  
+  .breadcrumb-link,
+  .breadcrumb-current {
+    padding: 0.4rem 0.6rem;
+    font-size: 0.85rem;
+  }
+  
+  .home-link span,
+  .breadcrumb-link span {
+    display: none;
+  }
+  
+  .home-link,
+  .breadcrumb-link {
+    padding: 0.5rem;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    justify-content: center;
+  }
+  
+  .breadcrumb-current {
+    padding: 0.5rem 0.75rem;
+    border-radius: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .breadcrumb-nav {
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
+  }
+  
+  .breadcrumb-list {
+    justify-content: center;
+  }
+  
+  .breadcrumb-link,
+  .breadcrumb-current {
+    font-size: 0.8rem;
+  }
+}
+
+// Animações suaves
+.breadcrumb-nav,
+.breadcrumb-link,
+.breadcrumb-current {
+  transition: all 0.3s ease;
+}
+
+// Melhorias de acessibilidade
+.breadcrumb-link:focus,
+.breadcrumb-current:focus {
+  outline: 2px solid $primary-color;
+  outline-offset: 2px;
+}
+
+// Estados de loading
+.breadcrumb-nav.loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
+
+// Indicador de progresso
+.breadcrumb-nav::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: $gradient-primary;
+  width: 0;
+  transition: width 0.3s ease;
+}
+
+.breadcrumb-nav:hover::before {
+  width: 100%;
+} 

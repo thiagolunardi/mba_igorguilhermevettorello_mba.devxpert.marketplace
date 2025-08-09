@@ -1,5 +1,4 @@
 ﻿using MBA.Marketplace.Business.DTOs.Paginacao;
-using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -41,12 +40,12 @@ namespace MBA.Marketplace.API.Controllers
             return Ok(pesquisaPaginada);
         }
 
-        [HttpPost("{id:Guid}")]
+        [HttpPost()]
         [ProducesResponseType(typeof(Favorito), StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public async Task<IActionResult> Cadastrar([FromRoute] Guid id)
+        public async Task<IActionResult> Cadastrar([FromBody] Guid produtoId)
         {
             var emailCliente = ObterEmailDoUsuario();
             var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
@@ -54,7 +53,7 @@ namespace MBA.Marketplace.API.Controllers
             if (cliente == null)
                 return NotFound("Cliente não encontrado.");
 
-            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(id);
+            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(produtoId);
 
             if (produto == null)
                 return NotFound("Produto não encontrado.");
@@ -71,11 +70,11 @@ namespace MBA.Marketplace.API.Controllers
             return CreatedAtAction(nameof(Cadastrar), new { favorito = favorito.Id }, favorito);
         }
 
-        [HttpDelete("{id:Guid}")]
+        [HttpDelete("produtos/{produtoId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Deletar([FromRoute] Guid id)
+        public async Task<IActionResult> RemoverPorProdutoId([FromRoute] Guid produtoId)
         {
             var emailCliente = ObterEmailDoUsuario();
             var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
@@ -83,13 +82,45 @@ namespace MBA.Marketplace.API.Controllers
             if (cliente == null)
                 return NotFound("Cliente não encontrado.");
 
-            var favorito = await _favoritoService.Buscar(id);
+            // Verifica se o produto existe
+            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(produtoId);
+            
+            if (produto == null)
+                return NotFound("Produto não encontrado.");
 
-            if (favorito == null || favorito.ClienteId != cliente.Id)
-                return NotFound("Favorito não encontrado");
+            // Busca o favorito com base no cliente e produto
+            var favorito = await _favoritoService.ObterPorProdutoIdEClienteIdAsync(produto.Id, cliente.Id);
+            
+            if (favorito == null)
+                return NotFound("Produto não está nos favoritos.");
 
             await _favoritoService.Deletar(favorito);
+
             return NoContent();
+        }
+
+
+        [HttpGet("produtos/{produtoId:guid}/existe")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> ProdutoJaFavoritado([FromRoute] Guid produtoId)
+        {
+            var emailCliente = ObterEmailDoUsuario();
+            var cliente = await _clienteService.ObterPorEmailAsync(emailCliente);
+
+            if (cliente == null)
+                return NotFound("Cliente não encontrado.");
+
+            var produto = await _produtoService.ObterProdutoAtivoPorIdAsync(produtoId);
+
+            if (produto == null)
+                return NotFound("Produto não encontrado.");
+
+            var favoritoExistente = await _favoritoService.ObterPorProdutoIdEClienteIdAsync(produto.Id, cliente.Id);
+
+            // Retorna true se já estiver nos favoritos, false caso contrário
+            return Ok(favoritoExistente != null);
         }
 
         private string? ObterEmailDoUsuario()

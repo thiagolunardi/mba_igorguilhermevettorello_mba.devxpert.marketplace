@@ -39,7 +39,7 @@ namespace MBA.Marketplace.API.Controllers
         }
 
         [HttpGet("{id:guid}")]
-        [ProducesResponseType(typeof(ListaPaginada<Produto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(Vendedor), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> ObterVendedorPorId(Guid id)
         {

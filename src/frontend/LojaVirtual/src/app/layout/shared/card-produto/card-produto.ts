@@ -1,39 +1,36 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { ItemEmDestaqueViewModel } from '../item-destaque/item-em-destaque.viewmodel';
-import { IMAGEM_PLACEHOLDER } from '../../../../util/constantes';
-import { FavoritosService } from '../../../../services/favoritos.service';
-import { AuthService } from '../../../../services/auth.service';
-import { NotificacaoService } from '../../../../services/notificacao.service';
+import { Component, inject, Input, OnInit } from '@angular/core';
+import { IMAGEM_PLACEHOLDER } from '../../../util/constantes';
+import { ItemEmDestaqueViewModel } from '../../../pages/public/home/item-destaque/item-em-destaque.viewmodel';
+import { RouterLink } from '@angular/router';
+import { CurrencyPipe } from '@angular/common';
+import { FavoritosService } from '../../../services/favoritos.service';
+import { AuthService } from '../../../services/auth.service';
+import { NotificacaoService } from '../../../services/notificacao.service';
 
 @Component({
-  selector: 'app-item-destaque',
-  standalone: true,
-  imports: [CommonModule, RouterModule, CurrencyPipe],
-  templateUrl: './item-destaque.html',
-  styleUrls: ['./item-destaque.scss']
+  selector: 'app-card-produto',
+  imports: [RouterLink, CurrencyPipe],
+  templateUrl: './card-produto.html',
+  styleUrls: ['./card-produto.scss']
 })
-export class ItemDestaqueComponent implements OnInit {
-  @Input() item!: ItemEmDestaqueViewModel;
+export class CardProduto implements OnInit {
   private favoritosService = inject(FavoritosService);
   private authService = inject(AuthService);
   private notificacaoService = inject(NotificacaoService);
 
+  @Input() produto!: ItemEmDestaqueViewModel;
+  @Input() exibirBadge: boolean = false;
   isFavorito = false;
   carregandoFavorito = false;
 
-  ngOnInit(): void {
-    if (this.authService.isAuthenticated() && this.item?.id) {
-      this.verificarStatusFavorito();
-    }
+  get imagemSrc(): string {
+    return this.produto?.src ? this.produto.src : IMAGEM_PLACEHOLDER;
   }
 
-  get imagemSrc(): string {
-    if (this.item?.src) {
-      return this.item.src;
+  ngOnInit(): void {
+    if (this.authService.isAuthenticated() && this.produto?.id) {
+      this.verificarStatusFavorito();
     }
-    return IMAGEM_PLACEHOLDER;
   }
 
   toggleFavorito(): void {
@@ -46,8 +43,8 @@ export class ItemDestaqueComponent implements OnInit {
 
     this.carregandoFavorito = true;
     const acao = this.isFavorito
-      ? this.favoritosService.removerFavorito(this.item.id)
-      : this.favoritosService.adicionarFavorito(this.item.id);
+      ? this.favoritosService.removerFavorito(this.produto.id)
+      : this.favoritosService.adicionarFavorito(this.produto.id);
 
     acao.subscribe({
       next: (response) => {
@@ -68,7 +65,7 @@ export class ItemDestaqueComponent implements OnInit {
   }
 
   private verificarStatusFavorito(): void {
-    this.favoritosService.verificarSeFavorito(this.item.id).subscribe({
+    this.favoritosService.verificarSeFavorito(this.produto.id).subscribe({
       next: (isFavorito) => {
         this.isFavorito = isFavorito;
       },

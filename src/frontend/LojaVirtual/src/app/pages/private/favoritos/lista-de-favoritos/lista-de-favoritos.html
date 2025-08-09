@@ -14,25 +14,7 @@
   }
   @else {
   @for(favorito of listaPaginada?.itens; track favorito.id) {
-
-  <!-- Card de favorito -->
-  <div class="card" style="width: 18rem;">
-    <img [src]="imagemSrc(favorito?.produto?.src)" class="card-img-top imagem-produto" alt="...">
-
-    <div class="card-body">
-      <p class="card-title text-uppercase d-flex justify-content-between align-items-center">
-        <strong>{{ favorito?.produto?.nome }}</strong>
-      </p>
-      <p class="card-text">Categoria: {{favorito?.produto?.categoria?.nome}}</p>
-      <p><strong>{{ favorito?.produto?.preco | currency:'BRL' }}</strong></p>
-      <a [routerLink]="['/produto', favorito.produtoId]" class="btn btn-outline-primary btn-md mx-2">
-        Ver Detalhes
-      </a>
-      <button class="btn btn-outline-danger btn-md" (click)="remover(favorito.id)">
-        Remover
-      </button>
-    </div>
-  </div>
+  <app-card-favorito [produto]="favorito.produto"></app-card-favorito>  
   }
   }
 

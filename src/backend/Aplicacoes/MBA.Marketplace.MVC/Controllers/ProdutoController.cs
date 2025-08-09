@@ -199,16 +199,35 @@ namespace MBA.Marketplace.MVC.Controllers
             return BadRequest("Erro ao excluir produto.");
         }
 
-        [AllowAnonymous]
-        [HttpGet("detalhe/{id:Guid}")]
+        [HttpGet("detalhes/{id:Guid}")]
         [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Detalhes(Guid id)
         {
-            var produto = await _produtoService.ObterPorIdAsync(id);
-            if (produto == null) return NotFound();
+            try
+            {
+                var produto = await _produtoService.ObterPorIdAsync(id);
+                if (produto == null) 
+                {
+                    _logger.LogWarning("Produto com ID {Id} não encontrado", id);
+                    return NotFound();
+                }
 
-            var viewModel = _mapper.Map<ProdutoViewModel>(produto);
-            return View(viewModel);
+                var viewModel = _mapper.Map<ProdutoViewModel>(produto);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao obter detalhes do produto com ID {Id}", id);
+                return StatusCode(500, "Erro interno do servidor");
+            }
+        }
+
+        [HttpPost("trocar-status/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Administrador))]
+        public async Task<IActionResult> TrocarStatus(Guid id)
+        {
+            var _ = await _produtoService.ChangeState(id);
+            return Ok();
         }
     }
 }

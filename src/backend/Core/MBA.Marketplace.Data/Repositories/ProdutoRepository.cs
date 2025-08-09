@@ -180,7 +180,7 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context.Produtos.Where(p => p.Id == id && p.VendedorId == vendedor.Id).FirstOrDefaultAsync();
         }
-        public async Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit)
+        public async Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit)
         {
             var query = _context.Produtos
                                 .Include(p => p.Categoria)

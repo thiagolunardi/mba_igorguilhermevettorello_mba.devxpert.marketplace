@@ -1,55 +1,96 @@
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { catchError, map, Observable, of } from 'rxjs';
+import { ListaPaginada } from '../viewmodels/shared/lista-paginada.viewmodel';
+import { adicionarParametrosSePossuirValor } from '../util/common-functions';
+import { ProdutoViewModel } from '../viewmodels/pesquisa-de-produtos/produto.viewmodel';
 
-export interface Favorito {
-  id: number;
-  nome: string;
-  categoria: string;
-  preco: number;
-  descricao: string;
-  imagemUrl: string;
+export interface FavoritoViewModel {
+  id: string;
+  produtoId: string;
+  produto: ProdutoViewModel
+}
+
+export interface ApiResponse {
+  success: boolean;
+  message?: string;
 }
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class FavoritosService {
+  private http = inject(HttpClient);
+  private readonly URL_BASE = 'https://localhost:7179/api/favoritos/';
 
-   private favoritos: Favorito[] = [
-      {
-        id: 1,
-        nome: 'Smartphone Modelo X',
-        categoria: 'Eletrônicos',
-        preco: 1999.90,
-        descricao: 'Um smartphone de última geração com câmera de alta resolução e bateria de longa duração.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 2,
-        nome: 'Notebook Pro',
-        categoria: 'Computadores',
-        preco: 4599.00,
-        descricao: 'Performance e design em um notebook potente para trabalho e lazer.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      },
-      {
-        id: 3,
-        nome: 'Fone de Ouvido Sem Fio',
-        categoria: 'Acessórios',
-        preco: 299.50,
-        descricao: 'Qualidade de som imersiva com cancelamento de ruído e design confortável.',
-        imagemUrl: 'https://via.placeholder.com/300'
-      }
-    ];
+  obterFavoritos(
+    numeroDaPagina: number | null = null,
+    tamanhoDaPagina: number | null = null
+  ) {
+    const url = this.URL_BASE
 
-  constructor() { }
+    let params = new HttpParams();
+    params = adicionarParametrosSePossuirValor(
+      params,
+      [
+        { nome: 'numeroDaPagina', valor: numeroDaPagina },
+        { nome: 'tamanhoDaPagina', valor: tamanhoDaPagina },
+      ]);
 
-  adicionarFavorito(produto: any) {
-    if (!this.favoritos.find(item => item.id === produto.id)) {
-      this.favoritos.push(produto);
-    }
+    return this.http.get<ListaPaginada<FavoritoViewModel>>(url, { params, observe: 'response' })
+      .pipe(
+        map(response => {
+          if (response.status === 200) {
+            return response.body;
+          }
+          else {
+            throw new Error(`Erro ao buscar favoritos. Status: ${response.status}`);
+          }
+        }),
+        catchError(() => of(null))
+      );
   }
 
-  removerFavorito(produto: any) {
-      this.favoritos = this.favoritos.filter(item => item.id !== produto.id);
+  adicionarFavorito(produtoId: string): Observable<ApiResponse> {
+    const payload = JSON.stringify(produtoId);
+
+    return this.http.post<any>(this.URL_BASE, payload, {
+      headers: { 'Content-Type': 'application/json' },
+      observe: 'response'
+    }).pipe(
+      map(() => ({
+        success: true,
+        message: 'Produto adicionado aos favoritos!'
+      })),
+      catchError((error: HttpErrorResponse) => of({
+        success: false,
+        message: error.error || 'Ocorreu um erro ao adicionar.'
+      }))
+    );
+  }
+
+  removerFavorito(produtoId: string): Observable<ApiResponse> {
+    const url = this.URL_BASE + `produtos/${produtoId}`
+
+    return this.http.delete(url).pipe(
+      map(() => ({
+        success: true,
+        message: 'Produto removido dos favoritos.'
+      })),
+      catchError((error: HttpErrorResponse) => {
+        return of({
+          success: false,
+          message: error.error || 'Ocorreu um erro ao remover.'
+        });
+      })
+    );
+  }
+
+  verificarSeFavorito(produtoId: string): Observable<boolean> {
+    const url = this.URL_BASE + `produtos/${produtoId}/existe`;
+    return this.http.get<boolean>(url).pipe(
+      catchError(() => of(false))
+    );
   }
 }

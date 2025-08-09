@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { ProdutoDetalhesService } from '../../../services/produtodetalhes.service';
-import { ProdutoViewModel } from '../../../services/produto.viewmodel';
 import { InfoProdutoComponent } from './components/info-produto/info-produto';
+import { ProdutoViewModel } from '../../../viewmodels/pesquisa-de-produtos/produto.viewmodel';
+import { ProdutosService } from '../../../services/produtos.service';
 
 @Component({
   selector: 'app-produto-detalhes',
@@ -15,20 +15,17 @@ import { InfoProdutoComponent } from './components/info-produto/info-produto';
   styleUrls: ['./produto-detalhes.scss']
 })
 export class ProdutoDetalhesComponent implements OnInit {
-  
-  produto$!: Observable<ProdutoViewModel | null>;
+  route = inject(ActivatedRoute);
+  produtoService = inject(ProdutosService);
 
-  constructor(
-    private route: ActivatedRoute,
-    private produtoDetalhesService: ProdutoDetalhesService
-  ) {}
+  produto$!: Observable<ProdutoViewModel | null>;
 
   ngOnInit(): void {
     this.produto$ = this.route.paramMap.pipe(
       switchMap(params => {
         const id = params.get('id');
         if (id) {
-          return this.produtoDetalhesService.getProdutoById(id);
+          return this.produtoService.obterProdutoPorId(id);
         }
         return of(null);
       })

@@ -8,7 +8,7 @@ namespace MBA.Marketplace.Business.Interfaces.Services
     public interface IProdutoService
     {
         Task<IEnumerable<Produto>> ListarAllAsync();
-        Task<IEnumerable<Produto>> ListarProdutosFiltroAsync(string? ordenarPor, int? limit);
+        Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit);
         Task<IEnumerable<Produto>> ListarProdutosPorCategoriaAsync(Guid categoriaId);
         Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string? descricao);
         Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros);

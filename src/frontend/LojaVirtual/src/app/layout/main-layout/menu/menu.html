@@ -1,38 +1,60 @@
-<div class="px-3 py-2 border-bottom" style="background: #474c8d;">
+<nav class="main-nav">
   <div class="container">
-    <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+    <div class="nav-content">
 
-      <ul class="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small" style="align-items: anchor-center;">
-        
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            <i class="bi bi-list-ul" style="color: white;font-size: 22px;margin: 0;"></i> &nbsp; Categorias
-          </a>
-          <ul class="dropdown-menu" *ngIf="categorias.length > 0">
-            <li *ngFor="let categoria of categorias">
-              <a class="dropdown-item" [routerLink]="['/produtos/categoria', categoria.id]">
-                {{ categoria.nome }}
-              </a>
-            </li>
-          </ul>
-        </li>
+      <!-- Menu de Categorias -->
+      <div class="nav-item dropdown">
+        <button class="nav-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="bi bi-list-ul"></i>
+          <span>Categorias</span>
+        </button>
+        <ul class="dropdown-menu categories-menu" *ngIf="categorias.length > 0">
+          <li class="dropdown-header">
+            <i class="bi bi-grid"></i>
+            <span>Todas as Categorias</span>
+          </li>
+          <li class="dropdown-divider"></li>
+          @for(categoria of categorias; track categoria.id){
+          <li>
+            <a class="dropdown-item" [routerLink]="['/produtos/categoria', categoria.id]">
+              <i class="bi bi-tag"></i>
+              <span>{{ categoria.nome }}</span>
+            </a>
+          </li>
+          }
 
-        <li>
-          <a href="#" class="nav-link text-white">Celulares</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">Móveis</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">Eletrodomésticos</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">Informática</a>
-        </li>
-        <li>
-          <a href="#" class="nav-link text-white">Esportes</a>
-        </li>
-      </ul>
+        </ul>
+      </div>
+
+      <!-- Categorias dinâmicas -->
+      <div class="nav-links">
+        @for(categoria of categoriasEmDestaque; track categoria.id){
+        <a [routerLink]="['/produtos/categoria/', categoria.id]" class="nav-link">
+          <span>{{categoria.nome}}</span>
+        </a>
+        }
+      </div>
+
+      <!-- Menu Mobile -->
+      <div class="nav-mobile">
+        <button class="btn mobile-menu-toggle" type="button" data-bs-toggle="collapse" data-bs-target="#mobileMenu">
+          <i class="bi bi-list"></i>
+        </button>
+      </div>
+
     </div>
   </div>
-</div>
+
+  <!-- Menu Mobile Collapsible -->
+  <div class="collapse mobile-menu" id="mobileMenu">
+    <div class="container">
+      <div class="mobile-nav-links">
+        @for(categoria of categoriasEmDestaque; track categoria.id){
+        <a [routerLink]="['/produtos/categoria/', categoria.id]" class="mobile-nav-link">
+          <span>{{categoria.nome}}</span>
+        </a>
+        }
+      </div>
+    </div>
+  </div>
+</nav>

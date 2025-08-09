@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/public/home/home';
 import { NaoEncontrado } from './pages/public/nao-encontrado/nao-encontrado';
-import { Favoritos } from './pages/public/favoritos/favoritos';
 import { ProdutoDetalhesComponent } from './pages/public/produto-detalhes/produto-detalhes';
-import { VendedorComponent } from './pages/public/vendedor/vendedor';
+import { Vendedor } from './pages/public/vendedor/vendedor';
 import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-produtos';
 import { Erro } from './pages/public/erro/erro';
 import { Login } from './pages/public/autenticacao/login/login';
@@ -12,6 +11,7 @@ import { MainLayout } from './layout/main-layout/main-layout';
 import { AuthLayout } from './layout/auth-layout/auth-layout';
 import { guestGuard } from './guards/guest.guard';
 import { authGuard } from './guards/auth.guard';
+import { Favoritos } from './pages/private/favoritos/favoritos';
 
 export const routes: Routes = [
   {
@@ -46,7 +46,7 @@ export const routes: Routes = [
       },
       {
         path: 'vendedor/:id',
-        component: VendedorComponent,
+        component: Vendedor,
         data: { breadcrumb: 'Vendedor' }
       },
       {

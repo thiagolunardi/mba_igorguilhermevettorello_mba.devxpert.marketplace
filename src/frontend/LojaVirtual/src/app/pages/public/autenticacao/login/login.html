@@ -4,10 +4,10 @@
       <i class="bi bi-box-arrow-in-right"></i>
       <h4>Entrar</h4>
     </div>
-    
+
     <div class="login-body">
       <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
-        
+
         @if (error) {
         <div class="validation-summary-errors" role="alert">{{ error }}</div>
         }
@@ -15,8 +15,8 @@
         <!-- Email -->
         <div class="form-floating">
           <input id="email" type="email" formControlName="email" class="form-control"
-            [ngClass]="{ 'input-validation-error': f.email.invalid && f.email.touched }"
-            autocomplete="username" aria-required="true" placeholder="name@example.com">
+            [ngClass]="{ 'input-validation-error': f.email.invalid && f.email.touched }" autocomplete="username"
+            aria-required="true" placeholder="name@example.com">
           <label for="email">Email</label>
           @if (f.email.touched && f.email.invalid) {
           <span class="text-danger">
@@ -32,8 +32,8 @@
         <!-- Senha -->
         <div class="form-floating">
           <input id="senha" type="password" formControlName="senha" class="form-control"
-            [ngClass]="{ 'input-validation-error': f.senha.invalid && f.senha.touched }"
-            autocomplete="current-password" aria-required="true" placeholder="password">
+            [ngClass]="{ 'input-validation-error': f.senha.invalid && f.senha.touched }" autocomplete="current-password"
+            aria-required="true" placeholder="password">
           <label for="senha">Senha</label>
           @if (f.senha.touched && f.senha.invalid) {
           <span class="text-danger">
@@ -46,8 +46,7 @@
 
         <!-- Botão -->
         <div class="d-grid mb-3">
-          <button type="submit" class="btn btn-primary"
-            [disabled]="form.invalid || loading">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
             @if(!loading){
             <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
             } @else {
@@ -59,15 +58,15 @@
       </form>
 
       <div class="links-section">
-        <a routerLink="/register" class="link-item">
+        <a [routerLink]="['/cadastro']" class="link-item">
           <i class="bi bi-person-plus"></i>
           <span>Não tem uma conta? Cadastre-se</span>
         </a>
-        
-        <a routerLink="/esqueci-senha" class="link-item">
+
+        <!-- <a routerLink="/esqueci-senha" class="link-item">
           <i class="bi bi-question-circle"></i>
           <span>Esqueceu a senha?</span>
-        </a>
+        </a> -->
       </div>
     </div>
   </div>

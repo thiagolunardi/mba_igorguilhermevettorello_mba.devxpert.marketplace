@@ -17,18 +17,25 @@ namespace MBA.Marketplace.Data.Data.Seeds
 
         public static async Task EnsureSeedData(IServiceProvider serviceProvider, string env)
         {
-            using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
-            var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-            var contextIdentity = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
-            var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
-
-            if (env.Equals("Development") || env.Equals("Docker") || env.Equals("Staging"))
+            try
             {
-                await context.Database.MigrateAsync();
-                await contextIdentity.Database.MigrateAsync();
+                using var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope();
+                var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+                var contextIdentity = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-                await EnsureSeedRoles(contextIdentity);
-                await EnsureSeedApplication(userManager, context, contextIdentity);
+                if (env.Equals("Development") || env.Equals("Docker") || env.Equals("Staging"))
+                {
+                    await context.Database.MigrateAsync();
+                    await contextIdentity.Database.MigrateAsync();
+
+                    await EnsureSeedRoles(contextIdentity);
+                    await EnsureSeedApplication(userManager, context, contextIdentity);
+                }
+            }
+            catch (Exception ex) 
+            { 
+                var _ = ex.Message;
             }
         }
 

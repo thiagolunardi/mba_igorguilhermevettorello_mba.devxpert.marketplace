@@ -3,6 +3,7 @@ using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Business.Extensions;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MBA.Marketplace.API.Controllers
@@ -11,11 +12,14 @@ namespace MBA.Marketplace.API.Controllers
     [Route("api/clientes")]
     public class ClienteController : ControllerBase
     {
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly IClienteService _clienteService;
         private readonly IAccountService _accountService;
 
-        public ClienteController(IClienteService clienteService, IAccountService accountService)
+        public ClienteController(UserManager<IdentityUser> userManager, 
+            IClienteService clienteService, IAccountService accountService)
         {
+            _userManager = userManager;
             _clienteService = clienteService;
             _accountService = accountService;
         }
@@ -25,6 +29,13 @@ namespace MBA.Marketplace.API.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> CadastrarCliente([FromBody] RegistrarUsuarioDto dto)
         {
+            var user = await _userManager.FindByEmailAsync(dto.Email);
+
+            if (user != null)
+            {
+                ModelState.AddModelError("Email", "E-mail inválido ou em uso, verifique seu e-mail e tente novamente");
+            }
+
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 

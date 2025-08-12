@@ -15,6 +15,14 @@ namespace MBA.DevXpert.Marketplace.MVC.Controllers
 
         public IActionResult Index(Guid? categoriaId, string? descricao)
         {
+            // Verifica se o usuário está autenticado
+            if (User.Identity.IsAuthenticated)
+            {
+                // Redireciona para a área administrativa se estiver logado
+                return Redirect("/admin");
+            }
+
+            // Se não estiver logado, redireciona para o login
             return Redirect("/Identity/Account/Login");
         }
 

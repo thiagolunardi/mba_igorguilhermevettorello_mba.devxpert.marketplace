@@ -21,9 +21,9 @@ no modelo MVC e integram ambas as soluções via uma API REST centralizada.
 
 O projeto consiste em:
 
-- **Aplicação MVC:** Interface web para interação mini Loja.
+- **Aplicação MVC:** Interface web para moderação, cadastro de vendedores e gerenciamento de produtos e categorias.
 - **Angular:** Interface web para interação mini Loja.
-- **API RESTful:** Exposição dos recursos do mini loja para integração com outras aplicações ou desenvolvimento de front-ends alternativos.
+- **API RESTful:** Exposição dos recursos da mini loja para integração com outras aplicações ou desenvolvimento de front-ends alternativos.
 - **Autenticação e Autorização:** Implementação de controle de acesso, diferenciando administradores e usuários comuns.
 - **Acesso a Dados:** Implementação de acesso ao banco de dados através de ORM Entity Framework
 
@@ -34,7 +34,7 @@ O projeto consiste em:
   - ASP.NET Core MVC
   - ASP.NET Core Web API
   - Entity Framework Core
-  - Angular
+  - Angular 20
 - **Banco de Dados:** SQL Server ou Sqlite
 - **Autenticação e Autorização:**
   - ASP.NET Core Identity
@@ -66,7 +66,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 ## **5. Funcionalidades Implementadas**
 
-- **CRUD para Posts e Comentários:** Permite criar, editar, visualizar e excluir Categorias e produtos do vendedor logado.
+- **CRUD para Vendedores, Produtos e Categorias:** Permite criar, editar, visualizar e excluir Categorias e produtos do vendedor logado.
 - **Autenticação e Autorização:** Diferenciação entre usuários comuns e administradores.
 - **API RESTful:** Exposição de endpoints para operações CRUD via API.
 - **Documentação da API:** Documentação automática dos endpoints da API utilizando Swagger.
@@ -80,6 +80,7 @@ A estrutura do projeto é organizada da seguinte forma:
 - SQL Server, Sqlite
 - Visual Studio 2022 ou superior (ou qualquer IDE de sua preferência)
 - Git
+- Angular 20
 
 ### **Passos para Execução**
 
@@ -88,7 +89,6 @@ A estrutura do projeto é organizada da seguinte forma:
    - `cd mba.devxpert.marketplace`
 
 2. **Configuração do Banco de Dados:**
-   - No arquivo `appsettings.json`, configure a string de conexão do SQL Server.
    - Rode o projeto para que a configuração do Seed crie o banco e popule com os dados básicos
 
 3. **Executar a Aplicação MVC:**
@@ -106,6 +106,16 @@ A estrutura do projeto é organizada da seguinte forma:
 	- ng s
 	- Acesse a aplicação em: http://localhost:4200/
 
+6. **Credenciais de Acesso:**
+   - **Administrador:**
+	 - Email: administrador@marketplace.com.br
+	 - Password: Admin@123
+
+   - **Usuário Vendedor:**
+       - Email: vendedor@marketplace.com.br
+       - Password: Vendedor@123
+
+
 ## **7. Instruções de Configuração**
 
 - **JWT para API:** As chaves de configuração do JWT estão no `appsettings.json`.
@@ -122,3 +132,5 @@ https://localhost:7179/swagger
 - Este projeto é parte de um curso acadêmico e não aceita contribuições externas. 
 - Para feedbacks ou dúvidas utilize o recurso de Issues
 - O arquivo `FEEDBACK.md` é um resumo das avaliações do instrutor e deverá ser modificado apenas por ele.
+
+

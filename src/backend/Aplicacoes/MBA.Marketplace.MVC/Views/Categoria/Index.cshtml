@@ -179,7 +179,13 @@ else
                         showResultado("Categoria removida com sucesso!", true);
                     },
                     error: function (err) {
-                        let mensagem = err.responseText || "Erro ao remover categoria. Tente novamente.";
+                        let mensagem = null;
+                        try {
+                            var rs = JSON.parse(err.responseText);
+                            mensagem = rs.mensagem
+                        } catch (e) {
+                            mensagem = "Erro ao remover categoria. Tente novamente.";
+                        }
                         $('#modalConfirmar').modal('hide');
                         showResultado(mensagem, false);
                     },

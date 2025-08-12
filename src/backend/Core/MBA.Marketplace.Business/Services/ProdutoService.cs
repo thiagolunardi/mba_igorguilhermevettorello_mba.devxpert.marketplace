@@ -65,7 +65,7 @@ namespace MBA.Marketplace.Business.Services
                 CategoriaId = dto.CategoriaId.GetValueOrDefault(),
                 VendedorId = vendedor.Id,
                 Imagem = dto.ImageFileName,
-                Ativo = true
+                Ativo = dto.Ativo
             });
 
             return produto;
@@ -108,6 +108,7 @@ namespace MBA.Marketplace.Business.Services
             produto.CategoriaId = dto.CategoriaId.GetValueOrDefault();
             produto.VendedorId = vendedor.Id;
             produto.UpdatedAt = DateTime.Now;
+            produto.Ativo = dto.Ativo;
             produto.Imagem = dto.ImageFileName;
 
             return await _produtoRepository.AtualizarAsync(produto);

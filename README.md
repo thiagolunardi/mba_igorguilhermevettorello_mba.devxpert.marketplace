@@ -66,7 +66,7 @@ A estrutura do projeto é organizada da seguinte forma:
 
 ## **5. Funcionalidades Implementadas**
 
-- **CRUD para Posts e Comentários:** Permite criar, editar, visualizar e excluir Categorias e produtos do vendedor logado.
+- **CRUD para Vendedores, Produtos e Categorias:** Permite criar, editar, visualizar e excluir Categorias e produtos do vendedor logado.
 - **Autenticação e Autorização:** Diferenciação entre usuários comuns e administradores.
 - **API RESTful:** Exposição de endpoints para operações CRUD via API.
 - **Documentação da API:** Documentação automática dos endpoints da API utilizando Swagger.
@@ -132,4 +132,5 @@ https://localhost:7179/swagger
 - Este projeto é parte de um curso acadêmico e não aceita contribuições externas. 
 - Para feedbacks ou dúvidas utilize o recurso de Issues
 - O arquivo `FEEDBACK.md` é um resumo das avaliações do instrutor e deverá ser modificado apenas por ele.
+
 

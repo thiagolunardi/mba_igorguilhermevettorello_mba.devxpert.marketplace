@@ -106,6 +106,16 @@ A estrutura do projeto é organizada da seguinte forma:
 	- ng s
 	- Acesse a aplicação em: http://localhost:4200/
 
+6. **Credenciais de Acesso:**
+   - **Administrador:**
+	 - Email: administrador@marketplace.com.br
+	 - Password: Admin@123
+
+   - **Usuário Vendedor:**
+       - Email: vendedor@marketplace.com.br
+       - Password: Vendedor@123
+
+
 ## **7. Instruções de Configuração**
 
 - **JWT para API:** As chaves de configuração do JWT estão no `appsettings.json`.

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, inject, Input, OnInit, Output } from '@angular/core';
 import { CategoriaViewModel } from '../../../../viewmodels/pesquisa-de-produtos/categoria.viewmodel';
 import { CategoriaService } from '../../../../services/categoria.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,9 +13,10 @@ export class FiltroPorCategoria implements OnInit {
   private categoriaService = inject(CategoriaService);
   private activatedRoute = inject(ActivatedRoute);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   categorias!: CategoriaViewModel[];
   @Input() categoriaSelecionadaId: string | null = '';
-  @Output() filtrarPorCategoria = new EventEmitter<string | null>();
 
   get termo() {
     return this.activatedRoute.snapshot.queryParams['termo'] || null;
@@ -43,7 +44,20 @@ export class FiltroPorCategoria implements OnInit {
   }
 
   selecionarCategoria(id: string) {
-    this.categoriaSelecionadaId = this.categoriaSelecionadaId != id ? id : null;;
-    this.filtrarPorCategoria.emit(this.categoriaSelecionadaId);
+    let queryParams: any;
+
+    if (this.categoriaSelecionadaId === id) {
+      this.categoriaSelecionadaId = null;
+      queryParams = { categoriaId: null, pagina: 1 };
+    } else {
+      this.categoriaSelecionadaId = id;
+      queryParams = { categoriaId: id, pagina: 1 };
+    }
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge'
+    });
   }
 }

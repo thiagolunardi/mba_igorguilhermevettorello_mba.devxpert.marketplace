@@ -21,5 +21,6 @@ namespace MBA.Marketplace.MVC.ViewModels
         //[Required(ErrorMessage = "A Imagem é obrigatória.")]
         public IFormFile Imagem { get; set; }
         public string Src { get; set; }
+        public bool Ativo { get; set; }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using MBA.Marketplace.Business.Interfaces.Notifications;
 using MBA.Marketplace.Business.Interfaces.Repositories;
 using MBA.Marketplace.Business.Interfaces.Services;
-using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.Business.Notifications;
 using MBA.Marketplace.Business.Services;
 using MBA.Marketplace.Data.Context;
@@ -38,7 +37,6 @@ namespace MBA.Marketplace.MVC.Configurations
             service.AddScoped<ICategoriaService, CategoriaService>();
             service.AddScoped<IProdutoService, ProdutoService>();
             service.AddScoped<IVendedorService, VendedorService>();
-
         }
     }
 }

@@ -23,7 +23,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    app.UseDbMigrationHelper();
+    app.UseMigrationsAndSeedsConfig();
 }
 else
 {
@@ -31,11 +31,9 @@ else
 }
 
 app.UseHttpsRedirection();
-
+app.UseStaticFiles();
+app.UseAuthentication();
 app.UseAuthorization();
-
 app.UseCors("CorsPolicy");
-
 app.MapControllers();
-
 app.Run();

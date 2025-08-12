@@ -1,0 +1,6 @@
+<a [routerLink]="['/favoritos']" class="favorites-link">
+  <i class="bi bi-heart favorites-icon"></i>
+  <span class="favorites-text">Favoritos</span>
+  @if(quantidadeFavoritos> 0){
+  <span class="favorites-badge">{{ quantidadeFavoritos }}</span>}
+</a>

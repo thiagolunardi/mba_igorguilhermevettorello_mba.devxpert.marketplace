@@ -10,7 +10,8 @@ public static class DatabaseSelectorExtension
         if (builder.Environment.IsDevelopment())
         {
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionLite"))
+                options.EnableSensitiveDataLogging(builder.Environment.IsDevelopment())
+                       .UseSqlite(builder.Configuration.GetConnectionString("DefaultConnectionLite"))
             );
 
             builder.Services.AddDbContext<IdentityDbContext>(options =>

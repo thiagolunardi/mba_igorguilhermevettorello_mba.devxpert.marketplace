@@ -1,4 +1,224 @@
-﻿@{
+﻿@using MBA.Marketplace.MVC.ViewModels;
+@using MBA.Marketplace.Business.Enums
+@model AdminDashboardViewModel
+
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
-    ViewData["Title"] = "Painel Administrativo";
+    ViewData["Title"] = "Dashboard";
+
+    var userTipo = User.FindFirst("TipoUsuario")?.Value ?? "Cliente";
+    var isAdmin = userTipo == TipoUsuario.Administrador.ToString();
+    var isVendedor = userTipo == TipoUsuario.Vendedor.ToString();
 }
+
+<div class="row">
+    <div class="col-12">
+        <h2 class="admin-section-title">
+            <i class="bi bi-speedometer2 me-2"></i>
+            Dashboard
+        </h2>
+    </div>
+</div>
+
+<div class="row g-4 mb-4">
+    <!-- Card de Categorias -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-1">Categorias</h6>
+                        <h3 class="mb-0 fw-bold">@Model.TotalCategoria</h3>
+                        <small class="opacity-75">Total cadastradas</small>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-tags"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="@Url.Action("Index", "Categoria")" class="btn btn-sm btn-light w-100">
+                    <i class="bi bi-arrow-right me-1"></i>
+                    Ver Categorias
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card de Produtos -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-1">Produtos</h6>
+                        <h3 class="mb-0 fw-bold">@Model.TotalProdutos</h3>
+                        <small class="opacity-75">Total cadastrados</small>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-box-seam"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="@Url.Action("Index", "Produto")" class="btn btn-sm btn-light w-100">
+                    <i class="bi bi-arrow-right me-1"></i>
+                    Ver Produtos
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card de Vendedores -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-1">Vendedores</h6>
+                        <h3 class="mb-0 fw-bold">@Model.TotalVendedores</h3>
+                        <small class="opacity-75">Ativos no sistema</small>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-people"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+        
+                <a href="@Url.Action("Index", "Vendedor")" class="btn btn-sm btn-light w-100">
+                    <i class="bi bi-arrow-right me-1"></i>
+                    Ver Vendedores
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card de Vendas -->
+    <div class="col-md-6 col-lg-3">
+        <div class="card border-0 shadow-sm h-100" style="background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h6 class="card-title mb-1">Vendas</h6>
+                        <h3 class="mb-0 fw-bold">R$ 45.2k</h3>
+                        <small class="opacity-75">Este mês</small>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-graph-up"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer bg-transparent border-0">
+                <a href="#" class="btn btn-sm btn-light w-100">
+                    <i class="bi bi-arrow-right me-1"></i>
+                    Ver Relatórios
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row g-4">
+    <!-- Ações Rápidas -->
+    <div class="col-lg-8">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0">
+                <h5 class="card-title mb-0 text-dark">
+                    <i class="bi bi-lightning me-2"></i>
+                    Ações Rápidas
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <a href="@Url.Action("Criar", "Categoria")" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-start p-3">
+                            <i class="bi bi-plus-circle me-3 fs-4"></i>
+                            <div class="text-start">
+                                <div class="fw-bold">Nova Categoria</div>
+                                <small class="text-muted">Cadastrar categoria</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="@Url.Action("Criar", "Produto")" class="btn btn-outline-primary w-100 d-flex align-items-center justify-content-start p-3">
+                            <i class="bi bi-plus-circle me-3 fs-4"></i>
+                            <div class="text-start">
+                                <div class="fw-bold">Novo Produto</div>
+                                <small class="text-muted">Cadastrar produto</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="@Url.Action("Index", "Categoria")" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-start p-3">
+                            <i class="bi bi-list-ul me-3 fs-4"></i>
+                            <div class="text-start">
+                                <div class="fw-bold">Gerenciar Categorias</div>
+                                <small class="text-muted">Listar e editar</small>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-6">
+                        <a href="@Url.Action("Index", "Produto")" class="btn btn-outline-secondary w-100 d-flex align-items-center justify-content-start p-3">
+                            <i class="bi bi-box-seam me-3 fs-4"></i>
+                            <div class="text-start">
+                                <div class="fw-bold">Gerenciar Produtos</div>
+                                <small class="text-muted">Listar e editar</small>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informações do Sistema -->
+    <div class="col-lg-4">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-transparent border-0">
+                <h5 class="card-title mb-0 text-dark">
+                    <i class="bi bi-info-circle me-2"></i>
+                    Informações do Sistema
+                </h5>
+            </div>
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-success rounded-circle p-2 me-3">
+                        <i class="bi bi-check-circle text-white"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">Sistema Online</div>
+                        <small class="text-muted">Tudo funcionando</small>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-primary rounded-circle p-2 me-3">
+                        <i class="bi bi-database text-white"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">Banco de Dados</div>
+                        <small class="text-muted">Conectado</small>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center mb-3">
+                    <div class="bg-warning rounded-circle p-2 me-3">
+                        <i class="bi bi-clock text-white"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">Última Atualização</div>
+                        <small class="text-muted">Há 5 minutos</small>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center">
+                    <div class="bg-info rounded-circle p-2 me-3">
+                        <i class="bi bi-person text-white"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold">Usuário Atual</div>
+                        <small class="text-muted">@(User.FindFirst(System.Security.Claims.ClaimTypes.Name)?.Value ?? "Usuário")</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

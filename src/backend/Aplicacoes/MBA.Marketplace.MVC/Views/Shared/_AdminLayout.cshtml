@@ -1,4 +1,16 @@
-﻿@RenderSection("Styles", required: false)
+﻿@using MBA.Marketplace.Business.Enums
+@using System.Security.Claims
+@RenderSection("Styles", required: false)
+@{
+    var isAdmin = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+    var isVendedor = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value == TipoUsuario.Vendedor.ToString();
+    var userTipo = TipoUsuario.Vendedor.ToString();
+    if (isAdmin)
+    { 
+        userTipo = TipoUsuario.Administrador.ToString();
+    }
+}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -6,61 +18,191 @@
     <title>@ViewData["Title"] - Admin</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <div class="d-flex">
+    <div class="admin-layout d-flex">
         <!-- Sidebar -->
-        <!-- Sidebar refinado -->
-        <nav class="bg-light border-end px-3 py-4" style="width: 240px; min-height: 100vh;">
-            <h6 class="text-muted mb-4">Painel Admin</h6>
+        <nav class="admin-sidebar d-flex flex-column">
+            <!-- Logo Section -->
+            <div class="p-4 border-bottom">
+                <div class="admin-logo">
+                    <i class="bi bi-shop me-2"></i>
+                    Marketplace
+                </div>
+            </div>
 
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center text-dark rounded small px-2 py-2 hover-menu" href="@Url.Action("index", "home")">
-                        <i class="bi bi-square me-2"></i> Página inicial
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center text-dark rounded small px-2 py-2 hover-menu" href="@Url.Action("criar", "categoria")">
-                        <i class="bi bi-plus-square me-2"></i> Cadastrar Categoria
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center text-dark rounded small px-2 py-2 hover-menu" href="@Url.Action("index", "categoria")">
-                        <i class="bi bi-list-ul me-2"></i> Listar Categorias
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link d-flex align-items-center text-dark rounded small px-2 py-2 hover-menu" href="@Url.Action("criar", "produto")">
-                        <i class="bi bi-plus-square me-2"></i> Cadastrar Produto
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link d-flex align-items-center text-dark rounded small px-2 py-2 hover-menu" href="@Url.Action("index", "produto")">
-                        <i class="bi bi-list-ul me-2"></i> Listar Produtos
-                    </a>
-                </li>
-                <li class="nav-item mt-3">
-                    <a class="nav-link d-flex align-items-center text-danger rounded small px-2 py-2" href="@Url.Action("logout", "login")">
-                        <i class="bi bi-box-arrow-right me-2"></i> Sair
-                    </a>
-                </li>
-            </ul>
+            <!-- Menu Section -->
+            <div class="flex-grow-1 p-3">
+                <!-- Dashboard -->
+                <div class="admin-menu-section">
+                    <div class="admin-menu-section-title">Dashboard</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Admin" ? "active" : "")" 
+                            href="@Url.Action("Index", "Admin")">
+                                <i class="bi bi-speedometer2 admin-menu-icon"></i>
+                                Dashboard
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Categorias -->
+                <div class="admin-menu-section">
+                    <div class="admin-menu-section-title">Categorias</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
+                            href="@Url.Action("Index", "Categoria")">
+                                <i class="bi bi-list-ul admin-menu-icon"></i>
+                                Listar Categorias
+                            </a>
+                        </li>
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Categoria" ? "active" : "")" 
+                                href="@Url.Action("Criar", "Categoria")">
+                                    <i class="bi bi-plus-circle admin-menu-icon"></i>
+                                    Cadastrar Categoria
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                <!-- Produtos -->
+                <div class="admin-menu-section">
+                    <div class="admin-menu-section-title">Produtos</div>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")" 
+                            href="@Url.Action("Index", "Produto")">
+                                <i class="bi bi-box-seam admin-menu-icon"></i>
+                                Listar Produtos
+                            </a>
+                        </li>
+                        @if (isVendedor)
+                        { 
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Criar" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Produto" ? "active" : "")"
+                                href="@Url.Action("Criar", "Produto")">
+                                    <i class="bi bi-plus-circle admin-menu-icon"></i>
+                                    Cadastrar Produto
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+                @if (isAdmin) 
+                {
+                    <!-- Vendedores -->
+                    <div class="admin-menu-section">
+                        <div class="admin-menu-section-title">Vendedores</div>
+                        <ul class="nav flex-column">
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["Action"]?.ToString() == "Index" && ViewContext.RouteData.Values["Controller"]?.ToString() == "Vendedor" ? "active" : "")"
+                                   href="@Url.Action("Index", "Vendedor")">
+                                    <i class="bi bi-box-seam admin-menu-icon"></i>
+                                    Listar Vendedores
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                }
+                
+                <!-- Configurações -->
+                <div class="admin-menu-divider"></div>
+                <div class="admin-menu-section">
+                    <div class="admin-menu-section-title">Configurações</div>
+                    <ul class="nav flex-column">
+                        @if (isVendedor)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 @(ViewContext.RouteData.Values["page"]?.ToString()?.Contains("Manage") == true ? "active" : "")" asp-area="Identity" asp-page="/Account/Manage/Index">
+                                    <i class="bi bi-person admin-menu-icon"></i>
+                                    Perfil
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/Email">
+                                    <i class="bi bi-envelope admin-menu-icon"></i>
+                                    Email
+                                </a>
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/ChangePassword">
+                                <i class="bi bi-key admin-menu-icon"></i>
+                                Senha
+                            </a>
+                        </li>
+                        @*                      
+                        <li class="nav-item">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/TwoFactorAuthentication">
+                                <i class="bi bi-shield-lock admin-menu-icon"></i>
+                                Autenticação de Dois Fatores
+                            </a>
+                        </li> 
+                        *@
+                        <li class="nav-item">
+                            <a class="nav-link admin-menu-item d-flex align-items-center px-3 py-2" asp-area="Identity" asp-page="/Account/Manage/PersonalData">
+                                <i class="bi bi-file-earmark-text admin-menu-icon"></i>
+                                Dados Pessoais
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Sair -->
+                <div class="admin-menu-divider"></div>
+                <div class="admin-menu-section">
+                    <ul class="nav flex-column">
+                        <li class="nav-item">
+                            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                                <button type="submit" class="nav-link admin-menu-item d-flex align-items-center px-3 py-2 text-danger border-0 bg-transparent w-100">
+                                    <i class="bi bi-box-arrow-right admin-menu-icon"></i>
+                                    Sair
+                                </button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="p-3 border-top">
+                <vc:area-usuario mostrar-tipo-usuario="true" />
+            </div>
         </nav>
 
+        
+        <div class="flex-grow-1 d-flex flex-column">
+            <!-- Top Bar -->
+            <header class="admin-topbar d-flex align-items-center justify-content-between px-4">
+                <div class="d-flex align-items-center">
+                    <h4 class="mb-0 text-dark">@ViewData["Title"]</h4>
+                </div>
+                
+                <div class="d-flex align-items-center">
+                    <vc:area-usuario mostrar-tipo-usuario="false"/>
+                </div>
+            </header>
 
-        <!-- Conteúdo principal -->
-        <main class="p-4 flex-grow-1">
-            <h4>@ViewData["Title"]</h4>
-            <hr />
-            @RenderBody()
-        </main>
+            <main class="admin-content flex-grow-1">
+                @RenderBody()
+            </main>
+        </div>
     </div>
 
+    <partial name="_ModalLayout" />
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-maskmoney@3.0.2/dist/jquery.maskMoney.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-mask-plugin@1.14.16/dist/jquery.mask.min.js"></script>
+    <script src="~/js/masks.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

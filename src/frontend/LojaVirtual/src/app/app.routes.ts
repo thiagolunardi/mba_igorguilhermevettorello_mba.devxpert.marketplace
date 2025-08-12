@@ -1,59 +1,75 @@
 import { Routes } from '@angular/router';
 import { Home } from './pages/public/home/home';
 import { NaoEncontrado } from './pages/public/nao-encontrado/nao-encontrado';
-import { Favoritos } from './pages/public/favoritos/favoritos';
-import { ProdutoComponent } from './pages/public/produto/produto';
-import { VendedorComponent } from './pages/public/vendedor/vendedor';
+import { ProdutoDetalhesComponent } from './pages/public/produto-detalhes/produto-detalhes';
+import { Vendedor } from './pages/public/vendedor/vendedor';
 import { PesquisaProdutos } from './pages/public/pesquisa-produtos/pesquisa-produtos';
 import { Erro } from './pages/public/erro/erro';
+import { Login } from './pages/public/autenticacao/login/login';
+import { Register } from './pages/public/autenticacao/register/register';
+import { MainLayout } from './layout/main-layout/main-layout';
+import { AuthLayout } from './layout/auth-layout/auth-layout';
+import { guestGuard } from './guards/guest.guard';
+import { authGuard } from './guards/auth.guard';
+import { Favoritos } from './pages/private/favoritos/favoritos';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: '/home',
-    pathMatch: 'full'
+    component: MainLayout,
+    children: [
+      {
+        path: '',
+        redirectTo: '/home',
+        pathMatch: 'full'
+      },
+      {
+        path: 'home',
+        component: Home,
+        data: { breadcrumb: 'Início' }
+      },
+      {
+        path: 'favoritos',
+        component: Favoritos,
+        canActivate: [authGuard],
+        data: { breadcrumb: 'Favoritos' }
+      },
+      {
+        path: 'pesquisa',
+        component: PesquisaProdutos,
+        data: { breadcrumb: 'Pesquisa de Produtos' }
+      },
+      {
+        path: 'produto/:id',
+        component: ProdutoDetalhesComponent,
+        data: { breadcrumb: 'Detalhes do Produto' }
+      },
+      {
+        path: 'vendedor/:id',
+        component: Vendedor,
+        data: { breadcrumb: 'Vendedor' }
+      },
+      {
+        path: 'erro',
+        component: Erro,
+        data: { breadcrumb: 'Erro' }
+      }
+    ]
   },
+
   {
-    path: 'home',
-    component: Home,
-    data: { breadcrumb: 'Início' }
+    path: '',
+    component: AuthLayout,
+    canActivate: [guestGuard],
+    children: [
+      { path: 'login', component: Login },
+      { path: 'cadastro', component: Register },
+    ]
   },
-  {
-    path: 'favoritos',
-    component: Favoritos,
-    data: { breadcrumb: 'Favoritos' }
-  },
-  {
-    path: 'pesquisa',
-    component: PesquisaProdutos,
-    data: { breadcrumb: 'Pesquisa de Produtos' }
-  },
-  {
-    path: 'produto/:id',
-    component: ProdutoComponent,
-    data: { breadcrumb: 'Detalhes do Produto' }
-  },
-  {
-    path: 'Vendedor',
-    component: VendedorComponent,
-    data: { breadcrumb: 'Vendedor' }
-  },
-  // {
-  //   path: 'login',
-  //   component: Login
-  // },
-  // {
-  //   path: 'register',
-  //   component: Register
-  // },
-  {
-    path: 'erro',
-    component: Erro,
-    data: { breadcrumb: 'Erro' }
-  },
+
   {
     path: '**',
     component: NaoEncontrado,
     data: { breadcrumb: 'Página não Encontrada' }
   }
-];
+]

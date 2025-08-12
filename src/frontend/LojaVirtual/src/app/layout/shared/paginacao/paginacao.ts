@@ -1,0 +1,68 @@
+import { Component, inject, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Observable } from 'rxjs';
+import { NotificacaoService } from '../../../services/notificacao.service';
+import { ListaPaginada } from '../../../viewmodels/shared/lista-paginada.viewmodel';
+import { ActivatedRoute, Router } from '@angular/router';
+
+
+@Component({
+  selector: 'app-paginacao',
+  imports: [],
+  templateUrl: './paginacao.html',
+  styles: ``
+})
+export class Paginacao implements OnInit, OnChanges {
+  notificacaoService = inject(NotificacaoService);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
+  paginacao!: ListaPaginada<any> | null;
+  @Input() listaPaginada$!: Observable<ListaPaginada<any> | null>;
+
+  ngOnInit(): void {
+    this.carregarPaginacao();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['listaPaginada$'] && !changes['listaPaginada$'].firstChange) {
+      this.carregarPaginacao();
+    }
+  }
+
+
+  get habilitarPrimeraPagina(): boolean {
+    return this.paginacao ? this.paginacao.paginaAtual > 1 : false;
+  }
+
+  get habilitarUltimaPagina(): boolean {
+    return this.paginacao ? this.paginacao.temProximaPagina : false;
+  }
+
+  get proximaPagina(): number | null {
+    return this.paginacao && this.paginacao.temProximaPagina ? this.paginacao.paginaAtual + 1 : null;
+  }
+
+  get paginaAnterior(): number | null {
+    return this.paginacao && this.paginacao.temPaginaAnterior ? this.paginacao.paginaAtual - 1 : null;
+  }
+
+  carregarPaginacao() {
+    this.listaPaginada$.subscribe({
+      next: (resposta) => {
+        this.paginacao = resposta;
+      },
+      error: (err) => {
+        this.notificacaoService.exibir('Erro ao carregar a paginação!');
+      },
+      complete: () => { }
+    });
+  }
+
+  navegarParaPagina(numeroDaPagina: number | null) {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { pagina: numeroDaPagina },
+      queryParamsHandling: 'merge',
+    });
+  }
+}

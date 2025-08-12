@@ -5,47 +5,25 @@
 @inject UserManager<IdentityUser> UserManager
 @inject ApplicationDbContext context
 
-@if (SignInManager.IsSignedIn(User))
+@if (!Model.MostrarTipoUsuario)
 {
-    @*  <div class="dropdown">
-        <a href="" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-            Menu &nbsp; <i class="bi bi-person-circle fs-4 me-1"></i>
-        </a>
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-            <li><a class="dropdown-item" asp-action="index" asp-controller="admin">Área administrativa</a></li>
-            <li><a class="dropdown-item" href="@Url.Action("logout", "login")">Sair</a></li>
-        </ul>
-    </div> *@
-    var userData = await UserManager.GetUserAsync(User);
-    var vendedor = await context.Vendedores.FindAsync(userData.Id);
-
-    <div class="dropdown">
-        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownUser">
-            <li class="nav-item">
-                <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Ola! @vendedor!.Nome</a>
-            </li>
-            <li class="nav-item">
-                <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    <button type="submit" class="nav-link btn btn-link text-dark">Logout</button>
-                </form>
-            </li>
-        </ul>
+    <div class="d-flex align-items-center">
+        <div class="admin-user-avatar me-2">
+            @(@Model.Nome.Substring(0, 1).ToUpper() ?? "U")
+        </div>
+        <span class="admin-user-info">@Model.Nome</span>
     </div>
 }
-else
-{
-     @* <div>
-        <a asp-action="index" asp-controller="login" class="d-flex align-items-center text-white text-decoration-none">
-            Login &nbsp; <i class="bi bi-person-circle fs-4 me-1"></i>
-        </a>
-    </div> *@
 
-    <div>
-        <li class="nav-item">
-            <a class="d-flex align-items-center text-white text-decoration-none" asp-area="Identity" asp-page="/Account/Register">Registrar-se</a>
-        </li>
-        <li class="nav-item">
-            <a class="d-flex align-items-center text-white text-decoration-none" asp-area="Identity" asp-page="/Account/Login">Logar-se</a>
-        </li>
+@if (Model.MostrarTipoUsuario)
+{
+    <div class="d-flex align-items-center">
+        <div class="admin-user-avatar me-3">
+            @(@Model.Nome.Substring(0, 1).ToUpper() ?? "U")
+        </div>
+        <div class="flex-grow-1">
+            <div class="fw-bold text-dark">@Model.Nome</div>
+            <small class="text-muted">@Model.TipoUsuario</small>
+        </div>
     </div>
 }

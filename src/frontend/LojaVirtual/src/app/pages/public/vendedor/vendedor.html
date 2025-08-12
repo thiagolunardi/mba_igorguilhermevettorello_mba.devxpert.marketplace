@@ -1,1 +1,12 @@
-<p>vendedor works!</p>
+<div class="container">
+  <!-- dados do vendedor -->
+  <div>
+    <h2>Loja do Vendedor: {{ vendedor?.nome }}</h2>
+    <p>Registrado em: {{ vendedor?.createdAt | date:'dd/MM/yyyy' }} </p>
+    <p>Email: {{ vendedor?.email }}</p>
+  </div>
+
+  <!-- lista de produtos -->
+  <app-lista-de-produtos-do-vendedor [listaDeProdutos$]="listaPaginada$"></app-lista-de-produtos-do-vendedor>
+  <app-paginacao [listaPaginada$]="listaPaginada$"></app-paginacao>
+</div>

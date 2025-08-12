@@ -33,6 +33,7 @@ namespace MBA.Marketplace.Data.Repositories
                         .ToListAsync();
             }
         }
+
         public async Task<IEnumerable<Produto>> ListarProdutosPorCategoriaOuNomeDescricaoAsync(Guid? categoriaId, string descricao)
         {
             var query = _context.Produtos.AsQueryable();
@@ -49,10 +50,13 @@ namespace MBA.Marketplace.Data.Repositories
 
             return await query.ToListAsync();
         }
+
         public async Task<ListaPaginada<Produto>> PesquisarAsync(PesquisaDeProdutos parametros)
         {
             var query = _context.Produtos
                 .Include(p => p.Categoria)
+                .Include(p => p.Vendedor)
+                .Where(p => p.Ativo == true)
                 .AsNoTracking()
                 .AsQueryable();
 
@@ -68,6 +72,11 @@ namespace MBA.Marketplace.Data.Repositories
             if (parametros.CategoriaId != null)
             {
                 query = query.Where(p => p.CategoriaId == parametros.CategoriaId);
+            }
+
+            if (parametros.VendedorId != null)
+            {
+                query = query.Where(p => p.VendedorId == parametros.VendedorId);
             }
 
             //Ordenação dinâmica
@@ -95,6 +104,7 @@ namespace MBA.Marketplace.Data.Repositories
 
             return await ListaPaginada<Produto>.ListarAsync(query, parametros.NumeroDaPagina, parametros.TamanhoDaPagina);
         }
+
         public async Task<IEnumerable<Produto>> ListarPorVendedorIdAsync(Vendedor vendedor)
         {
             return await _context
@@ -104,6 +114,7 @@ namespace MBA.Marketplace.Data.Repositories
                 .Where(p => p.VendedorId == vendedor.Id)
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<Produto>> ListarAsync()
         {
             return await _context
@@ -112,18 +123,34 @@ namespace MBA.Marketplace.Data.Repositories
                     .Include(p => p.Vendedor)
                     .ToListAsync();
         }
+
         public async Task<Produto> CriarAsync(Produto produto)
         {
             _context.Produtos.Add(produto);
             await _context.SaveChangesAsync();
             return produto;
         }
+
         public async Task<bool> AtualizarAsync(Produto produto)
         {
             _context.Produtos.Update(produto);
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<bool> AtualizarAsync(IEnumerable<Produto> produtos)
+        {
+            if (produtos == null || !produtos.Any())
+                return false;
+
+            foreach (var produto in produtos)
+            {
+                _context.Produtos.Update(produto);
+            }
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
         public async Task<Produto> ObterPorIdAsync(Guid id)
         {
             return await _context
@@ -133,6 +160,16 @@ namespace MBA.Marketplace.Data.Repositories
                 .Where(p => p.Id == id)
                 .FirstOrDefaultAsync();
         }
+        public async Task<Produto?> ObterProdutoAtivoPorIdAsync(Guid id)
+        {
+            return await _context
+                .Produtos
+                .Include(p => p.Categoria)
+                .Include(p => p.Vendedor)
+                .Where(p => p.Id == id && p.Ativo == true)
+                .FirstOrDefaultAsync();
+        }
+
         public async Task<bool> RemoverAsync(Produto produto)
         {
             _context.Produtos.Remove(produto);
@@ -143,5 +180,23 @@ namespace MBA.Marketplace.Data.Repositories
         {
             return await _context.Produtos.Where(p => p.Id == id && p.VendedorId == vendedor.Id).FirstOrDefaultAsync();
         }
+        public async Task<IEnumerable<Produto>> ObterItensEmDestaque(string? ordenarPor, int? limit)
+        {
+            var query = _context.Produtos
+                                .Include(p => p.Categoria)
+                                .Include(p => p.Vendedor)
+                                .Where(p => p.Ativo == true)
+                                .AsQueryable();
+
+            query = query.OrderByDescending(p => p.CreatedAt);
+
+            if (limit.HasValue)
+            {
+                query = query.Take(limit.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
     }
 }

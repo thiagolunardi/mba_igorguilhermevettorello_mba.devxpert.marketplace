@@ -1,0 +1,113 @@
+<div class="register-page">
+  <div class="register-container">
+    <div class="register-header">
+      <i class="bi bi-person-plus"></i>
+      <h4>Criar Conta</h4>
+    </div>
+
+    <div class="register-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Nome -->
+        <div class="form-floating">
+          <input id="nome" type="text" formControlName="nome" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.nome.invalid && f.nome.touched }" autocomplete="name"
+            aria-required="true" placeholder="Seu nome completo">
+          <label for="nome">Nome</label>
+          @if(f.nome.errors && f.nome.errors['required'] && f.nome.touched){
+          <span class="text-danger">Nome é obrigatório.</span>
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="form-floating">
+          <input id="email" type="email" formControlName="email" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.email.invalid && f.email.touched }" autocomplete="username"
+            aria-required="true" placeholder="name@example.com">
+          <label for="email">Email</label>
+          @if(f.email.errors && f.email.errors['required'] && f.email.touched){
+          <span class="text-danger">Email é obrigatório.</span>
+          }
+          @if(f.email.errors && f.email.errors['email'] && f.email.touched){
+          <span class="text-danger">Email inválido.</span>
+          }
+        </div>
+
+        <!-- Senha -->
+        <div class="form-floating">
+          <input id="senha" type="password" formControlName="senha" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.senha.invalid && f.senha.touched }" autocomplete="new-password"
+            aria-required="true" placeholder="password">
+          <label for="senha">Senha</label>
+          @if (f.senha.touched && f.senha.invalid) {
+          <span class="text-danger">
+            @if (f.senha.errors?.['required']) {
+            Senha é obrigatória.
+            } @else if (f.senha.errors?.['minLength']) {
+            A senha deve ter no mínimo 6 caracteres.
+            } @else if (f.senha.errors?.['maiuscula']) {
+            A senha deve conter pelo menos uma letra maiúscula.
+            } @else if (f.senha.errors?.['numero']) {
+            A senha deve conter pelo menos um número.
+            } @else if (f.senha.errors?.['caractereEspecial']) {
+            A senha deve conter pelo menos um caractere especial (ex: #, !).
+            }
+          </span>
+          }
+        </div>
+
+        <!-- Requisitos da senha -->
+        <div class="password-requirements">
+          <h6><i class="bi bi-shield-check me-2"></i>Requisitos da senha:</h6>
+          <ul>
+            <li>Mínimo de 6 caracteres</li>
+            <li>Pelo menos uma letra maiúscula</li>
+            <li>Pelo menos uma letra minúscula</li>
+            <li>Pelo menos um número</li>
+            <li>Pelo menos um caractere especial</li>
+          </ul>
+        </div>
+
+        <!-- Confirmação de Senha -->
+        <div class="form-floating">
+          <input id="confirmacaoSenha" type="password" formControlName="confirmacaoSenha" class="form-control"
+            [ngClass]="{ 'input-validation-error': (f.confirmacaoSenha.touched && form.hasError('senhasDiferentes')) }"
+            autocomplete="new-password" aria-required="true" placeholder="password">
+          <label for="confirmacaoSenha">Confirmar Senha</label>
+          @if(form.hasError('senhasDiferentes') && f.confirmacaoSenha.touched){
+          <span class="text-danger">As senhas não coincidem.</span>
+          }
+        </div>
+
+        <!-- Erro geral -->
+        @if(error){
+        <div class="validation-summary-errors" role="alert">{{ error }}</div>
+        }
+
+        <!-- Botão -->
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
+            @if(!loading){
+            <i class="bi bi-person-plus me-2"></i> Criar Conta
+            } @else {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Criando conta...
+            }
+          </button>
+        </div>
+      </form>
+
+      <div class="links-section">
+        <a [routerLink]="['/login']" class="link-item">
+          <i class="bi bi-person-circle"></i>
+          <span>Já tem uma conta? Faça login</span>
+        </a>
+
+        <!-- <a routerLink="/esqueci-senha" class="link-item">
+          <i class="bi bi-question-circle"></i>
+          <span>Esqueceu a senha?</span>
+        </a> -->
+      </div>
+    </div>
+  </div>
+</div>

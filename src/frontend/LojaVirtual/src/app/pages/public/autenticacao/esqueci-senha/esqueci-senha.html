@@ -1,0 +1,71 @@
+<div class="forgot-password-page">
+  <div class="forgot-password-container">
+    <div class="forgot-password-header">
+      <i class="bi bi-key"></i>
+      <h4>Redefinir Senha</h4>
+    </div>
+    
+    <div class="forgot-password-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+        
+        @if (error) {
+        <div class="validation-summary-errors" role="alert">{{ error }}</div>
+        }
+
+        @if (success) {
+        <div class="success-message">
+          <i class="bi bi-check-circle check-icon"></i>
+          <h5>Verifique seu email</h5>
+          <p class="mb-0">{{ success }}</p>
+        </div>
+        }
+
+        <p class="description-text">
+          Digite seu endereço de email e enviaremos um link para redefinir sua senha.
+        </p>
+
+        <!-- Email -->
+        <div class="form-floating">
+          <input id="email" type="email" formControlName="email" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.email.invalid && f.email.touched }"
+            autocomplete="username" aria-required="true" placeholder="name@example.com">
+          <label for="email">Email</label>
+          @if (f.email.touched && f.email.invalid) {
+          <span class="text-danger">
+            @if (f.email.errors?.['required']) {
+            Email é obrigatório.
+            } @else if (f.email.errors?.['email']) {
+            Email inválido.
+            }
+          </span>
+          }
+        </div>
+
+        <!-- Botão -->
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary"
+            [disabled]="form.invalid || loading">
+            @if(!loading){
+            <i class="bi bi-envelope-paper me-2"></i> Enviar Link de Redefinição
+            } @else {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Enviando...
+            }
+          </button>
+        </div>
+      </form>
+
+      <div class="links-section">
+        <a routerLink="/login" class="link-item">
+          <i class="bi bi-arrow-left"></i>
+          <span>Voltar para o Login</span>
+        </a>
+        
+        <a routerLink="/register" class="link-item">
+          <i class="bi bi-person-plus"></i>
+          <span>Criar nova conta</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div> 

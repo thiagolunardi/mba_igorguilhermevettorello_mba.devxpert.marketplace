@@ -1,4 +1,5 @@
 ﻿using MBA.Marketplace.Business.Interfaces.Identity;
+using MBA.Marketplace.Business.Extensions;
 using System.Security.Claims;
 
 namespace MBA.Marketplace.API.Extensions
@@ -16,7 +17,7 @@ namespace MBA.Marketplace.API.Extensions
 
         public Guid GetUserId()
         {
-            return IsAuthenticated() ? Guid.Parse(_accessor.HttpContext.User.GetUserId()) : Guid.Empty;
+            return IsAuthenticated() ? _accessor.HttpContext.User.GetUserId().NormalizeGuid() : Guid.Empty;
         }
 
         public string GetUserEmail()

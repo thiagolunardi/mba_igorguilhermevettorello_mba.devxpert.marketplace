@@ -1,0 +1,15 @@
+@if (produto$ | async; as produto) {
+
+  @if (produto) {
+    <app-info-produto [produto]="produto"></app-info-produto>
+  } @else {
+    <div class="container text-center p-5">
+      <h1>Produto Não Encontrado</h1>
+      <p>O produto que você procura não existe ou foi removido.</p>
+      <a routerLink="/" class="btn btn-primary">Voltar para a Home</a>
+    </div>
+  }
+
+} @else {
+  <p class="text-center p-5">A carregar detalhes do produto...</p>
+}

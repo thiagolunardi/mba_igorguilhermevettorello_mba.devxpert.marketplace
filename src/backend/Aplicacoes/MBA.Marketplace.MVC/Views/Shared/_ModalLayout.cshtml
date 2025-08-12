@@ -1,0 +1,356 @@
+﻿<!-- modal categoria -->
+<div class="modal fade show" id="modalSucessoCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-success fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Cadastro realizado
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Sua categoria foi criada com sucesso.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-success btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroCadastroCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-exclamation-circle me-2"></i> Falha ao realizar o cadastro
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Ocorreu um erro ao realizar o cadastro de categoria. Tente novamente mais tarde!
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmarRemoverCategoria" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm">
+            <div class="modal-header bg-warning-subtle border-0">
+                <h5 class="modal-title" id="confirmarLabel">Confirmar remoção</h5>
+            </div>
+            <div class="modal-body">
+                Tem certeza que deseja remover esta categoria?
+                <div id="spinner" class="text-center mt-3 d-none">
+                    <div class="spinner-border text-warning" role="status"></div>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Não</button>
+                <button type="button" id="btnConfirmarRemocao" onclick="confirmacaoDeletarCategoria(this, event)" class="btn btn-outline-aplication btn-sm">Sim</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalResultadoRemoverCategoria" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm">
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title" id="resultadoTitulo">Resultado</h5>
+            </div>
+            <div class="modal-body text-secondary small" id="resultadoMensagem"></div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success btn-sm btn-modal-ajax" data-bs-dismiss="modal" onclick="location.reload()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalSucessoEditarCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-success fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Edição realizada
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Sua categoria foi editada com sucesso.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-success btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroEditarCategoria" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Falha ao realizar atualização
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Ocorreu um erro ao realizar a atualização da categoria. Tente novamente mais tarde!
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalCategoriaNaoEncontrado" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-x-circle me-2"></i> Falha ao localizar categoria
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Categoria não encontrada.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "categoria")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- modal produto -->
+<div class="modal fade show" id="modalSucessoCadastroProduto" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-success fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Cadastro realizado
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Seu produto foi criado com sucesso.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "produto")" class="btn btn-success btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroCadastroProduto" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-x-circle me-2"></i> Falha ao realizar o cadastro
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Ocorreu um erro ao realizar o cadastro de produto. Tente novamente mais tarde!
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "produto")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalSucessoEditarProduto" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-success fw-semibold">
+                    <i class="bi bi-check-circle me-2"></i> Atualização
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Seu produto foi atualizado com sucesso.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "produto")" class="btn btn-success btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroEditarProduto" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-x-circle me-2"></i> Falha ao realizar atualização
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Ocorreu um erro ao realizar a atualização do produto. Tente novamente mais tarde!
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "produto")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade show" id="modalErroEncontrarProduto" tabindex="-1" aria-modal="true" role="dialog" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title text-danger fw-semibold">
+                    <i class="bi bi-x-circle me-2"></i> Falha ao localizar produto
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                Produto não encontrada.
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "produto")" class="btn btn-danger btn-sm px-4">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalConfirmarProduto" tabindex="-1" aria-labelledby="confirmarProdutoLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0">
+            <div class="modal-header bg-warning-subtle border-0">
+                <h5 class="modal-title d-flex align-items-center" id="confirmarProdutoLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    <span id="tituloConfirmacaProduto"></span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <p class="mb-3" id="mensagemConfirmacaProduto"></p>
+                <div id="spinnerProduto" class="text-center mt-3 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Processando...</span>
+                    </div>
+                    <p class="text-muted mt-2 small">Processando alteração...</p>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cancelar
+                </button>
+                <button type="button" id="btnConfirmarAcaoProduto" class="btn btn-outline-aplication btn-sm">
+                    <i class="bi bi-check-lg me-1"></i>Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalProdutoResultado" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm">
+            <div class="modal-header bg-light border-0">
+                <h5 class="modal-title" id="resultadoTitulo">Resultado</h5>
+            </div>
+            <div class="modal-body" id="resultadoMensagem"></div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-success btn-sm" data-bs-dismiss="modal" onclick="location.reload()">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- vendedor -->
+<div class="modal fade" id="modalConfirmarAtivarInativarVendedor" tabindex="-1" aria-labelledby="confirmarLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0">
+            <div class="modal-header bg-warning-subtle border-0">
+                <h5 class="modal-title d-flex align-items-center" id="confirmarLabel">
+                    <i class="bi bi-exclamation-triangle-fill text-warning me-2"></i>
+                    <span id="tituloConfirmacao">Confirmar alteração</span>
+                </h5>
+            </div>
+            <div class="modal-body">
+                <p class="mb-3" id="mensagemConfirmacao">Tem certeza que deseja alterar o status deste vendedor?</p>
+                <div id="spinner" class="text-center mt-3 d-none">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Processando...</span>
+                    </div>
+                    <p class="text-muted mt-2 small">Processando alteração...</p>
+                </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">
+                    <i class="bi bi-x-lg me-1"></i>Cancelar
+                </button>
+                <button type="button" id="btnConfirmarAcaoVendedor" class="btn btn-outline-aplication btn-sm">
+                    <i class="bi bi-check-lg me-1"></i>Confirmar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalResultadoAtivarInativarVendedor" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0 rounded-3">
+            <div class="modal-header bg-light border-0 rounded-top-3">
+                <h5 class="modal-title fw-semibold" id="headerResultadoVendedor">
+                    <span id="iconeResultadoVendedor"></span>
+                    <span id="tituloResultadoVendedor">Resultado</span>
+                </h5>
+            </div>
+            <div class="modal-body text-secondary small">
+                <div id="iconePrincipalVendedor" class="mb-3"></div>
+                <div id="resultadoMensagemVendedor" class="mb-3"></div>
+            </div>
+            <div class="modal-footer bg-light border-0 rounded-bottom-3">
+                <a href="@Url.Action("index", "vendedor")" id="modalBtnResultadoVendedor" class="btn btn-outline-aplication btn-sm">
+                    Ok
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalResultadoProduto" tabindex="-1" aria-hidden="true" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-sm border-0">
+            <div class="modal-header border-0" id="headerResultadoProduto">
+                <h5 class="modal-title d-flex align-items-center" id="resultadoTituloProduto">
+                    <span id="iconeResultadoProduto"></span>
+                    <span id="tituloResultadoProduto">Resultado</span>
+                </h5>
+            </div>
+            <div class="modal-body text-center py-4">
+                <div class="mb-3" id="iconePrincipalProduto"></div>
+                <div id="resultadoMensagemProduto" class="mb-3"></div>
+            </div>
+            <div class="modal-footer border-0 justify-content-center">
+                <button type="button" id="modalBtnResultadoProduto" class="btn btn-outline-danger btn-sm px-4" data-bs-dismiss="modal" onclick="location.reload()">
+                    <i class="bi bi-arrow-clockwise me-1"></i>Ok
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+

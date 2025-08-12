@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using Humanizer;
 using MBA.Marketplace.Business.DTOs;
+using MBA.Marketplace.Business.Enums;
 using MBA.Marketplace.Business.Interfaces.Services;
 using MBA.Marketplace.Business.Models;
 using MBA.Marketplace.MVC.ViewModels;
@@ -11,21 +13,31 @@ using System.Security.Claims;
 namespace MBA.Marketplace.MVC.Controllers
 {
     [Route("produto")]
+    [Authorize]
     public class ProdutoController : Controller
     {
+        private readonly IConfiguration _config;
         private readonly ICategoriaService _categoriaService;
         private readonly IProdutoService _produtoService;
         private readonly IVendedorService _vendedorService;
         private readonly ILogger<ProdutoController> _logger;
         private readonly IMapper _mapper;
-        public ProdutoController(ICategoriaService categoriaService, IProdutoService produtoService, IVendedorService vendedorService, ILogger<ProdutoController> logger, IMapper mapper)
+
+        public ProdutoController(IConfiguration config,
+            ICategoriaService categoriaService,
+            IProdutoService produtoService,
+            IVendedorService vendedorService,
+            ILogger<ProdutoController> logger,
+            IMapper mapper)
         {
+            _config = config;
             _categoriaService = categoriaService;
             _produtoService = produtoService;
             _vendedorService = vendedorService;
             _logger = logger;
             _mapper = mapper;
         }
+
         private async Task<SelectList> BuscarCategorias()
         {
             var select = new SelectList(Enumerable.Empty<SelectListItem>());
@@ -37,6 +49,7 @@ namespace MBA.Marketplace.MVC.Controllers
             }
             return select;
         }
+
         private async Task<Vendedor> BuscarVendedorLogado()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -46,25 +59,46 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return vendedor;
         }
+
+        private async Task<bool> IsAdmin()
+        {
+            return User.FindFirst(ClaimTypes.Role)?.Value == TipoUsuario.Administrador.ToString();
+        }
+
         [HttpGet]
+        [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Index()
         {
-            var vendedor = await BuscarVendedorLogado();
-            var produtos = await _produtoService.ListarAsync(vendedor);
+            var produtos = Enumerable.Empty<Produto>();
+
+            if (await IsAdmin())
+            {
+                produtos = await _produtoService.ListarAllAsync();
+            }
+            else
+            {
+                var vendedor = await BuscarVendedorLogado();
+                produtos = await _produtoService.ListarAsync(vendedor);
+
+            }
+
             var model = _mapper.Map<List<ProdutoViewModel>>(produtos);
             return View(model);
         }
+
         [HttpGet("criar")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Criar()
         {
             ViewBag.Categorias = await BuscarCategorias();
             return View(new ProdutoFormViewModel());
         }
+
         [HttpPost("criar")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Criar(ProdutoFormViewModel model)
         {
             ViewBag.Categorias = await BuscarCategorias();
-
             ModelState.Remove("Imagem");
             ModelState.Remove("Src");
             if (model.Imagem == null)
@@ -77,17 +111,25 @@ namespace MBA.Marketplace.MVC.Controllers
 
             try
             {
-                var _ = await _produtoService.CriarAsync(new ProdutoDto
+                string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(model.Imagem.FileName);
+                _ = await _produtoService.CriarAsync(new ProdutoDto
                 {
                     Nome = model.Nome,
                     Descricao = model.Descricao,
                     Preco = model.Preco,
                     Estoque = model.Estoque,
                     CategoriaId = model.CategoriaId,
-                    Imagem = model.Imagem
+                    Imagem = model.Imagem,
+                    ImageFileName = nomeArquivo
                 }, vendedor);
 
+                if (model.Imagem != null)
+                {
+                    await CopiarArquivo(nomeArquivo, model.Imagem);
+                }
+
                 ViewBag.RegistroSucesso = true;
+
             }
             catch (Exception ex)
             {
@@ -97,7 +139,9 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return View(model);
         }
+
         [HttpGet("editar/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Editar(Guid id)
         {
             ViewBag.Categorias = await BuscarCategorias();
@@ -113,7 +157,9 @@ namespace MBA.Marketplace.MVC.Controllers
             var model = _mapper.Map<ProdutoFormViewModel>(produto);
             return View(model);
         }
+
         [HttpPost("editar/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Editar(Guid id, ProdutoFormViewModel model)
         {
             try
@@ -126,6 +172,7 @@ namespace MBA.Marketplace.MVC.Controllers
                 if (!ModelState.IsValid)
                     return View(model);
 
+                string nomeArquivo = Guid.NewGuid().ToString() + Path.GetExtension(model.Imagem.FileName);
                 var vendedor = await BuscarVendedorLogado();
                 var response = await _produtoService.AtualizarAsync(id, new ProdutoEditDto
                 {
@@ -133,11 +180,16 @@ namespace MBA.Marketplace.MVC.Controllers
                     Descricao = model.Descricao,
                     Preco = model.Preco,
                     Estoque = model.Estoque,
-                    CategoriaId = model.CategoriaId
-                }, vendedor, model.Imagem);
+                    CategoriaId = model.CategoriaId,
+                    ImageFileName = nomeArquivo
+                }, vendedor);
 
                 if (response)
                 {
+                    if (model.Imagem != null)
+                    {
+                        await CopiarArquivo(nomeArquivo, model.Imagem);
+                    }
                     ViewBag.RegistroSucesso = true;
                     return View(new ProdutoFormViewModel());
                 }
@@ -154,7 +206,9 @@ namespace MBA.Marketplace.MVC.Controllers
                 return View(model);
             }
         }
+
         [HttpDelete("deletar/{id:Guid}")]
+        [Authorize(Roles = nameof(TipoUsuario.Vendedor))]
         public async Task<IActionResult> Deletar(Guid id)
         {
             var vendedor = await BuscarVendedorLogado();
@@ -165,15 +219,62 @@ namespace MBA.Marketplace.MVC.Controllers
 
             return BadRequest("Erro ao excluir produto.");
         }
-        [AllowAnonymous]
-        [HttpGet("detalhe/{id:Guid}")]
+
+        [HttpGet("detalhes/{id:Guid}")]
+        [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
         public async Task<IActionResult> Detalhes(Guid id)
         {
-            var produto = await _produtoService.PublicObterPorIdAsync(id);
-            if (produto == null) return NotFound();
+            try
+            {
+                var produto = await _produtoService.ObterPorIdAsync(id);
+                if (produto == null)
+                {
+                    _logger.LogWarning("Produto com ID {Id} não encontrado", id);
+                    return NotFound();
+                }
 
-            var viewModel = _mapper.Map<ProdutoViewModel>(produto);
-            return View(viewModel);
+                var viewModel = _mapper.Map<ProdutoViewModel>(produto);
+                return View(viewModel);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao obter detalhes do produto com ID {Id}", id);
+                return StatusCode(500, "Erro interno do servidor");
+            }
+        }
+
+        [HttpPost("trocar-status/{id:Guid}")]
+        [Authorize(Roles = $"{nameof(TipoUsuario.Vendedor)},{nameof(TipoUsuario.Administrador)}")]
+        public async Task<IActionResult> TrocarStatus(Guid id)
+        {
+            var _ = await _produtoService.ChangeState(id);
+            return Ok();
+        }
+
+        private async Task<bool> CopiarArquivo(string nomeArquivo, IFormFile imagem)
+        {
+            try
+            {
+                var pasta = "wwwroot/images/produtos";
+                if (imagem.Length <= 0) return false;
+
+                if (!Directory.Exists(pasta))
+                    Directory.CreateDirectory(pasta);
+
+                string caminhoArquivo = Path.Combine(pasta, nomeArquivo);
+
+                using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
+                {
+                    await imagem.CopyToAsync(stream);
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Erro ao copiar arquivo.");
+                return false;
+            }
         }
     }
 }

@@ -1,0 +1,76 @@
+@if(auth.isAuthenticated()){
+<div class="auth-container">
+  <div class="dropdown">
+    <button class="btn user-dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <div class="user-avatar">
+        <i class="bi bi-person-circle"></i>
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ usuario?.nome || 'Usuário' }}</span>
+        <span class="user-role">Cliente</span>
+      </div>
+      <i class="bi bi-chevron-down dropdown-arrow"></i>
+    </button>
+
+    <ul class="dropdown-menu user-dropdown-menu">
+      <li class="dropdown-header">
+        <div class="user-details">
+          <div class="user-avatar-large">
+            <i class="bi bi-person-circle"></i>
+          </div>
+          <div class="user-details-info">
+            <div class="user-name-large">{{ usuario?.nome }}</div>
+            <div class="user-email">{{ usuario?.email }}</div>
+          </div>
+        </div>
+      </li>
+
+      <li class="dropdown-divider"></li>
+
+      <li>
+        <a [routerLink]="['/favoritos']" class="dropdown-item">
+          <i class="bi bi-heart"></i>
+          <span>Meus Favoritos</span>
+        </a>
+      </li>
+
+      <!-- <li>
+        <a [routerLink]="['/perfil']" class="dropdown-item">
+          <i class="bi bi-person"></i>
+          <span>Meu Perfil</span>
+        </a>
+      </li>
+
+      <li>
+        <a [routerLink]="['/pedidos']" class="dropdown-item">
+          <i class="bi bi-box"></i>
+          <span>Meus Pedidos</span>
+        </a>
+      </li> -->
+
+      <li class="dropdown-divider"></li>
+
+      <li>
+        <button class="dropdown-item logout-item" (click)="logout()">
+          <i class="bi bi-box-arrow-right"></i>
+          <span>Sair</span>
+        </button>
+      </li>
+    </ul>
+  </div>
+</div>
+}
+@else{
+<div class="auth-container">
+  <div class="auth-buttons">
+    <a routerLink="/login" class="btn btn-outline-primary auth-btn">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <span>Entrar</span>
+    </a>
+    <a routerLink="/cadastro" class="btn btn-primary auth-btn">
+      <i class="bi bi-person-plus"></i>
+      <span>Cadastre-se</span>
+    </a>
+  </div>
+</div>
+}

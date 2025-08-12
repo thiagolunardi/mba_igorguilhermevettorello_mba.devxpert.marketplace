@@ -1,56 +1,73 @@
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow-lg border-0 rounded-4 p-4">
-            <div class="card-body">
-                <h2 class="card-title text-center mb-4">
-                    <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
-                </h2>
-
-                <form method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
-
-
-                    
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" placeholder="Email" />
-                        <label asp-for="Input.Email"><i class="bi bi-envelope-fill me-1"></i> Email</label>
-                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input asp-for="Input.Password" class="form-control" autocomplete="current-password" placeholder="Senha" />
-                        <label asp-for="Input.Password"><i class="bi bi-lock-fill me-1"></i> Senha</label>
-                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
-                    </div>
-
-                    <div class="form-check mb-3">
-                        <input class="form-check-input" asp-for="Input.RememberMe" />
-                        <label class="form-check-label" asp-for="Input.RememberMe">
-                            Manter-me conectado
-                        </label>
-                    </div>
-
-                    <button type="submit" class="btn btn-primary w-100">
-                        <i class="bi bi-box-arrow-in-right me-1"></i> Entrar
-                    </button>
-                </form>
-
-                <hr class="my-4" />
-
-                <div class="text-center">
-                    <p class="mb-1">
-                        <a asp-page="./ForgotPassword">
-                            <i class="bi bi-question-circle"></i> Esqueceu sua senha?
-                        </a>
-                    </p>
-                    <p>
-                        Não tem conta?
-                        <a asp-page="./Register">
-                            <i class="bi bi-person-plus-fill"></i> Criar conta
-                        </a>
-                    </p>
-                </div>
-            </div>
-        </div>
+<div class="login-page">
+  <div class="login-container">
+    <div class="login-header">
+      <i class="bi bi-box-arrow-in-right"></i>
+      <h4>Entrar</h4>
     </div>
+
+    <div class="login-body">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+
+        @if (error) {
+        <div class="validation-summary-errors" role="alert">{{ error }}</div>
+        }
+
+        <!-- Email -->
+        <div class="form-floating">
+          <input id="email" type="email" formControlName="email" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.email.invalid && f.email.touched }" autocomplete="username"
+            aria-required="true" placeholder="name@example.com">
+          <label for="email">Email</label>
+          @if (f.email.touched && f.email.invalid) {
+          <span class="text-danger">
+            @if (f.email.errors?.['required']) {
+            Email é obrigatório.
+            } @else if (f.email.errors?.['email']) {
+            Email inválido.
+            }
+          </span>
+          }
+        </div>
+
+        <!-- Senha -->
+        <div class="form-floating">
+          <input id="senha" type="password" formControlName="senha" class="form-control"
+            [ngClass]="{ 'input-validation-error': f.senha.invalid && f.senha.touched }" autocomplete="current-password"
+            aria-required="true" placeholder="password">
+          <label for="senha">Senha</label>
+          @if (f.senha.touched && f.senha.invalid) {
+          <span class="text-danger">
+            @if (f.senha.errors?.['required']) {
+            Senha é obrigatória.
+            }
+          </span>
+          }
+        </div>
+
+        <!-- Botão -->
+        <div class="d-grid mb-3">
+          <button type="submit" class="btn btn-primary" [disabled]="form.invalid || loading">
+            @if(!loading){
+            <i class="bi bi-box-arrow-in-right me-2"></i> Entrar
+            } @else {
+            <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Entrando...
+            }
+          </button>
+        </div>
+      </form>
+
+      <div class="links-section">
+        <a [routerLink]="['/cadastro']" class="link-item">
+          <i class="bi bi-person-plus"></i>
+          <span>Não tem uma conta? Cadastre-se</span>
+        </a>
+
+        <!-- <a routerLink="/esqueci-senha" class="link-item">
+          <i class="bi bi-question-circle"></i>
+          <span>Esqueceu a senha?</span>
+        </a> -->
+      </div>
+    </div>
+  </div>
 </div>

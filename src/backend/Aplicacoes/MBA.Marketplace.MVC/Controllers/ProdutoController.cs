@@ -120,6 +120,7 @@ namespace MBA.Marketplace.MVC.Controllers
                     Estoque = model.Estoque,
                     CategoriaId = model.CategoriaId,
                     Imagem = model.Imagem,
+                    Ativo = model.Ativo,
                     ImageFileName = nomeArquivo
                 }, vendedor);
 
@@ -181,6 +182,7 @@ namespace MBA.Marketplace.MVC.Controllers
                     Preco = model.Preco,
                     Estoque = model.Estoque,
                     CategoriaId = model.CategoriaId,
+                    Ativo = model.Ativo,
                     ImageFileName = nomeArquivo
                 }, vendedor);
 

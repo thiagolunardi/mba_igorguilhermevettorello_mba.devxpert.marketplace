@@ -22,5 +22,6 @@ namespace MBA.Marketplace.Business.DTOs
         [Required(ErrorMessage = "A Categoria é obrigatória.")]
         public Guid? CategoriaId { get; set; }
         public string ImageFileName { get; set; }
+        public bool Ativo { get; set; }
     }
 }

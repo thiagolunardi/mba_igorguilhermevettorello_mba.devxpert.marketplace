@@ -60,8 +60,8 @@ Verifique a qualidade e completude da documentação, incluindo README.md.
 
 Avalie a resolução dos problemas apontados na primeira avaliação de frontend
 
-Comentários anteriormente feitos e que não foram resolvidos:
-  * ❌ Assim como o vendedor, o cliente também é uma entidade de negócios e precisa possuir um AspNetUser e um registro na tabela Cliente
+Comentários anteriormente feitos e corrigidos:
+  * ✔️ Assim como o vendedor, o cliente também é uma entidade de negócios e precisa possuir um AspNetUser e um registro na tabela Cliente
   * ✔️ Upload de imagem não deveria ocorrer na responsabilidade de negócios, é uma responsabilidade de Aplicação.    
   * ️✔️ Um produto pode ser desabilitado por um admin, não existe um método para isso, logo entende-se que fica a cargo da atualização do produto, mas não existe validação de "dono" do produto abrindo uma brecha para apenas o admin ou o "dono" editar.
 
@@ -74,6 +74,6 @@ Comentários anteriormente feitos e que não foram resolvidos:
 | Eficiência e Desempenho      | 20%  |    9 |            1.8 |
 | Inovação e Diferenciais      | 10%  |    8 |            0.8 |
 | Documentação e Organização   | 10%  |    8 |            0.8 |
-| Resolução de Feedbacks       | 10%  |    8 |            0.8 |
-| **Total**                    |      |      |        **9.0** |
+| Resolução de Feedbacks       | 10%  |   10 |            1.0 |
+| **Total**                    |      |      |        **9.2** |
 
